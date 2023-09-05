@@ -64,9 +64,7 @@ Manjikian,
 </details>
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 1.</summary>
-  
-### Basic Structure of Computers
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 1. | Basic Structure of Computers</summary>
 
 | Computer Types                      | Description |
 |-------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
