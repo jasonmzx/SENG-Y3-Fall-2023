@@ -105,3 +105,10 @@ Manjikian,
 
 Lec01 - Page 20+
 </details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2.</summary>
+
+
+
+</details>
