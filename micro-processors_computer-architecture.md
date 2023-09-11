@@ -135,6 +135,7 @@ The actual "Flow" of how data is working to preform operations.
 
 Main Memory (RAM), after you turn it off, flipflops will loose their contents.
 
+
 **Cache Memory**
 
 It is an adjunct to main memory to facilitate high instruction execution rate.
@@ -144,6 +145,8 @@ It is a smaller faster RAM unit that is used to hold sections of a program that 
 Cache is tightly coupled with the processor and is usually contained on the
 same integrated‐circuit chip
 
+- *Speeds up Processing, Speeds up READ/WRITE*
+- *Cache takes small amount of Data from RAM, and uses it for the CPU's current task*
 
 **Secondary Memory**
 
@@ -155,7 +158,7 @@ External Storage (Hard-Disk) usually an SSD now.
 Does Additional, has `add`
 Does Multiplication, has `mul`
 
-Does Logic Operations
+Does Logic Other Operations *(bit-shift, jump)*
 
 **Control Unit:**
 
@@ -175,19 +178,104 @@ It's function is to "Control" everyone, Oh this needs an addition? Give it to th
 
 Cache gets stored into Registers on CPU *(known as Processor Registers)*
 
+---
 
+### Basic Operational Concepts
+
+![MPCA_3](./static/MCPA_3.png)
+
+- Hardware, Lowest Level, can't operation without system Software
+
+- Systems Software, Utilities that are really commonly used so the developper doesn't have to define every fn. *(Keyboard Inputs, STD IN, STD OUT, etc...)*
+
+- Applications Software, the programs you write, to solve specific problems... *(Ontop of the Systems Software)*
+
+
+#### Instructions and Programs:
+
+An **instruction** specifies an operation & the location of it's data operands.
+
+A **32-bit** word typically holds one encoded instruction.
 
 ---
 
-Lec01 - Page 20+
+![MPCA4](./static/MCPA_4.png)
+
+Just for `C = A + B`
+
+Load R2 (Register 2), A *Loads in 32-bits from Address A, 4 bytes*
+Load R3 (Register 3), B *Loads in 32-bits from Address B, 4 bytes*
+
+ADD R4 (Register 4), than adds R2 & R3 *With Addition, you activate the "Adder" circuit, and you'll get a result in temporary Register*
+
+STORE R4 (Register 4) *Store the actual memory to Address C*
+
+**LOAD** > Load from Memory
+**STORE** > Store to Memory
+
+Here we assumed that **A** & **B** where already loaded in, that's why we are just "Loading" it in.
+
+---
+
+![MPCA](./static/MCPA_5.png)
+
+**Program Counter (PC)** : Has the Address of the Instruction to be ran Next. Since it's sequentially going down the list of Instructions.
+
+**Instruction Register (IR)** : Holds the current Instruction(s), The IR is connected to all the Control Circuitry *(MUX, Adders, etc...)*
+
+**Control circuits** and the arithmetic and logic unit (ALU) fetch and execute
+instructions
+
+**The processor-memory interface** is a circuit which manages the transfer of data between the main memory and the processor
+
+**Registers** are Hyper-specific parts of the CPU, whereas the **Cache** Just takes in Memory from the RAM, for Quick Access.
+
+---
+
+#### I/O Devices with CPU
+
+Alot of I/O Devices have specific **Interrupt-Service Routine**
+
+It acts very similar as the essential *Read* / *Write* Operations, the different is Interrupts; When is stuff actually being pressed, or clicked.
+
+These **Interrupt Service Routines** are usually proprietary systems, that's why we need Hardware Drivers for some I/O Devices 
+
+---
+
+#### Number Representation and Arithmetic Operations
+
+
+
+
 </details>
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2.</summary>
+<summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2.</summary>
 
+#### Memory Locations and Addresses
+- Memory consists of many **Millions** of cells
+- Each cell holds **1 bit** of information. *(HI or LOW)*
+- Memory size set by **k** (number of address bits)
+- A "word" is a group of **n** bits
+  - Word Length can be **16** to **64** bits.
+
+**Memory** is a collection of consecutive words of the size specified by the Word Length.
+
+Each Memory **byte** has distinct address
+
+![MPCA_2](./static/MPCA_2.png)
+
+Numbers **0** to **2^k − 1** are used as addresses
+for successive locations in the memory.
+
+Data is sent to Memory via an **ADDRESS BUS** Which is a Multiplexer (MUX) with **n** inputs.
+
+Some Processors are 32bit, meaning each **Word Length** is 32 bits
 
 
 </details>
+
+
 
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">ASM Self Study</summary>
