@@ -57,6 +57,13 @@ method terminates and the results are correct.
 principles *(well-designed and documented,
 easiest to implement, etc.)*
 
+---
+
+**Different Computers** have different CLOCK Speed, etc...
+
+Ideally for Scalable Sollutions, we want **Sub-Linear** or **Linear** 
+
+
 
 </details>
 
@@ -251,5 +258,67 @@ int main()
 }
 ```
 
+**^^^** Incremental / Non - Recursive Approach
+
 </details>
 
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2.</summary>
+    
+Say you've got an Analysis *(Best Case Insertion Sort for example)*
+
+T(n) = (c1) * n + (c2) * (n - 1) + (c4) * (n - 1) + (c5) * (n - 1) .....
+
+We see the max exponent as **n^1** or **n**, so It's Linear Complexity
+
+#### Insertion Sort | Worst Case:
+
+Gauss' Arithmetic Series: ( ( (n(n+1)) / 2) -1 )
+
+...
+
+We get something like T(n) = A * n^2 + B * n + C
+
+---
+
+### Designing Algorithms
+
+##### Recursive Algorithms
+
+- Many useful algorithms are **recursive** in structure
+- Typically Follows Divide & Conquer algorithm
+
+
+##### Divide & Conquer
+- **Divide** the problem into a **number** of **subproblems** that are smaller instances of the same problem
+- **Conquer** the subproblems by solving them recursively. If the subproblem
+sizes are small enough, however, just solve the subproblems in a
+straightforward manner.
+- **Combine** the solutions to the subproblems into the solution for the original
+problem.
+
+##### Analysis of Divide & Conquer:
+
+---
+### MERGE SORT
+
+- Less Time Complex 
+- More Space Complex
+
+#### Correctness of Merge Algorithm
+Again, we should prove the following three items for the loop invariant
+technique:
+
+**Initialization:**
+
+**Maintenance:**
+
+**Exam Question:**
+
+After a few steps, what are the values in the Array.
+
+
+
+</details>
