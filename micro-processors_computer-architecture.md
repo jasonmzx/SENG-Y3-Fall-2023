@@ -17,7 +17,7 @@
 
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 0.</summary>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 0. | Introduction</summary>
   
 ## Basic Info & Textbook :
 **Computer Organization and Embedded Systems, 6th Edition**
@@ -75,6 +75,8 @@ Manjikian,
 
 
 </details>
+
+---
 
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 1. | Basic Structure of Computers</summary>
@@ -249,10 +251,11 @@ These **Interrupt Service Routines** are usually proprietary systems, that's why
 
 </details>
 
-<details>
-<summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2.</summary>
+---
 
-#### Memory Locations and Addresses
+<details>
+<summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2. | Memory Locations and Addresses</summary>
+
 - Memory consists of many **Millions** of cells
 - Each cell holds **1 bit** of information. *(HI or LOW)*
 - Memory size set by **k** (number of address bits)
@@ -272,16 +275,135 @@ Data is sent to Memory via an **ADDRESS BUS** Which is a Multiplexer (MUX) with 
 
 Some Processors are 32bit, meaning each **Word Length** is 32 bits
 
+**BYTE** : 8 bit
+**Word** : ranges from 16 to 64 bits
+
+Address Assignments per byte *( byte-adressable )*
+
+![m10](./static/mpca_10.png)
+
+#### Big & Little Endian Addressing:
+
+**Big Endian** addressing; assigns lower addresses to more significant *(leftmost)* bytes of word.
+
+**Little Endian** addressing; assigns lower addresses to less significant *(right-most)* bytes of word.
+
+`450` in Binary: `0b111000010` (Length: 9 bits)
+
+HIGHER ORDER BYTE: `00000001`
+LOWER ORDER BYTE: `11000010`
+
+![m11](./static/mpca_11.png)
+
+**NOTE** here `x000001C2` is stored in Big Endian in Memory
+
+![m12](./static/mpca_12.png)
+
+#### Word Alignment:
+- Number of bytes per word is normally a power of 2
+- Word locations have aligned addresses if they begin at byte addresses that are multiples of the number of bytes in a word
+![m13](./static/mpca_13.png)
+
+#### Memory Operations
+
+- In a computer, both the instructions that tell the program what to do and the data that the program works with are stored in the memory.
+
+- When the computer wants to carry out an instruction, it needs to bring the part of memory that holds that instruction into the processor.
+
+- Similarly, if the computer needs to work with data or store results, it has to move that data between the memory and the processor.
+
+There are two main operations that involve the memory:
+  - **Read**: This is when the computer retrieves information from the memory.
+  - **Write**: This is when the computer puts information into the memory.
+
+---
+
+**Read Operation: Three Steps (Using Specified Registers)**
+
+1. Load the address into the Memory Address Register (MAR).
+2. Issue a read control signal ("0") by the CPU.
+3. After the memory delay, load the word into the Memory Data Register (MDR).
+
+**Example:**
+
+Suppose you have a computer program that needs to read a value from memory. Let's say you want to read the value at memory address 1000.
+
+   - Load 1000 into the Memory Address Register (MAR).
+   - CPU sends a read control signal ("0").
+   - After a short delay, the value stored at memory address 1000 is loaded into the Memory Data Register (MDR).
+
+**Write Operation: Three Steps (Using Specified Registers)**
+
+1. Load the new word into the Memory Data Register (MDR) by the CPU, and also load the address where the word should be stored into the Memory Address Register (MAR).
+2. Issue a write control signal ("1") by the CPU.
+3. After the memory delay, store the word from the MDR into the desired location in memory.
+
+**Example:**
+
+Let's say you want to write the value 42 into memory address 2000 in your computer's memory.
+
+   - Load 42 into the Memory Data Register (MDR) and load 2000 into the Memory Address Register (MAR).
+   - CPU sends a write control signal ("1").
+   - After a short delay, the value 42 is stored at memory address 2000 in the computer's memory.
 
 </details>
 
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2. | Instructions and Instruction Sequencing</summary>
 
+- Tasks like Adding two numbers, Testing for conditionals, I/O (keyboard input, screen output)
+
+- Computer must be able to do four types of operations; 
+  - Data Transfer between memory and processor registers
+  - Arithmetic and logic operations on data
+  - Program sequencing and control
+  - I/O transfers
+
+### Register Transfer Notation (RTN)
+
+* RTN is used to describe hardware-level data transfers and operations
+* Possible locations that may be involved in such transfers are:
+  * Memory locations
+  * Processor registers
+  * Registers in the I/O subsystem
+* We identify such locations symbolically with convenient names such as:
+  * Names that represent the addresses of memory location may be LOC, PLACE, A, or VAR2
+  * Predefined names for the processor registers may be R0, R1, ...
+  * Registers in the I/O subsystem may be identified by names such as DATAIN or OUTSTATUS
+
+* Use [...] to denote contents of a location
+* Use ← to denote transfer to a destination
+  * Example: R2 ← [LOC]
+    * Transfer from LOC in memory to register R2
+* RTN can be extended to also show arithmetic operations involving locations
+  * Example: R4 ← [R2] + [R3]
+    * Add the contents of registers R2 and R3, place the sum in register R4
+* Right-hand expression always denotes a value
+* Left-hand side is the name of the location where the value to be placed.
+* The words “transfer” and “move” mean “copy”
+  * Transferring data from a source location A to a destination location B means that the contents of location A are read and then written into location B.
+  * In this operation, only the contents of the destination will change.
+Instructions and Instruction Sequencing
+
+#### Assembly-Language Notation
+
+  * It is needed to represent machine instructions and programs
+  * It is called Assembly language
+  * Example: the assembly-language instructions are:
+    * Load R2, LOC → R2 ← [LOC]
+    * Add R4, R2, R3 → R4 ← [R2] + [R3]
+  * An instruction specifies the desired operation and the operands that are involved
+  * Examples in this chapter will use English words for the operations (e.g., Load, Store, and Add). This helps emphasize fundamental concepts
+  * Commercial processors use mnemonics, usually abbreviations (e.g., LD, ST, and ADD)
+  * Mnemonics differ from processor to processor
+
+---
+
+Lec 2 ; Page. 16+ TODO
+</details>
+
+---
 
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">ASM Self Study</summary>
-  
-
-  
-
-
 </details>
