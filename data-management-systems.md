@@ -185,3 +185,87 @@ second.
 
 </details>
 
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2 | Database System Concepts and Architecture</summary>
+
+## 2.1 Data Models, Schemas, and Instances
+
+**Data abstraction** generally refers to the suppression of
+details of data organization and storage, and the highlighting of the essential features for an improved understanding of data. 
+
+**A data model** is a collection of concepts that
+can be used to describe the structure of a database—provides the necessary means to achieve this abstraction.
+
+Most data models also include a set of **basic operations** for specifying retrievals and updates on the database.
+
+1. Client module
+- Run on a user workstation or personal computer.
+- Handles user interaction and provides the user-friendly interfaces
+such as forms- or menu-based GUIs (graphical user interfaces).
+2. Server module,
+- Handles data storage, access, search, ...
+
+
+### Categories of Data Models
+
+- **High-level** or Conceptual data models provide concepts that are close to the way many users perceive data.
+  - **Conceptual data models** use concepts such as entities, attributes, and relationships.
+  An entity represents a real-world object or concept, such as an employee or a project
+  from the miniworld that is described in the database
+  - Attribute represents some property of interest that furthert describes the entity. *(Name, age, height, sex)*
+  - Relationship  among two or more entities represents an association among the entities, for example, a works-on relationship between a employee and a project.  
+  - Chapter 3 presents the entity–relationship model—a popular high-level conceptual data model.
+
+- **Low-level** or Physical data models provide concepts that describe the details of how data is stored on the computer storage media, typically magnetic disks.
+
+- **Representational data models** hide many details of data storage on disk but can be implemented on a computer system directly. *(middle-ground)*
+
+- **Implementation (representational) data models:** Provide concepts that fall between the above two, used by many
+commercial DBMS implementations *(e.g. relational data models used in many commercial systems).* Such as the Object Data Model.
+
+- **Self-Describing Data Models:** Combine the description of data with the data values. Examples include XML, key-value stores and some NOSQL systems.
+
+#### Schemas, Instances, and Database State (more vocabulary)
+**Database schema**
+- Description of a database, database structure, data types, and
+constraints
+- Specified during database design and is not expected to change
+frequently
+- The DBMS stores the descriptions of the schema constructs and constraints—also called the meta-data
+- **schema evolution** is when the schema updates, and the structure of the tables & DB changes *(example, added D.O.B construct for students)*
+
+**Schema diagram**
+- Illustrative display of selected aspects of a database schema *(DBeaver Database - UML View)*
+
+**Schema construct**
+- A component of the schema or an object within the schema, e.g., STUDENT, COURSE
+
+![DB-6](./static/DB_6.png)
+
+**NOTE**: A schema diagram displays only some aspects of a schema, such as the names of
+record types and data items, and some types of constraints. Other aspects are not
+specified in the schema diagram; for example, Figure 2.1 shows neither the data
+type of each data item nor the relationships among the various files.
+
+
+#### Distinction made in book: DB Schema vs. DB State
+
+Schema is the actual Meta-data telling the DBMS how data is structured within Tables, the current data refers to actual entries
+
+![DB-7](./static/DB_7.png)
+
+*empty state* -> No data
+*initial state* -> Data after large load-in or something of this nature
+*current state* -> After users do numerous operations on it, the data is at a latest state
+
+The DBMS is also partially responsive for ensure **Valid State**
+
+### Three-Schema Architecture and Data Independence
+
+The goal of the three-schema architecture, illustrated in Figure 2.2, is to separate
+the user applications from the physical database. In this architecture, schemas can
+be defined at the following three levels:
+
+![DB-8](./static/DB-8.png)
+
+</details>
