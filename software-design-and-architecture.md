@@ -145,18 +145,26 @@ Difficult tasks:
  
 ### The Observer
 
+*Observing changes in state, from a Subject*
+*Very common is event systems, where events change and so the Observers are notified*
+
 - Generally used for **ONE** to **MANY** relationships between Objects. *(One Store, to many Customers for E.X)*
 - The **ONE** 's **MANY** dependent Objects are Notified Automatically Upon changes to **ONE**.
 
+- Sometimes the update includes state, so the Observer doesn't need to be notified, to then ask for state.
+- 
+
+
 ![sd_obs](./static/sd_observer.png)
 
-Observer Pattenr uses three actor classes:
+Observer Pattern uses three actor classes:
 
 - Subject *(Object having methods to attach & detach observers, to and from Client Object)*
     - Holds list of Observers
     - Is Independent of how the objects are updated
     - Defines **attach(o)** , **detach(o)** , **notify(o)** Interface for Observers.
-    
+    - Dependency of Subjects to Observers *| Interface for Observer isn't cohesive, some Observers might have different notification methods, if it doesn't have to obide by the Interface*
+
 - Observer *(The Customer, the MANY)*
     - Defines **update()** to be used by Subject
 
@@ -250,7 +258,29 @@ facadeBroker.listenToRadio();
 
 #### Factory vs. Abstract Factory
 
+- These are Patterns are used for "Creational", used for Creating Object
+
+**Why do I want an Object to create other objects !?**
+- Pass that responsibility to a Factory
+- Certain things I want to "occur" to the object based on settings..
+- Have a Factory simply it for you
+- **Biggest Reason for Factories** : De-coupling Client from Product *(Clients don't have to configure the products manually)*
+
 ## 1. Factory Pattern
+
+
+*Lecture Example:*
+
+- Consider Factory that produces Cars, *(Christler, Subaru, Ford)* 
+- Factories are like Assembly Lines, first Instantiate, Load the Wheels on, Paint the Body, Q/A 
+
+![Factory Method](./static/SD_55.png)
+
+Interface is being *adopted* by all these companies, for their "Factories"
+
+**ConcreteFactory** is the one, with the actual logic, which extends the AbstractFactory
+
+Abstracts the **creation of Objects / Products** for the Client. *(Client can call a simple createProduct() method on Factory)*
 
 The Factory pattern provides a way to create objects without specifying the exact class that will be created. Instead, it relies on subclasses or methods to determine this. 
 
@@ -280,6 +310,7 @@ class Factory {
 ```
 
 ## 2. Abstract Factory Pattern
+
 
 The Abstract Factory pattern extends the idea of the factory pattern. Instead of a single method to create objects, an abstract factory has multiple methods to create a family of related or dependent objects. *(It's an Abstraction of Factory)*
 
@@ -353,4 +384,40 @@ class MacOSFactory implements GUIFactory {
 ```
 
 In the Abstract Factory pattern example, rather than creating just one type of product like in the simple Factory pattern, the **GUIFactory** abstract factory can create a family of products *(Button and Checkbox).* There are concrete factories *(**WindowsFactory** and **MacOSFactory**)* that produce products (Instances) conforming to these interfaces, but suited to their specific platform.
+
+### Aqualush Product 
+*(complex product) , Measures pH levels from VATS, from various sensors*
+
+![SD_56](./static/SD_56.png)
+</details>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 3. (September 15) </summary>
+
+Sometimes if he gives us open book test; We'll be ask to apply & use Design Patterns
+
+Dr. Liscano says that **tutorialspoint.com** is a good ressource for Design Patterns
+
+- He can't teach all patterns, so we focus on a few...
+
+### Dependencies
+
+- Can be quite dangerous, but you need them
+- In Software Engineering we'd like to reduce Dependencies in our Architecture
+- We can't really do this, so we use Interfaces to minimize Dependencies *(Interfaces Force Cohesive Functionality)*
+- ALWAYS try to use Interface's which are implemented by Objects **(for COHESIVENESS)**
+
+**Components** & **Time-line / Sequence** Diagrams match the same Components
+
+**Details Design Approach**
+- Try, Test, Simulate *(REQUIRES LOTS OF DOCUMENTATION!!!)*
+- Used In Safety Critical Systems
+- Used in Embedded Systems alot, will do this in 4th year
+
+#### Concurrency & Architectural Patterns
+- Used in Operation Systems
+- Used for Concurrent Design of software, that requires parallelization of CPU
+
+
 </details>

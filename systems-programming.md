@@ -92,3 +92,85 @@ View groups; sudo, adm, cdrom, dip, plugdev, lpadmin...
 
 </details>
 
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 3.</summary>
+
+Creates new Linux Group:
+`sudo newgrp {-l groupname}`
+
+List all groups:
+`groups`
+
+# `ls -l` Command in Linux
+
+The `ls -l` command is used to list files and directories in a long format, providing detailed information about each item in a directory. The output includes file permissions, ownership, size, modification date, and more.
+
+## File Permissions
+
+The file permissions section in the `ls -l` output consists of ten characters that represent various aspects of a file or directory's access control. These characters are divided into four parts:
+
+### 1. File Type
+
+- The first character indicates the type of the item.
+  - `-` indicates a regular file.
+  - `d` indicates a directory.
+  - `l` indicates a symbolic link.
+  - `c` indicates a character device.
+  - `b` indicates a block device.
+  - `p` indicates a named pipe (FIFO).
+  - `s` indicates a socket.
+
+### 2. Owner Permissions
+
+- Characters 2-4 represent permissions for the owner of the file.
+  - `r` indicates read permission.
+  - `w` indicates write permission.
+  - `x` indicates execute permission.
+  - `-` indicates no permission.
+
+### 3. Group Permissions
+
+- Characters 5-7 represent permissions for the group associated with the file.
+  - `r` indicates read permission.
+  - `w` indicates write permission.
+  - `x` indicates execute permission.
+  - `-` indicates no permission.
+
+### 4. Other Permissions
+
+- Characters 8-10 represent permissions for others (users not in the owner group or group owner).
+  - `r` indicates read permission.
+  - `w` indicates write permission.
+  - `x` indicates execute permission.
+  - `-` indicates no permission.
+
+## Examples
+
+Here are some examples of `ls -l` output and their interpretations:
+
+- Regular file with read and write permissions for the owner, read-only for the group and others:
+---
+
+## **Interpreter vs. Compiler**
+
+Scripting uses an Interpreter
+
+#### Interpreter
+
+
+- **Interpreter** is a program that directly executes the source code line by line without converting it into an intermediate machine code or binary.
+- It reads, translates, and executes the code line-by-line, which means it's relatively slower in execution compared to compilation.
+- Errors are reported as they are encountered during execution, making debugging easier.
+- Typically used in scripting languages like Python, Ruby, and JavaScript.
+
+#### Compiler
+
+- **Compiler** is a program that translates the entire source code into machine code or an intermediate representation (e.g., bytecode) before execution.
+- It performs analysis of the entire program before execution, which can result in faster execution times.
+- Errors are reported after the compilation phase, which means you may need to compile the code again after fixing errors.
+- Commonly used in languages like C, C++, and Java.
+
+
+
+</details>
