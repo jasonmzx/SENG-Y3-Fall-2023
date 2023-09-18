@@ -185,6 +185,7 @@ second.
 
 </details>
 
+
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2 | Database System Concepts and Architecture</summary>
 
@@ -248,7 +249,7 @@ specified in the schema diagram; for example, Figure 2.1 shows neither the data
 type of each data item nor the relationships among the various files.
 
 
-#### Distinction made in book: DB Schema vs. DB State
+#### Distinction made in book: DB Schema (RED) vs. DB State (GREEN)
 
 Schema is the actual Meta-data telling the DBMS how data is structured within Tables, the current data refers to actual entries
 
@@ -266,6 +267,158 @@ The goal of the three-schema architecture, illustrated in Figure 2.2, is to sepa
 the user applications from the physical database. In this architecture, schemas can
 be defined at the following three levels:
 
-![DB-8](./static/DB-8.png)
+![DB-8](./static/DB_8.png)
+
+**External Level** includes many External Schemas or User Views. an External Schema describes the part of the DB that the user is interested in, or a JOIN of tables for the user *(External Schema uses representational data model to make it's own schema views)*
+
+**Conceptual Level** refers to the conceptual schema which describes the structure of the whole db, without touching on the physical storage itself. Usually, a **representational data model** is used to describe the conceptual schema when a database system is implemented.
+
+**Internal Level** which refers to the lower-level, closer to the hardware. Describes physical storage structure of DB, describes complete details of data storage, with access `path`s for access to higher level components.
+
+The **three-schema architecture** distinguishes between the user's external view, the database's conceptual design, and the internal storage level in a database system. Although many DBMSs don't strictly separate these levels, they often support this structure, with some even combining the physical and conceptual schemas. Crucially, the three schemas are mere data descriptions, with actual data stored only at the physical level, and transitions between these levels, known as mappings, can be resource-intensive.
+
+---
+
+## Data Independence
+
+**DEFINITION**: The three-schema architecture can be used to further explain the concept of data independence, which can be defined as the capacity to change the schema at one level of a database system without having to change the schema at the next higher level. We got 2 types of data independence:
+
+### **Logical Data Independence** : 
+Allows for modifications to the conceptual schema without altering external schemas or application programs. For instance, when expanding or reducing the database, only the view definition and the mappings need adjustment. Even after significant changes, applications referencing the external schema should function as they did before, ensuring stability and flexibility.
+
+Imagine you have a database for a bookstore.  *(GPT EXAMPLE)*
+
+###### Conceptual Schema (Initial):
+- **Books**: Title, Author, ISBN, Price, Genre
+
+###### External Schema (User View):
+- **User A**: Sees Title, Author, Price
+- **User B**: Sees Title, Genre
+
+Now, let's say the bookstore starts storing an additional piece of information: the `Publication Year` of each book.
+
+###### Conceptual Schema (Updated):
+- **Books**: Title, Author, ISBN, Price, Genre, Publication Year
+
+Despite this change in the conceptual schema:
+
+- **User A** will still see only the Title, Author, and Price.
+- **User B** will still see only the Title and Genre.
+
+The application or interface through which **User A** and **User B** interact with the database remains unchanged, even though the underlying conceptual schema has been modified. This demonstrates _**Logical Data Independence.**_
+<br>
+<br>
+
+### **Physical Data Independence** 
+Is the capacity to change the internal schema without having to change the conceptual schema. Hence, the external schemas need not be changed as well. Changes to the internal schema may be needed because some physical files were reorganized, *for example* by creating additional access structures—to improve the performance of retrieval or update.
+ *(GPT EXAMPLE)*
+###### Conceptual Schema:
+- **Books**: Title, Author, ISBN, Price, Genre
+
+###### Internal Schema (Initial Storage):
+- Data is stored in sequential files.
+- **Books** are accessed based on their ISBN numbers.
+
+Given the growth of the bookstore, the management decides to enhance data retrieval speed. They introduce an indexing system based on `Genre` for faster searches.
+
+###### Internal Schema (Updated Storage):
+- Data still stored in sequential files.
+- **Books** can now also be accessed quickly through a `Genre` index.
+
+Despite this change in the internal storage mechanism:
+
+- The conceptual schema remains as **Books**: Title, Author, ISBN, Price, Genre.
+- Applications or interfaces querying books by genre *(e.g., "Find all Sci-Fi books")* might see performance improvements, but the query itself remains unchanged.
+
+This example demonstrates how changes to the physical storage level (internal schema) don't impact the higher levels of the database system, showcasing physical data independence.
+
+---
+
+## Database Languages and Interfaces
+
+The DBMS provides appropriate languages and interfaces for each category of users!
+
+**Data Definition Language (DDL)** : Used by the database administrators and designers to define both conceptual and internal schemas.
+- The DBMS has a DDL compiler to process DDL statements in order to identify descriptions of the schema constructs and to store the schema description in the DBMS catalog.
+- In many DBMSs, the DDL is also used to define internal and external schemas *(user views)*.
+
+In DBMSs where a clear separation is maintained between the conceptual and internal levels, the DDL is used to specify the conceptual schema only. Another language, the **storage definition language (SDL)**, is used to specify the internal schema.
+
+**View Definition Language (VDL)**
+- Specifies user views and their mappings to the conceptual schema
+- In relational DBMSs, **SQL** is used in the role of DDL, VDL , and DML
+
+**This makes zero fuckn sense, so let's break it down !!!**
+
+---
+
+#### 1. Data Definition Language (DDL)
+DDL is used to define and manage the structure of the database.
+##### Example:
+Imagine you're creating a new bookstore database. You'd use DDL commands to set up the initial structure.
+
+```sql
+CREATE TABLE Books (
+    BookID INT PRIMARY KEY,
+    Title VARCHAR(255),
+    Author VARCHAR(255),
+    ISBN VARCHAR(13),
+    Price DECIMAL(5,2),
+    Genre VARCHAR(50)
+);
+```
+
+#### 2. Storage Definition Language (SDL)
+SDL focuses on how data is stored and organized at the physical level.
+##### Example:
+You might have requirements related to the performance of your bookstore database, like faster data retrieval based on genres. SDL would be used to define the storage and access methods, like specifying a particular type of indexing system or how data blocks are stored on disk. *(Here we're speeding our indexing up with a Binary Tree)*
+
+```sql
+DEFINE INDEX GenreIndex ON Books(Genre) USING BTREE;
+```
+
+#### 3. View Definition Language (VDL)
+VDL is used to define views for particular users or user groups, focusing on the data they can access and the way they see it.
+#### Example:
+Suppose you want a view for customers that only shows them the **Title**, **Author**, and **Price** of the books, without any internal identifiers like **BookID** or **ISBN**. 
+
+```sql
+CREATE VIEW CustomerBookView AS
+SELECT Title, Author, Price FROM Books;
+```
+
+In the above example, VDL is used to create a view named **CustomerBookView** which displays only selected columns from the Books table.
+
+#### Data Manipulation Language (DML)
+
+DML is responsible for data operations within a database, including:
+
+- **Retrieving** data
+- **Inserting** new entries
+- **Deleting** existing entries
+- **Modifying** data
+
+##### Types of DML
+
+1. **High-level (nonprocedural) DML**
+   - Allows concise specification of complex operations.
+   - Known as set-at-a-time or set-oriented, meaning it can handle multiple records simultaneously.
+   - Example: **SQL**.
+
+2. **Low-level (procedural) DML**
+   - Needs to be part of a general programming language like **C++** or **Java**.
+   - Operates record-at-a-time, meaning one record is processed at a given moment.
+   - Example: **DL/I** commands such as `GET UNIQUE`, `GET NEXT`, etc.
+
+---
+### DBMS Interfaces
+
+TODO: slide 21, lec 2
+
+---
+
+### The Database System Environment
+
+
 
 </details>
