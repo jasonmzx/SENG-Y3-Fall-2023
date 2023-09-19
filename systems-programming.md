@@ -174,3 +174,10 @@ Scripting uses an Interpreter
 
 
 </details>
+
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Introduction to Shell Scripting</summary>
+
+</details>

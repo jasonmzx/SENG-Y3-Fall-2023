@@ -730,5 +730,8 @@ ORDBMSs are suitable for applications where there's a need for complex data mode
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 3 | Data Modeling Using the Entity Relationship (ER) Model</summary>
 
+#### What is a Database Application? 
+
+Generally, the term **database application** refers to a particular database and the associated  programs  that  implement  the  database  queries  and  updates.  For  example,  a *BANK  database*  application  that  keeps  track  of  customer  accounts  would  include programs  that  implement  database  updates  corresponding  to  customer  deposits and withdrawals.
   
 </details>
