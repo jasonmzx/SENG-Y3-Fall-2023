@@ -421,3 +421,161 @@ Dr. Liscano says that **tutorialspoint.com** is a good ressource for Design Patt
 
 
 </details>
+
+
+<details>
+<summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 4. (September 20th) </summary>
+
+### UML Design Concepts: (Important Notation)
+
+**Class Diagram** Attributes & Operations
+
+![SDC](./static/SD_class.png)
+
+3 Types of Relationships exists:
+- Part of some relationship
+- Knowledge relationship
+- Dependency upon relationship
+
+**Composite Aggregate Class**
+*Example:* Player is composed of PlayerHead, PlayerBody, PlayerArms, PlayerLegs
+
+![SDCa](./static/SD_ca.png)
+
+**Class Associations**
+*Directional* A2 has relation with B2, but not vice-versa
+
+![SD](./static/sh_asso.png)
+
+*B2* is the Generalization of *A2*
+*A2* is the Specialization of *B2*
+
+*Interface* is a generalization / Abstraction of the actual implementation *(Mitigates Dependency)*
+
+#### Why Associations?
+
+If I make a change in **B1**, I'll have to modify something in **A1**
+
+Using something from the other class, **A1** might call methods from **B1**, as *A1 references B1*.
+
+If **B1** doesn't reference **A1**, so it doesn't really care about modifications in **A1**
+
+When stuff is Tightly Coupled, and it's interworking tightly.
+
+
+#### Depends-upon Relationship
+* The depends-upon relationship implies 2 classes have a dependency!
+
+- One class sends a message to another (dep)
+- One class has another as part of it's data *(Instance of class within another class object)*
+- One class mentions another as a parameter to an operation
+![SD_dl](./static/SD_dash_line.png)
+
+#### Association vs Dependency
+
+Association represents that one entity uses another entity as part of it's behavior?
+*(Association is a Dependency itself lmao)*
+
+**Dependency** is the important, it's when one entity depends on the behavior of another entity. 
+
+**IN EXAMS:** We use mostly associations *[Solid Lines with Arrow]*
+
+#### Packages
+
+**Look Like Folders** in UML Diagrams, it shows that we don't know the details of the package.
+
+---
+
+## Software Architecture Modelling
+
+- Recall about Architecture, design decisions I'm making, named **Artifact**
+
+- Architecture Decisions & Concepts.
+- At what level of detail, with how much rigor or formality.
+
+**Stakeholder-driven Modeling**
+
+- Stakeholders identify aspects of the system they need/concerned about
+
+  *Example: Lunar Lander*
+  - 1960's computer game
+  - Simple 2D Game, basic physics engine
+  - **Blue** are the components, and it streams data via Interfaces to the next
+
+  ![SD_luna](./static/sd_luna.png)
+
+#### What do we Model?
+- Components, Connectors, Interface.
+- Capture Constraint of the System to be Architectured.
+- Business Rules, Concurrency, general Rsequirements.
+- **Functional** and **Non-Functional** Requirements. *(Prof doesn't care about these lmao)*
+
+**Architecture is generally static** design
+
+### Views & View Consistency
+
+You can have different views of the same system
+
+I can look at EZCampus via **Sequence Diagram**, **Swimline Diagram**, **Component Diagram**
+
+##### Logical View
+- Capture the logical (often software) entities in a system and how they are interconnected.
+
+**Example:** In a social media application, the logical view includes entities like User, Post, Comment, and Like. Users can create posts, comment on posts, and like posts, establishing relationships between these entities.
+
+##### Physical View
+- Capture the physical *(often hardware)* entities in a system and how they are interconnected.
+
+**Example:** In a data center, the physical view includes servers, switches, and routers. Servers are connected to switches, and switches are connected to routers to form a network infrastructure. This physical setup ensures data can be processed and routed efficiently.
+
+##### Deployment View
+- Capture how logical entities are mapped onto physical entities. *(Where the components reside)*
+
+**Example:** In a cloud-based web application, the deployment view shows how software components like web servers, application servers, and databases are deployed on physical servers or virtual machines in a data center or cloud provider's infrastructure. It specifies which software runs on which server, ensuring the application's availability and scalability.
+
+---
+
+### Common Types of Inconsistencies
+
+_*PROF WANTS CONSISTENCY WITH VIEWS!*_
+
+- **Direct Inconsistencies:** These occur when there are conflicting statements directly contradicting each other. For example, saying "The system runs on two hosts" and "The system runs on three hosts."
+
+- **Refinement Inconsistencies:** These arise when high-level, abstract views of a system conflict with low-level, concrete views of the same parts. 
+
+- **Static vs. Dynamic Aspect Inconsistencies:** These occur when dynamic aspects, such as behavioral specifications, conflict with static aspects like system topologies. For instance, a component mentioned in a sequence diagram might not exist in the component diagram.
+
+*Sequence Diagrams capture Use-Cases only, so there are bound to be some Inconsistencies from other views...*
+
+---
+
+### Statement Templates for Design
+
+- **Natural Language**: it's good to write it out, but it might be verbose for large and complex designs...
+  ![SD_NLP](./static/SD_NLP.png)
+
+- **Informal Graphical Modelling**: Box & Line, informal, it's good to have a *Legende* and or Text descriptors
+  ![SD_IG](./static/SD_IG.png)
+  *Ambigious!? what do these lines mean !?*
+
+- **UML** : Formal definition of Diagrams
+
+
+### More UML Notation: 
+
+  The little white boxes within components are **Interfaces**
+
+  ![SD_NLP](./static/SD_UML_COMP.png)
+
+  *These are "Components" in UML, which can be made-up of other boxes, but here we show high-level component dependency*
+  *Can specify an action like `<<import>>` or `<<call>>` on these lines, <-- stereotypes*
+
+
+  #### Ball and Socket
+
+  Server requires interface from Database, and Provides API (HTTP Request) Interface
+
+  ![SD_NLP](./static/SD_bns.png)
+
+
+</details>
