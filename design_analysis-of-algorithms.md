@@ -3,6 +3,21 @@
 ---
 
 <details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Preliminary Math Review</summary>
+
+
+## LOG RULES:
+  ![DSA_LG](./static/DSA_LOG.png)
+<br></br>
+
+## EXPONENT RULES:
+  ![DSA_EX](./static/DSA_EXP.png)
+
+</details>
+
+---
+
+<details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 1. | Introduction</summary>
   
 ## MIDTERM(s): 
@@ -265,7 +280,7 @@ int main()
 
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2.</summary>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2. | ??? </summary>
     
 Say you've got an Analysis *(Best Case Insertion Sort for example)*
 
@@ -322,5 +337,50 @@ technique:
 After a few steps, what are the values in the Array.
 
 
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 3. | Growth of Functions (as `n` increases) 
+  </summary>
+
+![BIG_Oog](./static/DSA_OOG.png)
+
+Prof asked us to prove: `O(n!) / O(2^n) > 1`
+**I.E:** prove Big O of **n!** is larger than Big O of **2^n**
+
+## This is Stirling's Approximation of `n!`
+
+![DSA_ST](./static/DSA_STIRLING.png)
+
+---
+
+### Big O Notation & Asymptotic  
+- Upper Bound of the Growth Rate
+
+![BIG_O](./static/DSA_BIG_O.png)
+
+**Examples**
+
+![DSA_ST](./static/DSA_BIG_O1.png)
+
+---
+### Big Omega Notation & Asymptotic  
+![DSA_OME](./static/DSA_OMEGA.png)
+
+**TODO
+
+### Big Theta Notation & Asymptotic  
+- Average case, mid-range of Growth Rate, "Sandwiched between **Big O**, and **Big Omega**"
+![THETA](./static/DSA_THETA.png)
+
+**Examples**
+
+![THETA1](./static/DSA_THETA1.png)
+
+**Important NOTE:** 
+- As **n** tends to a larger number (+inf) , `2/n` tends to 0, and we're left with *1/2* for *f(n)*
+- Here we can see `C2` is the upper bound, and it doesn't need to be larger than *1/2* !
+
+This is trivially the proof...
 
 </details>
