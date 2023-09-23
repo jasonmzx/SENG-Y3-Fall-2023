@@ -384,3 +384,31 @@ Prof asked us to prove: `O(n!) / O(2^n) > 1`
 This is trivially the proof...
 
 </details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 4. | Master Theorem
+  </summary>
+
+### Masters Theorem
+
+You can use Masters Theorem if:
+
+1.) `T(n) = a T(n/b) + f(n)`
+
+2.) `a >= 1` and `b > 1`
+
+3.) For some Epsilon `ε > 0`
+
+![DS Master](./static/DSA_mt_master.png)
+
+---
+
+## Case 1 & 2:
+
+![DS Case 1 & 2](./static/DSA_mt_case12.png)
+
+## Case 3: 
+
+![DS Case 3](./static/DSA_mt_case3.png)
+
+</details>
