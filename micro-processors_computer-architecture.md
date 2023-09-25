@@ -424,5 +424,100 @@ If the value in `r7` is less than the value in `r8` *(signed comparison)*, then 
 ---
 
 <details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2. | Addressing Modes</summary>
+  
+  Processor Formats
+
+  ![MPL_IJR](./static/MCPA_IJR.png)
+
+
+## Autoincrement Mode:
+
+- This addressing mode is similar to the **register indirect addressing mode** in that the effective address of the operand is the content of a register, which we can term the _autoincrement register_.
+- However, the content of the autoincrement register is automatically incremented after accessing the operand.
+- **Example**: Load register `Ri` with the operand whose address is the content of register `Rauto`. After loading the operand into register `Ri`, the content of register `Rauto` is incremented (pointing to the next item in a list of items).
+ 
+ **Pseudo-Instruction**
+  `LOAD Ri, (Rauto)+`
+
+**NIOS II Equivalent**
+```assembly
+    ldw   r3, 0(r4)       # Load word from address in r4 to r3
+    addi  r4, r4, 4       # Increment r4 to point to the next word
+```
+
+
+
+  ---
+
+
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Assembler Directives & Examples</summary>
+
+
+### The commands in brackets at NIOS II Specific
+
+---
+
+1. **ORIGIN (.org):** This directive defines where in the memory to place the instructions that follow.
+
+2. **RESERVE (.skip):** This directive declares that a memory block of a certain size is reserved for data.
+
+3. **DATAWORD (.byte, .hword, .word):** This informs the assembler to assign values to certain words.
+
+4. **EQU (.equ):** This directive associates a name with a constant value.
+
+5. **END (.end):** This tells the assembler that this is the end of the source program.
+
+
+Example Directives in NIOS 2
+```asm
+.global _start
+
+.org 0x100          ; Starting address in memory, for proceeding instructions to be stored at
+_start:
+
+.equ CONST_VALUE, 10 ; Associate the name CONST_VALUE with the value 10
+
+load    r1, CONST_VALUE  ; Load the constant value into r1
+
+.byte   'A', 'B'        ; Store bytes
+.hword  0xABCD          ; Store half-word (2 bytes)
+.word   0xDEADBEEF      ; Store word (4 bytes)
+
+.skip   4               ; Reserve 4 bytes in memory
+
+.end                   ; End of the source program
+```
+
+### General Assembler Directive Notes:
+
+**_start: Label**
+The _start: is a label. In assembly (and other programming contexts), labels are used to name locations in the code so that they can be referred to elsewhere, such as from branch or jump instructions.
+
+In many assembly programs, especially those intended to be standalone (not part of a larger operating system or application), _start is a conventional name for the starting point of the program's execution. When the program is loaded into memory and executed, execution will start at this _start label. If you've worked with other systems or languages, it's analogous to the **main()** function in languages like C or C++.
+
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2. | EX. 1 && EX. 2</summary>
+ 
+## Example 1
+
+  ![mcpaex1](./static/MCPA_EX1.png)
+  ![mcpaex10](./static/MCPA_EX1_0.png)
+---
+
+## Example 2
+
+  ![mcpaex2](./static/MCPA_EX2.png)
+
+
+</details>
+
+
+<details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">ASM Self Study</summary>
 </details>
