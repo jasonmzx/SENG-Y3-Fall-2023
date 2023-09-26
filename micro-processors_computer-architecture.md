@@ -447,7 +447,6 @@ If the value in `r7` is less than the value in `r8` *(signed comparison)*, then 
 ```
 
 
-
   ---
 
 

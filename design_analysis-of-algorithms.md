@@ -412,3 +412,12 @@ You can use Masters Theorem if:
 ![DS Case 3](./static/DSA_mt_case3.png)
 
 </details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 4. | Matrix Multiplication:
+  </summary>
+
+## Matrix Multiplication Recap:
+![DSA_MAT_MULL_1](./static/DSA_MAT_MUL_1.png)
+
+</details>
