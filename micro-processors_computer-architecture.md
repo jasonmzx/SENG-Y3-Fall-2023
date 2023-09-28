@@ -558,4 +558,42 @@ When the subroutine is ready to return, it loads the value from the *Link Regist
 
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">ASM Self Study</summary>
+
+NIOS II - First Program
+
+```s
+.global _start
+
+.org 400
+_start:
+    movia r2, data     # Load the address of 'data' into r2
+	ldb r3, 0(r2) # Load Length of Array (Byte) into r3
+	addi r20, r0, 1 #Set some register to 1 so I can compare in the Loop XD
+	
+	muli r6, r3, 4
+	
+    add   r4, r2, r6   # Add the value in r6 to the address in r2
+	add r5, r0, r0 #I'm kind of just tryna clear r5
+	
+	
+loop:
+	ldw  r10, 0(r4)   # Load the word value pointed by r4 into r10
+	subi r3, r3, 1 #Decrement Immediate R3
+	subi r4, r4, 4
+    bge r3, r20, loop # If r3 is greater or equal, branch to 'loop'
+
+.org 1000
+data:   
+.byte 7 
+.skip 3
+.word 4,5,3,6,1,8,2
+
+.end
+```
+
+This program would just decrement r3 till it was Greater or Equal to r20 (value 1)
+- Every iteration it also sets r10 to whatever's next in the list, it iterates backwards from n to 0, therefore 2 is set first, then 8, and so on...
+
+---
+
 </details>

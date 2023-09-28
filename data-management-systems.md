@@ -734,4 +734,314 @@ ORDBMSs are suitable for applications where there's a need for complex data mode
 
 Generally, the term **database application** refers to a particular database and the associated  programs  that  implement  the  database  queries  and  updates.  For  example,  a *BANK  database*  application  that  keeps  track  of  customer  accounts  would  include programs  that  implement  database  updates  corresponding  to  customer  deposits and withdrawals.
   
+---
+
+**Section 3.1** discusses the role of high-level conceptual data models in database design.
+**Section 3.2** Introduce the requirements for a sample database application in to illustrate the use of concepts from the ER model. This **sample database is used throughout the text. 
+**Section 3.3** we present the concepts of entities and attributes, and we gradually introduce the diagrammatic technique for displaying an ER **schema. 
+**Section 3.4** we introduce the concepts of binary relationships and their roles and structural constraints. 
+**Section 3.5** introduces weak entity types. 
+**Section 3.6** shows how a schema design is refined to include relationships. 
+**Section 3.7** reviews the notation for ER diagrams, summarizes the issues and common pitfalls that occur in schema design, and discusses
+how to choose the names for database schema constructs such as entity types and
+relationship types. 
+**Section 3.8** introduces some UML class diagram concepts, compares them to ER model concepts, and applies them to the same COMPANY database example.
+**Section 3.9** discusses more complex types of relationships
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Section 3.1 & 3.2
+  </summary>
+
+**Using High-Level Conceptual Data Models for Database Design**
+
+![DB20](./static/DB_20.png)
+
+**Note** We start off quite high level, "DBMS Independent" and once Implementation an storage comes into play, that's where it gets "DBMS Specific"
+
+**DBMS Independent**
+
+**Step 1.)** Gather Functional Requirements from Stakeholders and End Users
+**Step 2.)** Analysis, and the Database Designers will then kind of know the Data Requirements, and be able to model a high-level transaction spec.
+**Step 3.)** Once the requirements have been collected and analyzed, the next step is to create a **conceptual schema** for the database, using a high-level conceptual data model. AKA "Conceptual Design"
+
+- Easier to understand and can be used to communicate with nontechnical users. 
+- The high-level conceptual schema can also be used as a reference to ensure that all users’ data requirements are met and that the requirements do not conflict.
+- Enables DB designers to concentrate on specifing properties of the data without concerns of Actual Storage or implementation.
+
+**DBMS Specific**
+
+**Step 4.)**  "last" step is the physical design phase, during which the internal storage structures, file organizations, indexes, access paths, and physical design parameters for the database files are specified.
+**Step 5.)** In parallel to step 4: Activities & application programs are designed and implemented as database transactions corresponding to the high-level transaction specifications.
+
+---
+
+The **COMPANY** database keeps track of a company’s employees, departments, and
+projects. Suppose that after the requirements collection and analysis phase, the
+database designers provide the following description of the *miniworld*—the part of
+the company that will be represented in the database.
+
+![DB21](./static/DB_21.png)
+
+
+## Loose / High-Level Mapping of our Database (High Level Phase)
+
+- **Departments:**
+  - Unique name, number, and manager with start date.
+  - Multiple locations.
+
+- **Projects:**
+  - Unique name and number, with a single location.
+  - Controlled by a department.
+
+- **Employees:**
+  - Name, Social Security number, address, salary, gender, and birth date.
+  - Belong to one department.
+  - Work on multiple projects and have tracked hours.
+  - Track hours per week on each project.
+  - Have a direct supervisor (another employee).
+
+- **"Dependents":**
+  - Name, gender, birth date, and relationship to the employee.
+  - Tracked for insurance purposes.
+
+
+In the Entity-Relationship (ER) model, we focus on entities, which represent real-world things or concepts. An entity can be a physical object like a person or a car, or it can be a conceptual object like a company or a job. 
+
+Each entity has attributes, which are specific properties describing it. For instance, an EMPLOYEE entity might have attributes like name, age, address, salary, and job. These attribute values constitute a significant part of the database's stored data.
+---
+
+## Entity Types, Entity Sets, Attributes, and Keys
+
+ER Model describes data as:
+- Entities
+- Relationships
+- Attributes
+
+### Composite VS. Simple (Atomic) Attributes
+  - Composite attributes can be divided into subparts with independent meanings, forming a hierarchy if necessary.
+  - **Composite Example:** The Address attribute of an EMPLOYEE entity can be subdivided into Street_address, City, State, and Zip (e.g., '2311 Kirby', 'Houston', 'Texas', '77001').
+  - Simple (atomic) attributes cannot be further divided. EX: `1234 Street St. L5F R1Z, Manitoba, CANADA`
+  - Use composite attributes when users refer to the attribute as a unit but may also reference its components.
+  - If the attribute is always referenced as a whole, it can be designated as a simple attribute.
+
+### Single-Valued vs Multivalued Attributes
+  - **Single-Valued Attributes:** Have only one value for a particular entity.
+    - **Example:** Age of a person.
+  - **Multivalued Attributes:** Can have multiple values for a particular entity.
+    - **Example:** Colors attribute for a Car or College_degrees for a Person.
+    - Multivalued attributes can have lower and upper bounds to restrict the number of values. *(MIN: 2, MAX: 1000 posts on IG)*
+    - **Bounds Example:** A car's Colors attribute may be limited to one or two values.
+
+### Stored vs Derived Attributes
+  - **Stored Attributes:** The actual data that is stored in the database.
+    - **Example:** Birth_date of a person.
+  - **Derived Attributes:** Can be computed from other attributes. These are not stored but derived as needed.
+    - **Example:** Age of a person can be derived from the current date and the Birth_date.
+    - Some derived values can be obtained from related entities.
+    - **Derived Example:** Number_of_employees of a DEPARTMENT can be derived by counting the employees working for that department.
+
+### NULL Values
+  - Represent missing or not applicable data in the database.
+  - **Not Applicable:** Attribute doesn't apply to the entity.
+    - **Example:** Apartment_number for single-family homes.
+  - **Unknown:** The actual value of the attribute is not known.
+    - **Example:** Home_phone of a person when the phone number is unknown.
+    - There are two categories for unknown NULLs:
+      1. Known to exist but missing: The value is known to exist but is not available.
+         - **Example:** The Height attribute of a person is NULL.
+      2. Existence is uncertain: It's unknown whether there's an actual value or not.
+         - **Example:** The Home_phone attribute of a person is NULL and it's unclear if they have one or not.
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Section 3.3 & 3.4
+  </summary>
+
+  ![DB21](./static/DB_21.png)
+
+### Relationship Types, Relationship Sets, Roles, and Structural Constraints
+- Can be defined as a subset of the Cartesian product of the entity Sets `E1 x E2 x ... x En` (cool xD)
+
+![DB22](./static/DB_22.png)
+
+In ER diagrams, relationship types are displayed as diamond-shaped boxes, which
+are connected by straight lines to the rectangular boxes representing the participat-
+ing entity types.
+
+### Relationship Degree, Role Names, and Recursive Relationships
+
+> [!NOTE]  
+> Degree of a Relationship Type
+
+**Degree:** Refers to the number of participating entity types in a relationship type.
+**Binary:** A relationship of degree two.
+**Ternary:** A relationship of degree three.
+
+The `WORKS_FOR` relationship is a binary relationship because it involves two entity types.
+
+Another example, the `SUPPLY` relationship, is ternary. In this case:
+- A relationship instance associates three entities: a supplier (s), a part (p), and a project (j).
+- This association is established whenever supplier `s` provides part `p` to project `j`.
+
+Most common is Binary Relationships
+
+![DB22](./static/DB_23.png)
+
+## Recursive Relationships and Roles
+
+**Role Names:** Describe the specific role an entity type plays within a relationship.
+
+For instance, within the `WORKS_FOR` relationship:
+**EMPLOYEE** might have a role such as "worker."
+**DEPARTMENT** might have a role like "employer."
+
+![DB22](./static/DB_24.png)
+
+Consider the `SUPERVISION` relationship. Here, one `EMPLOYEE` might be another `EMPLOYEE's` supervisor. In this case:
+- The same `EMPLOYEE` entity type is involved twice in the relationship.
+  - Once as a "supervisor" (or boss).
+  - Once as a "supervisee" (or subordinate).
+
+Visualize it:
+- `e1` is the boss of `e2` and `e3`.
+- `e4` is the boss of `e6` and `e7`.
+- `e5` supervises `e1` and `e4`.
+
+In this model, lines labeled ‘1’ represent the supervisor role, and those labeled ‘2’ depict the supervisee role. Therefore, every instance of this relationship has two connections:
+  - One indicating the supervisor (‘1’).
+  - The other indicating the supervisee (‘2’).
+
+
+### Constraints on Binary Relationship Types
+
+Relationship types often come with constraints. These constraints determine which combinations of entities can participate in a relationship set. They are derived from the real-world scenario that the relationship represents.
+
+For instance:
+- Imagine a company scenario (as shown in Figure 3.9) where every employee is required to work for exactly one department. This rule or constraint would be captured in the database schema.
+
+There are mainly two types of constraints for binary relationships:
+1. **Cardinality Ratio**: Specifies the number of relationship instances an entity can participate in.
+2. **Participation**: Determines if the participation of an entity in a relationship is mandatory or optional.
+
+### Cardinality Ratios for Binary Relationships
+
+The **cardinality ratio** in binary relationships indicates how many instances of an entity can be involved in the relationship.
+
+**Key Points**:
+
+1. **Definition**:
+   - For the **WORKS_FOR** relationship between `DEPARTMENT` and `EMPLOYEE`, the cardinality ratio is **1:N**. This denotes:
+     - A single department can employ numerous employees (N indicates no upper limit).
+     - However, an employee can work for only one department at a time.
+
+2. **Possible Ratios**:
+   - Binary relationships can have these cardinality ratios: **1:1, 1:N, N:1, and M:N**.
+
+3. **Examples**:
+   - **1:1**: The **MANAGES** relationship. Here, an employee can manage only one department, and vice versa. It ensures exclusivity on both ends.
+     - *Real-world Scenario*: Think of a school system where each class can have only one head teacher and each head teacher can be responsible for just one class.
+   
+   - **M:N**: The **WORKS_ON** relationship. It's more flexible, where an employee might be involved in multiple projects, and a project can also have numerous employees working on it.
+     - *Real-world Scenario*: In a software development company, developers (employees) often work on multiple projects (like frontend, backend, or mobile development). Conversely, a single project may require multiple developers.
+
+4. **ER Diagrams**: 
+   - Cardinality ratios in ER (Entity-Relationship) diagrams are often indicated using 1, M, and N. For example, in Figure 3.2.
+   - Advanced notations might even specify exact numbers, like having a max of 4 or 5 participants.
+
+Remember, the cardinality ratio helps to establish and clarify the rules or constraints in the relationship between two entities, ensuring the database structure adheres to real-world scenarios.
+
+---
+
+### Participation Constraints and Existence Dependencies
+
+- **Participation Constraint**: Dictates if the existence of an entity is tied to its relationship with another entity.
+  - Specifies the minimum relationships an entity can have.
+  - Types:
+    1. **Total Participation (or Existence Dependency)**: Every entity must participate in the relationship.
+       - **Example**: Every employee must work for a department.
+    2. **Partial Participation**: Only some entities need to participate.
+       - **Example**: Not all employees manage a department.
+  - **ER Diagram Representation**:
+    - Total participation: Double line.
+    - Partial participation: Single line.
+
+### **Attributes of Relationship Types**
+
+- Just as entities can have attributes, so can relationships.
+  - **Example**: The `Hours` an employee works on a project, or the `Start_date` when a manager began overseeing a department.
+  
+- **Migration of Attributes in 1:1 or 1:N Relationships**: 
+  - Attributes can sometimes be moved (or "migrated") to one of the entities in the relationship.
+    - **Example**: `Start_date` in `MANAGES` could belong to either `EMPLOYEE` or `DEPARTMENT`.
+  
+- **Placement of Attributes in M:N Relationships**:
+  - For many-to-many relationships, some attributes are influenced by the combination of participating entities.
+  - These attributes must remain with the relationship.
+    - **Example**: The `Hours` an employee works on a project is determined by the pairing of that employee with a specific project.
+
+In database design, understanding these concepts ensures that the structure closely mimics real-world scenarios and constraints.
+---
+
+## 3.3.2 Entity Types, Entity Sets, Keys, and Value Sets
+**Entity Type:** Defines a collection of entities with the same attributes.
+**Entity Set:** Collection of all entities of a particular entity type in the database at any point in time.
+
+**Entity Type Name:**
+- COMPANY: Attributes - Name, Headquarters, President
+- EMPLOYEE: Attributes - Name, Age, Salary
+
+**Entity Set (Extension):**
+- COMPANY:
+    - Sunco Oil, Houston, John Smith
+    - Fast Computer, Dallas, Bob King
+- EMPLOYEE:
+    - John Smith, 55, 80k
+    - Fred Brown, 40, 30K
+    - Judy Clark, 25, 20K
+
+### Key Attributes of an Entity Type
+**Key Attribute:** An attribute whose values are distinct for each entity. It's used to identify each entity uniquely.
+Composite attributes can also serve as a key if the combination of their values is unique for each entity.
+
+**EX:**
+In the COMPANY entity type, the `Name` attribute is a key because no two companies can have the same name. Similarly, for a PERSON entity type, `SSN` (Social Security number) might be the typical key attribute.
+
+### Value Sets (Domains) of Attributes
+Every simple attribute has a value set which specifies the set of values that can be assigned to that attribute.
+
+**EX:**
+In the EMPLOYEE entity type:
+- `Age` attribute might have a value set ranging from 16 to 70 (integers).
+- `Name` attribute might allow strings of alphabetic characters.
+
+---
+
+## Initial Conceptual Design of the COMPANY Database
+We can Identify 4 Entity Types from our requirements
+
+1. An entity type `DEPARTMENT` with attributes Name, Number, Locations,
+Manager, and Manager_start_date. Locations is the only multivalued attribute.
+We can specify that both Name and Number are *(separate)* key attributes
+because each was specified to be unique.
+
+2. An entity type `PROJECT` with attributes Name, Number, Location, and
+Controlling_department. Both Name and Number are *(separate)* key attributes.
+
+3. An entity type `EMPLOYEE` with attributes Name, Ssn, Sex, Address, Salary,
+Birth_date, Department, and Supervisor. Both Name and Address may be
+composite attributes; however, this was not specified in the requirements.
+We must go back to the users to see if any of them will refer to the individual
+components of Name—First_name, Middle_initial, Last_name—or of Address. 
+- In our example, Name is modeled as a composite attribute, whereas Address is
+not, presumably after consultation with the users.
+
+4. An entity type `DEPENDENT` with attributes Employee, Dependent_name, Sex,
+Birth_date, and Relationship (to the employee)
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Section 3.5 , 3.6 & 3.7
+  </summary>
+
 </details>
