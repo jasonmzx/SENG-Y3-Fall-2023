@@ -502,34 +502,56 @@ In many assembly programs, especially those intended to be standalone (not part 
 
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2. | EX. 1, EX. 2, EX. 3</summary>
- 
-## Example 1
+
+# Example 1
 
   ![mcpaex1](./static/MCPA_EX1.png)
   ![mcpaex10](./static/MCPA_EX1_0.png)
 ---
-
-## Example 2
-
+# Example 2
   ![mcpaex2](./static/MCPA_EX2.png)
-
 
 </details>
 
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2. | EX. 4 && EX. 5</summary>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2. | EX. 4 && EX. 5 (Sub-routines & Stack)</summary>
  
 # Example 4
 
-  ![mcpaex1](./static/MCPA_EX4.png)
-  ![mcpaex10](./static/MCPA_EX4_1.png)
-
+  ![mcpaex4](./static/MCPA_EX4.png)
+  ![mcpaex41](./static/MCPA_EX4_1.png)
 ---
 # Example 5
 
   ![mcpaex5](./static/MCPA_EX5.png)
   ![mcpaex51](./static/MCPA_EX5_1.png)
+
+
+**Note | Link Register**
+
+When a subroutine *(function)* is called, the address of the instruction immediately following the subroutine call instruction is pushed onto the ***call stack**, and the program counter **(PC)** is set to the address of the subroutine's entry point.
+
+Inside the subroutine, the *Link Register* is often used to store the return address, which is the address of the instruction to resume execution after the subroutine finishes.
+
+When the subroutine is ready to return, it loads the value from the *Link Register* into the PC, effectively jumping back to the instruction following the original subroutine call.
+
+**Upon Multiple Sub-Routine Calls** The Link Register deals with the stack, to know the Callback Order *(First SUB1 was called, then SUB2, so return to Address `0x9A` for SUB2, now that SUB1 is done, return to `0x11`)*
+
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Stacks & Stack Pointer</summary>
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Frame Pointer & More on SP</summary>
+
+**Stack Pointer** Moves arround alot, you add an item to stack, SP is now -4 bytes above...
+ - Always points to the top of the stack *(Lowest Address on Stack)*
+ 
+**Frame Pointer** Is usually static within the context of a single procedure call
+ -  Can access things with *Frame Pointer* that have a consistent offset.
 
 </details>
 
