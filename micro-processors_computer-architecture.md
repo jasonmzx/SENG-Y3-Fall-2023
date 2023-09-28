@@ -501,7 +501,7 @@ In many assembly programs, especially those intended to be standalone (not part 
 </details>
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2. | EX. 1 && EX. 2</summary>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2. | EX. 1, EX. 2, EX. 3</summary>
  
 ## Example 1
 
@@ -513,6 +513,23 @@ In many assembly programs, especially those intended to be standalone (not part 
 
   ![mcpaex2](./static/MCPA_EX2.png)
 
+
+</details>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2. | EX. 4 && EX. 5</summary>
+ 
+# Example 4
+
+  ![mcpaex1](./static/MCPA_EX4.png)
+  ![mcpaex10](./static/MCPA_EX4_1.png)
+
+---
+# Example 5
+
+  ![mcpaex5](./static/MCPA_EX5.png)
+  ![mcpaex51](./static/MCPA_EX5_1.png)
 
 </details>
 
