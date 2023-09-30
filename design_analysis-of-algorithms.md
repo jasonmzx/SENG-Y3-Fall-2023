@@ -386,6 +386,29 @@ This is trivially the proof...
 </details>
 
 <details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 4. | Substitution & Recursion Tree 
+  </summary>
+
+  ## Substitution Method
+
+  1. Guess the form of the solution
+  2. Use mathematical induction to find the constants and show that the solution works.
+
+  - Substitution is powerful, but we must be able to **guess** the form of the answer, in order to apply it.
+  - Applicable for **Upper** or **Lower** Bounds on a Recurrence Function.
+
+## Example 1:
+
+![SUB_1](./static/DSA_SUB_1.png)
+
+## Example 2:
+
+![SUB_2](./static/DSA_SUB_2.png)
+
+</details>
+
+
+<details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 4. | Master Theorem
   </summary>
 

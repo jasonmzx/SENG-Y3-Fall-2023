@@ -26,6 +26,8 @@ apply the design principles and submit a software design
 - Presentation at the end of the term
 - More details will be on Canvas
 
+---
+
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 1 | Databases & DB Users</summary>
   
@@ -185,6 +187,7 @@ second.
 
 </details>
 
+---
 
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2 | Database System Concepts and Architecture</summary>
@@ -727,6 +730,8 @@ ORDBMSs are suitable for applications where there's a need for complex data mode
 # Slide Questions... TODO !
 </details>
 
+---
+
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 3 | Data Modeling Using the Entity Relationship (ER) Model</summary>
 
@@ -745,8 +750,34 @@ Generally, the term **database application** refers to a particular database and
 **Section 3.7** reviews the notation for ER diagrams, summarizes the issues and common pitfalls that occur in schema design, and discusses
 how to choose the names for database schema constructs such as entity types and
 relationship types. 
-**Section 3.8** introduces some UML class diagram concepts, compares them to ER model concepts, and applies them to the same COMPANY database example.
-**Section 3.9** discusses more complex types of relationships
+
+---
+
+## Total Vs. Partial Participation
+
+### Total Participation:
+
+In the context of ER diagrams and database design, total participation means that every entity in an entity set must participate in at least one relationship in the given relationship set.
+
+**Example:**
+Consider two entity sets: `STUDENT` and `CLASS`. Let's say every student must enroll in at least one class. So, there is a total participation of `STUDENT` in the relationship `ENROLLS_IN` with `CLASS`. If there is any student who hasn't enrolled in any class, it would violate the total participation constraint!
+
+### Partial Participation:
+In contrast, partial participation means that while some entities in an entity set participate in the relationship set, it's not mandatory for all of them.
+
+**Example:**
+Now, consider the entities `EMPLOYEE` and `PROJECT`. While some employees might be assigned to projects, others might not be assigned yet *(maybe they are new hires or between projects)*. In this case, `EMPLOYEE` has a partial participation in the relationship `ASSIGNED_TO` with PROJECT.
+
+**In visual ER diagrams:**
+
+=== Total Participation ===: Double Line connecting the entity to the relationship.
+--- Partial participation ---: Represented by a single line.
+
+---
+![DB20](./static/DB_35.png)
+
+**MANAGES:** It's a specific relationship type that associates an `EMPLOYEE` with a `DEPARTMENT` indicating that the employee manages that department. Not every employee manages a department, but every department must have a manager. That's why `DEPARTMENT`'s participation to `MANAGES` is Total, whereas the link between `EMPLOYEE` and `MANAGES` is partial... 
+
 </details>
 
 <details>
@@ -818,12 +849,16 @@ ER Model describes data as:
 - Relationships
 - Attributes
 
+![DB33](./static/DB_33.png)
+
 ### Composite VS. Simple (Atomic) Attributes
   - Composite attributes can be divided into subparts with independent meanings, forming a hierarchy if necessary.
   - **Composite Example:** The Address attribute of an EMPLOYEE entity can be subdivided into Street_address, City, State, and Zip (e.g., '2311 Kirby', 'Houston', 'Texas', '77001').
   - Simple (atomic) attributes cannot be further divided. EX: `1234 Street St. L5F R1Z, Manitoba, CANADA`
   - Use composite attributes when users refer to the attribute as a unit but may also reference its components.
   - If the attribute is always referenced as a whole, it can be designated as a simple attribute.
+
+![DB34](./static/DB_34.png)
 
 ### Single-Valued vs Multivalued Attributes
   - **Single-Valued Attributes:** Have only one value for a particular entity.
@@ -859,6 +894,9 @@ ER Model describes data as:
   </summary>
 
   ![DB21](./static/DB_21.png)
+  
+  > [!NOTE]  
+  > Displays the COMPANY ER database schema as an ER diagram
 
 ### Relationship Types, Relationship Sets, Roles, and Structural Constraints
 - Can be defined as a subset of the Cartesian product of the entity Sets `E1 x E2 x ... x En` (cool xD)
@@ -1041,7 +1079,128 @@ Birth_date, and Relationship (to the employee)
 </details>
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Section 3.5 , 3.6 & 3.7
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Section 3.5 - 3.7
+  </summary>
+
+## Weak Entity Types:
+
+Entity types that do not have key attributes of their own are called **weak entity types**. In contrast, regular entity types that do have a key attribute—which include all the examples discussed so far—are called **strong entity types**.
+
+- Relationship that relates a weak Entity Type to it's owner is named **Identifying Relationship**
+
+- A weak entity type always has a total participation constraint *(existence dependency)* with respect to its identifying relationship because a weak entity cannot be identified without an owner entity. 
+
+- An owner entity can itself be a weak entity.
+- A weak entity can have more than one identifying entity type.
+
+**EXAMPLE** A `Driver_License` Entity can't exist, unless it's got a related `Person` Entity. Here `Driver_License` isn't a weak entity however, since a field like `License_Number` is a key, thus can be uniquely identified.
+
+- **Weak Entity Type**
+  - Represents entities that **do not have a key attribute** of their own and cannot be uniquely identified by their attributes alone.
+  - Relies on a related strong entity for its unique identification.
+  
+- **Example: DEPENDENT and EMPLOYEE**
+  - `DEPENDENT` is a weak entity related to `EMPLOYEE` via a 1:N relationship.
+  - Attributes of `DEPENDENT`: 
+    - `Name`
+    - `Birth_date`
+    - `Sex`
+    - `Relationship` to the `EMPLOYEE`.
+  - While two dependents might have the same attributes, they are identified uniquely when associated with a specific `EMPLOYEE`.
+
+- **Partial Key**
+  - An attribute that can **uniquely identify** weak entities that are related to the same owner entity.
+  - In the example, if no two dependents of the same employee have the same name, `Name` becomes the partial key.
+  - In some cases, a combination of all attributes of the weak entity might serve as the partial key. *(SOMETIMES)*
+
+- **ER Diagram Representation**
+
+![WE](./static/DB_30.png)
+  - Weak entities and their identifying relationships are shown with **double lines**.
+  - The partial key attribute is underlined with a **dashed or dotted line**.
+
+<br></br>
+
+- **Weak Entity vs. Complex Attributes**
+  - Weak entities can sometimes be represented as **complex attributes**.
+  - In the given example, an alternative representation could be a multivalued attribute `Dependents` for `EMPLOYEE` with attributes: `Name`, `Birth_date`, `Sex`, and `Relationship`.
+  - The decision of which representation to use lies with the **database designer**.
+  - A good rule: If the weak entity participates in other relationships apart from its identifying relationship, use the weak entity representation.
+
+---
+
+## 3.7 ER Diagrams; Conventions, Design & Issues
+
+UML Diagram Standard:
+
+![UMLD](./static/DB_31.png)
+
+In ER diagrams the emphasis is on representing the schemas rather than the instances. This is more useful in database design because a database schema changes rarely, whereas the contents of the entity sets may change frequently. In addition, the schema is obviously easier to display, because it is much smaller.
+
+#### 3.7.2 Proper Naming of Schema Constructs
+
+- **Naming Significance**
+  - Names for schema constructs *(entity types, attributes, relationship types, roles)* should be meaningful and convey their intended purposes.
+  
+- **Naming Convention Examples**
+  - **Entity Types**: Singular names, represented in uppercase (e.g., `EMPLOYEE`).
+  - **Relationship Types**: Uppercase letters.
+  - **Attributes**: Initial letter capitalized (e.g., `BirthDate`).
+  - **Roles**: Lowercase letters.
+
+- **Naming Based on Descriptions**
+  - Nouns in narratives often lead to entity type names.
+  - Verbs suggest relationship type names.
+  - Additional nouns (that describe the main nouns) often indicate attribute names.
+
+- **Readability of ER Diagrams**
+  - Aim to make ER diagrams readable from left to right and top to bottom.
+  - **Example**: 
+    - Initially, the relationship was named `DEPENDENTS_OF`, reading from `DEPENDENT` (bottom) to `EMPLOYEE` (top).
+    - For top to bottom readability, it could be renamed `HAS_DEPENDENTS`, meaning an `EMPLOYEE` (top) `HAS_DEPENDENTS` (relationship) of type `DEPENDENT` (bottom).
+
+#### 3.7.3 Design Choices for ER Conceptual Design
+
+- **Conceptual Design Ambiguities**
+  - Challenges may arise when deciding if a concept should be modeled as an entity type, attribute, or relationship type.
+
+- **Iterative Refinement Process**
+  - Begin with an initial design, then iteratively refine until the best design is achieved.
+
+- **Refinements in Conceptual Design**
+  - **Example**: 
+    - A concept might first appear as an attribute but then get refined into a relationship if found to reference another entity type.
+    - Two attributes, which are inverses of one another, can evolve into a binary relationship.
+
+---
+
+## "OPTIONAL READ" | 3.7.4 Alternative Notations for ER Diagrams
+
+![DB32](./static/DB_32.png)
+
+- **Variety of ER Diagram Notations**
+  - Multiple diagrammatic notations exist for representing ER diagrams.
+  - **Popular Notations**: Detailed in Appendix A.
+  - **UML Notation**: Introduced in Section 3.8 as a standard for conceptual object modeling.
+
+- **Alternative ER Notation: (min, max) Notation**
+  - An alternative to the traditional cardinality ratio **( 1:1, 1:N, M:N )** and participation constraints (single/double-line).
+  - **How it Works**:
+    - For an entity type `E` participating in a relationship type `R`, associate a pair of integers `(min, max)`.
+    - Constraints: \(0 \leq \text{min} \leq \text{max}\) and \(\text{max} \geq 1\).
+    - The numbers represent how many relationship instances an entity `e` in `E` must participate in `R` at any time.
+  - **Interpretation**:
+    - `min = 0`: Partial participation of the entity.
+    - `min > 0`: Total participation of the entity.
+
+![DB36](./static/DB_36.png)
+
+</details>
+
+---
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Section 3 | IN LECTURE MATERIAL
   </summary>
 
 </details>
