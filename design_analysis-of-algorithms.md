@@ -405,6 +405,21 @@ This is trivially the proof...
 
 ![SUB_2](./static/DSA_SUB_2.png)
 
+---
+
+### General Conventions & Information for Substitution
+
+![SUB_2](./static/DSA_sub_0.png)
+
+**NOTE:**
+Once again, we get to name and choose the constant **𝑐** in the inductive hypothesis. And we also get to name and choose the constant **𝑑** that we subtract off.
+
+Also, you must only substract constant along with a Big Theta term if and only if the constant is larger than ur Big Theta term *(Example of d = 2, which is larger than Theta of 1)* 
+
+![SUB_C](./static/DSA_sub_cont.png)
+
+TODO: lec 4, slide 20+
+
 </details>
 
 
