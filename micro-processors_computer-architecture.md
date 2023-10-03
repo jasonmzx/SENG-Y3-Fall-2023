@@ -252,9 +252,11 @@ These **Interrupt Service Routines** are usually proprietary systems, that's why
 </details>
 
 ---
+## Lecture 2. 
+
 
 <details>
-<summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2. | Memory Locations and Addresses</summary>
+<summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Memory Locations and Addresses</summary>
 
 - Memory consists of many **Millions** of cells
 - Each cell holds **1 bit** of information. *(HI or LOW)*
@@ -349,7 +351,7 @@ Let's say you want to write the value 42 into memory address 2000 in your comput
 </details>
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2. | Instructions and Instruction Sequencing</summary>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Instructions and Instruction Sequencing</summary>
 
 - Tasks like Adding two numbers, Testing for conditionals, I/O (keyboard input, screen output)
 
@@ -402,29 +404,9 @@ Instructions and Instruction Sequencing
 Lec 2 ; Page. 16+ TODO
 </details>
 
----
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lab 1 Pre-lab</summary>
-
-https://cpulator.01xz.net/
-
-**Your preparation should include the following:**
-Derive the machine code representation for the instruction `blt r7, r8, LOOP`:
-
-![mpl_1](./static/MPL_1.png)
-
-Looks like a Branch Statement that checks **branch if less than (signed)** checks if a signed number is lesser than another signed number.
-
-If the value in `r7` is less than the value in `r8` *(signed comparison)*, then the program will branch to the label **LOOP**.
-
-
-</details>
-
----
-
-<details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2. | Addressing Modes</summary>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Addressing Modes</summary>
   
   Processor Formats
 
@@ -501,7 +483,7 @@ In many assembly programs, especially those intended to be standalone (not part 
 </details>
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2. | EX. 1, EX. 2, EX. 3</summary>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">EX. 1, EX. 2, EX. 3</summary>
 
 # Example 1
 
@@ -510,12 +492,14 @@ In many assembly programs, especially those intended to be standalone (not part 
 ---
 # Example 2
   ![mcpaex2](./static/MCPA_EX2.png)
+  ![MCPA_EX2_0](./static/MCPA_EX2_0.png)
 
+  **Under the line**, I wrote some basic Pseudo-code for this Example, it helped me understand the functionality
 </details>
 
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 2. | EX. 4 && EX. 5 (Sub-routines & Stack)</summary>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">EX. 4 && EX. 5 (Sub-routines & Stack)</summary>
  
 # Example 4
 
@@ -541,6 +525,30 @@ When the subroutine is ready to return, it loads the value from the *Link Regist
 </details>
 
 <details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Shifting & Rotation</summary>
+
+  #### Digit Packing Example (With Logical Shift Left)
+
+  ![MCPA_dp](./static/MCPA_dp.png)
+
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Dealing with 32-bit Immediate Values</summary>
+
+  **Immediate** and **Absolute** modes in RISC-style cpus restrict operand size to 16 bits.
+  Therefore; 32-bit value can't be given explicitly in a single instruction, as it can't fit it...
+
+  ### How do we do it then?
+  To construct 32-bit immediate values or addresses, use two instructions in sequence:
+
+  ![MCPA_32bit](./static/MCPA_32bit.png)
+
+</details>
+
+
+
+<details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Stacks & Stack Pointer</summary>
 </details>
 
@@ -555,6 +563,24 @@ When the subroutine is ready to return, it loads the value from the *Link Regist
 
 </details>
 
+---
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lab 1 Pre-lab</summary>
+
+https://cpulator.01xz.net/
+
+**Your preparation should include the following:**
+Derive the machine code representation for the instruction `blt r7, r8, LOOP`:
+
+![mpl_1](./static/MPL_1.png)
+
+Looks like a Branch Statement that checks **branch if less than (signed)** checks if a signed number is lesser than another signed number.
+
+If the value in `r7` is less than the value in `r8` *(signed comparison)*, then the program will branch to the label **LOOP**.
+
+
+</details>
 
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">ASM Self Study</summary>
@@ -597,3 +623,4 @@ This program would just decrement r3 till it was Greater or Equal to r20 (value 
 ---
 
 </details>
+
