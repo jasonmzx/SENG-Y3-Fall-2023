@@ -579,3 +579,225 @@ _*PROF WANTS CONSISTENCY WITH VIEWS!*_
 
 
 </details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 4. (September 22) </summary>
+
+UML is a modelling language, can be exported to other UML, or Ideally, code!
+
+**UML Stereotypes**
+
+**TL;DR:** UML stereotypes are a way to extend the Unified Modeling Language (UML) with custom, domain-specific information. They allow you to define specialized properties and behaviors for UML elements, enhancing the modeling capabilities for specific technical needs. Stereotypes are typically represented using guillemets *(<< >>)* in UML diagrams.
+
+**Technical Example:**
+Imagine you're designing a software system for a robotic control application. You can use UML stereotypes to add specific attributes or methods to the standard UML class diagram. For instance:
+
+1. **Stereotype Definition:**
+   Define a stereotype <<Robot>> to extend UML classes for your robotics domain.
+
+2. **Stereotyped Class:**
+   Apply this stereotype to a class named <<RobotController>>.
+
+3. **Specialized Attributes:**
+   Add specialized attributes like <<batteryLevel: double>> and <<sensorData: SensorReading[]>> to represent robot-specific data.
+
+4. **Custom Methods:**
+   Introduce custom methods like <<moveTo(x: double, y: double): void>> and <<scanEnvironment(): Map>> to define robot-specific behaviors.
+
+By using stereotypes, you've tailored UML to better represent the intricacies of your robotic system, making it easier for fellow engineers to understand and work with your design.
+
+
+**UML Component Example**
+
+
+**UML Components and the Course**
+
+- Adopt Package Notation *(coming up)*
+  - For us, Architecture is an Abstraction, I don't need component details, but rather how the pkg interacts.
+
+- Boil down the Architecture down to Packages, and known *"Folders"*
+
+**UML Package Notation**
+
+![SD package](./static/SD_pkg.png)
+
+We'll see Dependencies from Packages to other Packages (*Core Pkgs*)
+
+**Design Question** : Package Question
+**3D Box UML** is for Deployment Model
+
+### POS Deployment (Point of Sale)
+
+![SD POS](./static/SD_POS.png)
+
+*This is similar to REST*
+
+**TL:DR**
+
+Ways of Modelling Architecture:
+
+- Natural Language
+- Informal Graphical (Box & Line) *Ambigious*
+- UML
+
+
+### Exercise #2 Info.
+
+**2.A** Use Natural Language Notation to start design of Architecture *(Must capture all CashRegister Reqs)*
+
+**2.B** Use Package Architecture to Showcase this, as a Package UML Diagram.
+
+</details>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 5. September 27th </summary>
+
+
+  **Exercise 2 (coming back)**
+
+  - Requirements
+    - Formal and more "set it stone"
+  
+  - Use Cases, they are like a *story*
+    - Functionality, what's going on in the Software?
+
+  **Design from Scenarios**
+  - Requirements that fit into Use Cases
+
+**Liscano goes to McDonalds**, does he need an entity for himself? No more like the `Client Ordering System`
+
+**Liscano** Cares most about the actual Software Design & Arch. Process, if you can justify a decision using the correct Design Process, prof can't mark you wrong. *(Unless it's really bad ofc)*
+
+---
+
+## Architectural Patterns and Styles
+
+- We talk about a "Higher-Level" design, not really talking about Classes really...
+- Example **M.V.C** Model, View, Controller
+
+- "Software Architectural Style" is a specific method of construction, characterized by the features that make it notable.
+- "Style" & "Pattern" are generally used inter-changably
+
+![dssa](./static/SD_dssa.png)
+
+
+**Function-strong Architecture**
+- Pipe and Filter *(Ocilloscope Design)*
+  - Data Flow, get's pipelined, based on what u wanna see 
+
+**Data Driven Problem**
+- Publish / Subscribe
+- Event Driven
+- Blackboard
+- Data: What & How the Systems "Remembers" Data for the user 
+
+---
+
+## Layered Style
+
+**Hierachical System**
+- Layers of Dependencies go "Top" to "Bottom" 
+- Each Layer has a certain functionality 
+  - Client Layer, Service Consumer, of layers below
+  - Server Layer, *service provider* to layers above
+
+*IMPORTANT:*
+Help put modules that are highly/tightly Coupled together into a Layer
+
+**Disadvantages of Layered Style**
+- In a sense, you're seperating modules by layers, and if a module in Layer A is calling something in Layer B.
+- In high performance, the Layers will get blurred, as Modules in different layers can get heavily coupled.
+
+**MENTI Q: Is Layered Architecture easily Modifiable?**
+
+- True, since the interface between the layers are known, therefore intra-layer modifications are easily, but **Breaking** the architecture, in general, is costly...
+
+## Three-Tier Architecture *Mainly used in Web*
+
+*Ideally we always _REDUCE_ Dependencies*
+
+![3T](./static/SD_3t.png)
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 6. September 29th </summary>
+
+### Model View Controller (M.V.C)
+
+- Objective is to seperate Components which are used for Presentation *(Front-Facing)* and backend functionality
+
+**Model:**
+Portions of a program that realize problem domain function.
+- Holds data and operations for achieving the computational
+goals of the program independent of its user interface
+
+- Business Logic, Actual CORE of application, change states 
+
+**View:**
+A way to display a component
+- Data displayed in views come directly from one or more
+models (i.e. labels and graphics)
+
+- Reflects State of the Model *(View of State)*
+
+**Controller:**
+Components receive and carry out commands from users
+- Controllers may alter views or models (i.e. buttons, scrollbars)
+
+- Input from User onto the System.
+
+--- 
+
+
+![MVC](./static/SD_200.png)
+
+**Problem:**
+
+Places Dependency from Model to View *(As View is calling an API)*
+
+Model is general a much Higher-level concept, to a lower level concept (VIEW)
+
+Once the View is changed, now the Model needs to change!
+
+**Change Notification** Allows for Dependency Inversion?
+
+**MVC Static Structure Follows a Layered Style**
+
+![MVC1](./static/SD_201.png)
+
+Write me a program that takes in user input:
+
+Input goes into Controller Side, And the view is updated to move the character.
+Ideally the View & Controller will usually be tightly coupled.
+---
+
+**Controller** & **View** is very easy to couple, as It's usually obsorbing the View's inputs and save to frontend "State"
+
+
+## The Publish-Subscribe Pattern
+
+The relationship between View and Model
+
+Model is a Subscriber (View) to Publisher (Model) pattern **KNOWN AS OBSERVER PATTERN**
+
+
+## GOOD MVC MODEL !
+
+![MVC2](./static/SD_202.png)
+
+*Diamonds* Indicate Tight Coupling of Components, kind of like Containment Concept
+
+---
+
+### Django uses | Model, Template, View
+
+![MVC1](./static/SD_203.png)
+
+---
+
+*Notes for Exercise 3:*
+
+Drop the Hardware Abstraction Layer
+
+</details>
