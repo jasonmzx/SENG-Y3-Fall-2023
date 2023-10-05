@@ -1204,3 +1204,34 @@ In ER diagrams the emphasis is on representing the schemas rather than the insta
   </summary>
 
 </details>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Section 5 | In Lecture
+  </summary>
+
+  **Like** Clause; Address Like %Houston,TX% 
+  - Searching sub-string within main string
+
+  **WHERE** Bdate **LIKE** 195_ *(All people born in the 50s)*
+
+
+  Review for Select (main clause for queries)
+
+  **SELECT** |DISTINCT| *(Only unique rows)*, by default it's |ALL|
+  **FROM** Tbl-name
+  **WHERE** Condition
+  **GROUP BY** Group based on a given condition (Group by all Name's that start with J)
+  **HAVING** condition (filter groups)
+
+---
+SELECT * FROM
+
+SELECT Fname, Lname FROM Employee E WHERE E.FName = "";
+
+
+`FROM Employee E, Employee E2 WHERE E2.Fname = "Franklin" AND E2.Lname = "Wong" AND E.super_ssn = E2.ssn;`
+
+</details>
+
+`FROM Course C, Section S WHERE S.Instructor = "King" AND S.year = 07 AND C.course_number = S.course_number`
