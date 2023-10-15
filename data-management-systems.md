@@ -1197,7 +1197,6 @@ In ER diagrams the emphasis is on representing the schemas rather than the insta
 
 </details>
 
----
 
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Section 3 | IN LECTURE MATERIAL
@@ -1205,6 +1204,22 @@ In ER diagrams the emphasis is on representing the schemas rather than the insta
 
 </details>
 
+---
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Section 4 
+  </summary>
+
+  ## The Enhanced Entity-Relationship (EER) Model
+
+  ### 4.1 Subclasses, Superclasses and Inheritance
+
+  
+
+
+</details>
+
+---
 
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Section 5 | In Lecture
@@ -1232,6 +1247,6 @@ SELECT Fname, Lname FROM Employee E WHERE E.FName = "";
 
 `FROM Employee E, Employee E2 WHERE E2.Fname = "Franklin" AND E2.Lname = "Wong" AND E.super_ssn = E2.ssn;`
 
-</details>
-
 `FROM Course C, Section S WHERE S.Instructor = "King" AND S.year = 07 AND C.course_number = S.course_number`
+
+</details>

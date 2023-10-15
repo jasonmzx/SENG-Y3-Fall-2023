@@ -527,7 +527,11 @@ When the subroutine is ready to return, it loads the value from the *Link Regist
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Shifting & Rotation</summary>
 
-  #### Digit Packing Example (With Logical Shift Left)
+
+
+
+  ---
+  ### Digit Packing Example (With Logical Shift Left)
 
   ![MCPA_dp](./static/MCPA_dp.png)
 
@@ -568,18 +572,16 @@ When the subroutine is ready to return, it loads the value from the *Link Regist
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lab 1 Pre-lab</summary>
 
-https://cpulator.01xz.net/
+  https://cpulator.01xz.net/
 
-**Your preparation should include the following:**
-Derive the machine code representation for the instruction `blt r7, r8, LOOP`:
+  **Your preparation should include the following:**
+  Derive the machine code representation for the instruction `blt r7, r8, LOOP`:
 
-![mpl_1](./static/MPL_1.png)
+  ![mpl_1](./static/MPL_1.png)
 
-Looks like a Branch Statement that checks **branch if less than (signed)** checks if a signed number is lesser than another signed number.
+  Looks like a Branch Statement that checks **branch if less than (signed)** checks if a signed number is lesser than another signed number.
 
-If the value in `r7` is less than the value in `r8` *(signed comparison)*, then the program will branch to the label **LOOP**.
-
-
+  If the value in `r7` is less than the value in `r8` *(signed comparison)*, then the program will branch to the label **LOOP**.
 </details>
 
 <details>
