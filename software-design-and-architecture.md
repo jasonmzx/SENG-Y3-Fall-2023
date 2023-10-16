@@ -653,7 +653,6 @@ Ways of Modelling Architecture:
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 5. September 27th </summary>
 
-
   **Exercise 2 (coming back)**
 
   - Requirements
@@ -801,3 +800,179 @@ Model is a Subscriber (View) to Publisher (Model) pattern **KNOWN AS OBSERVER PA
 Drop the Hardware Abstraction Layer
 
 </details>
+
+---
+
+## Midterm 1 Study
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Review from Software Principles</summary>
+
+# Coupling
+
+**Definition**:
+Coupling refers to the degree to which one class or module is dependent on another. Low coupling is often desirable because it promotes module independence and increases the reusability of modules.
+
+**Example**:
+Suppose we have two classes **ClassA** and **ClassB**. If **ClassA** contains an instance of **ClassB**, and any change in **ClassB** requires a change in **ClassA**, then these classes are said to be highly coupled.
+
+```java
+class ClassB {
+    void methodB() {
+        // Some logic
+    }
+}
+
+class ClassA {
+    private ClassB b;  // ClassA has a direct dependency on ClassB
+    void methodA() {
+        b.methodB();  // Uses method from ClassB
+    }
+}
+```
+
+---
+
+# Cohesion
+
+**Definition:** Cohesion refers to how closely the responsibilities of a module or class are related to each other. It's about how single-focused a module is in terms of its responsibility.
+
+**Desired Level:** High. Higher cohesion is better as it means a module or class has a single, well-defined responsibility.
+
+#### Example 1: Low Cohesion
+A class that handles both user authentication and printing reports. These are two very different responsibilities, making the class have low cohesion.
+
+```java
+class UserAndReports {
+    void authenticateUser() {
+        // Authentication logic
+    }
+    
+    void printReport() {
+        // Print report logic
+    }
+}
+```
+
+#### Example 2: High Cohesion (IDEAL)
+Two classes, one dedicated to user authentication and the other to printing reports. Each class has a single responsibility, demonstrating high cohesion.
+
+```java
+class UserAuthentication {
+    void authenticateUser() {
+        // Authentication logic
+    }
+}
+
+class ReportPrinter {
+    void printReport() {
+        // Print report logic
+    }
+}
+```
+
+**In Summary:** Cohesion is about keeping related functionalities together, ensuring a module or class does one thing and does it well.
+
+</details>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Architecture Patterns and Styles | Notes</summary>
+
+
+## Layered Architecture Style
+
+- **Hierarchical system organization**
+  - "Multi-level client-server"
+  - Each layer exposes an interface (API) to be used by above layers
+- **Each layer acts as a**
+  - **Server**: service provider to layers "above"
+  - **Client**: service consumer of layer(s) "below"
+- **Connectors are protocols of layer interaction**
+- This is really the same as the **"N-tier"** style
+  - Example: operating systems
+  - **Virtual machine** style results from fully opaque layers
+
+#### When to Use the Layered Style
+- Layers have the following characteristics:
+  - Each layer is **highly cohesive** *(Single responsibility)*
+  - Layers provide natural support for information hiding *(i.e. DBMS)*
+  - Layers are constrained to use only lower layers (eliminate coupling of layers above them)
+  - Layering helps dividing big problems into smaller separate modules (layers)
+  - Easy to modify (i.e. changes made to one layer are independent of the rest of the program)
+    - In fact, one can remove an entire layer and replace it with a functionally equivalent component
+  - Layered architectures are **highly changeable**
+
+---
+
+## Attribute-Driven Design (ADD) Overview
+
+ADD is a method that encapsulates many of the software design techniques that are commonly practiced. It follows an iterative approach, emphasizing the importance of architecturally significant requirements. Here's a basic flow:
+
+1. **Iterative Process**
+   - At each iteration, you:
+     - Choose a part of the system to design.
+     - Marshal all the architecturally significant requirements for that part.
+     - Generate and test a design for that part.
+
+2. **Design Composition**
+   - ADD doesn't always lead to a full design but instead focuses on:
+     - Defining sets of containers with distinct responsibilities.
+     - Determining the interactions and information flow among these containers.
+
+3. **API and Signature**
+   - ADD doesn't directly produce an API or signature for the containers. Instead, it primarily focuses on defining interfaces at a higher package level.
+
+## ADD Inputs and Outputs
+
+The ADD process takes in certain requirements and transforms them to achieve desired outputs:
+
+**Inputs**:
+- Functional requirements
+- Quality
+- Constraints
+
+**Outputs**:
+- Containers that have:
+  - Responsibilities
+  - Interactions
+  - Information flow
+
+## Steps in ADD
+
+The ADD methodology is executed in a series of steps to ensure a thorough and well-thought-out design:
+
+1. **Review Inputs**: Start by understanding the design objectives, primary functional requirements, quality attribute scenarios, constraints, and concerns.
+2. **Establish Iteration Goal**: This is done by selecting the primary drivers.
+3. **Decompose the System**: Choose one or more elements of the system that need decomposition.
+4. **Design Concepts Selection**: Choose one or more design concepts that align with the selected drivers.
+5. **Instantiate Architectural Elements**: This step involves defining interfaces and allocating responsibilities to the architectural elements.
+6. **Sketch Views and Record Decisions**: It's essential to document the design decisions made.
+7. **Review and Analysis**: Analyze the current design and review it against the design objectives to ensure they align.
+
+The final output is a well-defined software architecture design.
+
+---
+
+**1. Greenfield systems in mature domains:** 
+- These are systems that are being developed from scratch *(hence "Greenfield")* but in a domain that is already well-established and understood.
+- **Example:** Developing a new e-commerce application for a business. While the application is new, e-commerce as a domain has established patterns, technologies, and architectures.
+
+**2. Greenfield systems in novel (new) domains:** 
+- Systems that are developed from scratch in a domain that hasn't been thoroughly explored before.
+- **Example:** Building a software system for a new kind of wearable tech that integrates with human biometrics in ways never done before.
+
+**3. Brownfield systems:** 
+- These systems already exist and might need updates, modifications, or integration with other systems.
+- **Example:** Updating an old inventory management software to integrate with modern cloud-based CRM systems.
+
+</details>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Architectural Drivers | Notes</summary>
+
+
+</details>
+
+
