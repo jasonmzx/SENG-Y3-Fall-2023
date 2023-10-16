@@ -178,6 +178,205 @@ Scripting uses an Interpreter
 
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Introduction to Shell Scripting</summary>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Week 5 | System Calls</summary>
+
+## Linux System Calls
+
+### Introduction
+- Application programs communicate with the OS for services such as:
+  - File creation
+  - Process duplication
+  - Interprocess communication (IPC)
+- This is done via `system calls`.
+- For developers, system calls are similar to libraries but invoke subroutines directly in Linux.
+
+### System Calls Overview
+- Act as an interface to services provided by the OS.
+- Allow programs to request services from the OS kernel.
+- Implemented as routines in C and C++.
+
+#### Categories of System Calls
+1. **File Management**:
+   - Linux considers IPC as a subset of file management because it treats IPC mechanisms as special files.
+2. **Process Management**:
+3. **Error Handling**:
+
+### File Management System Call Hierarchy
+- Includes operations like:
+  - Opening, closing, reading, writing files.
+  - Managing sockets and directories.
+
+### Process Management System Call Hierarchy
+- Involves operations related to:
+  - Process creation, termination.
+  - Signal handling.
+
+---
+
+# Error Handling with `perror()`
+
+`perror()` is used for system call error handling in C, it's a good practice to use, instead of the conventional return -1.
+
+Lib fn: `void perror(char* str)` A void function, which takes a string *(array of chars)* as param str
+
+## Key Points:
+- System calls may fail, and by convention, they return `-1` on error.
+- The global variable `errno` stores the numeric error code from the last system call.
+- `perror()` provides a description of system call errors based on `errno`. *(Better than an Ambigious -1)*
+- `perror()` **IS NOT** a system call, it's a STD library method
+
+## Example:
+
+```c
+#include <stdio.h>
+#include <errno.h>
+
+int main() {
+    FILE *fp;
+
+    fp = fopen("nonexistent.txt", "r");
+    if(fp == NULL) {
+        perror("Error");
+        printf("Error code: %d\n", errno);
+    }
+    
+    return 0;
+}
+```
+
+**Output:**
+```
+Error: No such file or directory
+Error code: 2
+```
+
+Here, `perror("Error")` prints the string "Error" followed by a colon and the system's error message corresponding to the current value of errno, which is set to 2 indicating "No such file or directory". 
+
+---
+
+## File Management
+
+- File system calls let you work with files, directories, and special files.
+- The `open()` call accesses or creates files.
+
+### File Descriptors
+- A returned integer called a **file descriptor** is used for I/O operations on the file.
+- On success, `open()` returns a file descriptor. On failure, it returns `-1`.
+- Standard I/O Channels:
+  - `0`: standard input (`stdin`)
+  - `1`: standard output (`stdout`)
+  - `2`: standard error (`stderr`)
+
+### Basic Linux I/O Operations
+- `open`: Opens or creates a file.
+- `read`: Reads bytes from a file.
+- `write`: Writes bytes to a file.
+- `lseek`: Seeks within a file.
+- `close`: Closes a file.
+- `unlink`: Removes a file.
+
+### Using `open()` & `close()`
+The `open()` call has the following signature:
+```c
+int open(const char *fileName, int mode[, int permissions]);
+```
+
+#### Where:
+
+**fileName:** Path to the file.
+**mode:** Bitwise OR'ing of read/write flags with other flags.
+**permissions:** Used when a file is being created.
+
+`close()` frees the file descriptor *(fd)*
+If successful, it will return `0` upon closing.
+
+#### EXAMPLE:
+```c
+#include <fcntl.h>
+#include <unistd.h>
+
+int main() {
+    int fd;
+    fd = open("sample.txt", O_WRONLY | O_CREAT, 0644);
+    if (fd == -1) {
+        // Handle error, maybe with perror?
+        return 1;
+    }
+    write(fd, "Hello, World!", 13);
+    close(fd);
+    return 0;
+}
+```
+
+**O_RDONLY :** Open for Read-Only
+**O_WRONLY :** Open for Write-Only
+**O_RDWR :** Open for read, and write
+
+---
+
+## Process Management in Linux
+
+### Overview
+- **Linux Process**: An instance of a program with:
+  - Code (text)
+  - Data
+  - Stack
+  - Unique Process ID (PID)
+- **Init Process**: The first process with PID 1.
+
+### Process Creation
+- Processes are created by duplicating an existing process.
+- `"init"` is the ancestor of all processes.
+- Child processes inherit code, data, and stack but can execute different code.
+
+**Example in C (forking a process)**:
+```c
+#include <stdio.h>
+#include <unistd.h>
+
+int main() {
+    pid_t pid = fork();
+
+    if (pid == 0) {
+        printf("Child process with PID: %d\n", getpid());
+    } else {
+        printf("Parent process with PID: %d\n", getpid());
+    }
+    return 0;
+}
+```
+
+#### Process Termination
+A child's termination is communicated to its parent.
+Parent processes can suspend until a child terminates.
+
+**Example in C (waiting for a child):**
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+int main() {
+    pid_t pid = fork();
+
+    if (pid == 0) {
+        printf("Child sleeping...\n");
+        sleep(2);
+        printf("Child done.\n");
+    } else {
+        wait(NULL);
+        printf("Parent resumes after child's completion.\n");
+    }
+    return 0;
+}
+```
+
+---
+
+![fork](static/SYS_1.png)
+
+![getpid](static/SYS_2.png)
+
+TODO: Slide 33+ (How a shell runs a utility on)
 
 </details>
