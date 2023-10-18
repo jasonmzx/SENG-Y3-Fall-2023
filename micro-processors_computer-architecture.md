@@ -626,3 +626,94 @@ This program would just decrement r3 till it was Greater or Equal to r20 (value 
 
 </details>
 
+---
+
+## Lecture 3.
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">
+  IO Devices & Interrupts
+  </summary>
+
+## Accessing I/O Devices
+
+Computers can exchange both digital and analog data with various devices.
+
+### Input Sources:
+- Sensor switch
+- Digital camera
+- Microphone
+- Fire alarm
+- Analog-to-Digital Converter
+
+### Output Methods:
+- Display on monitor
+- Sound to speaker
+- Digital commands (e.g., controlling motors or robots)
+- Digital-to-Analog Converter
+
+---
+
+## Interconnection in Computer Systems
+
+Computer components communicate via an **Interconnection network**:
+- Enables transfer of data between processor, memory, and I/O devices.
+- Concepts of memory access and address spaces are applicable here.
+
+  ![mcpaio1](./static/MCPA_IO_1.png)
+
+---
+
+## Signaling Protocol for I/O Operations
+
+### Output Process:
+1. Processor sends the first character to the display.
+2. Processor waits for a signal from the display to send the next character.
+3. This process repeats for each character.
+
+### Input Process:
+1. Processor waits for a signal indicating a keypress.
+2. Once signaled, the processor reads the binary code for the character from the I/O register associated with the keyboard.
+
+### Keyboard Mechanics:
+- Generates a binary code corresponding to the key pressed.
+- Assumes use of ASCII code where each character code occupies one byte.
+- **KBD_DATA**: Address label of 8-bit register holding the generated character.
+- **KIN**: Flip-flop in the 8-bit status register (KBD_STATUS) indicates a keypress.
+- Processor checks **KIN** to determine when a character code is in **KBD_DATA**.
+- Checking **KIN** is referred to as the processor "polling" the I/O device.
+
+### Display Mechanics:
+- Contains an 8-bit register called **DISP_DATA** for receiving characters.
+- Uses a status flag **DOUT** in **DISP_STATUS** to indicate readiness to receive the next character.
+
+
+---
+### Program-Controlled I/O
+Program-controlled I/O is a method where the processor is actively involved in managing I/O operations. Two code examples, one in RISC-style and another in CISC-style, demonstrate how to read characters from the keyboard and display them on the screen.
+
+### RISC-Style I/O Program:
+
+In the RISC-style program, a loop continuously checks the status of the keyboard and display devices.
+It uses instructions like LoadByte, And, and Branch to read and display characters.
+The processor remains busy waiting for I/O devices, which can be inefficient.
+
+### CISC-Style I/O Program:
+
+The CISC-style program directly transfers characters from the keyboard to memory and from memory to the display.
+Instructions like MoveByte and CompareByte are used.
+The program is more efficient because it performs I/O operations directly with memory and uses a special instruction to check the state of I/O devices.
+Interrupts
+The text briefly mentions interrupts as an alternative to program-controlled I/O. Interrupts are a mechanism where the processor can be interrupted by external events, such as I/O device signals or timer events. When an interrupt occurs, the processor temporarily suspends its current task, saves its state, and jumps to an interrupt service routine to handle the event.
+
+Interrupts can help avoid wasting processor time in wait loops, as seen in program-controlled I/O. Instead of actively polling devices, the processor can respond to events as they happen, making the system more efficient and responsive.
+
+In summary, program-controlled I/O methods involve continuous processor involvement in I/O operations, which can be inefficient. Interrupts provide an alternative approach, allowing the processor to respond to events as they occur, making the system more efficient and responsive.
+
+###polling 
+refers to the process of checking the status or condition of a device or input source at regular intervals. In the context of I/O operations, polling involves actively and repeatedly checking the status of an input device, like the keyboard in the example you provided, to determine if there is data or an event to be processed. This is typically done using conditional checks, such as checking the state of flags or status registers, like the "KIN" flag in the "KBD_STATUS" register in your example, to see if they indicate that new data is available.
+
+**Polling** can be resource-intensive because it requires the processor's constant attention, potentially wasting processing time when there's nothing to process.
+
+Interrupts, as an alternative approach, provide a more efficient way of handling I/O. Instead of polling, interrupts allow the processor to be notified by the device when it has data or an event to process. This way, the processor is only active when there's actual work to be done, and it can efficiently respond to events as they occur, rather than repeatedly checking the device's status.
+</details>
