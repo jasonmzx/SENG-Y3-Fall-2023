@@ -459,3 +459,15 @@ You can use Masters Theorem if:
 ![DSA_MAT_MULL_1](./static/DSA_MAT_MUL_1.png)
 
 </details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Midterm Review | Oct 17. </summary>
+
+### Other Midterm's Masters Theorem
+
+![DSA_MAT_MT_1](./static/DSA_MT_1.png)
+
+![DSA_MAT_MT_2](./static/DSA_MT_2.png)
+
+
+</details>

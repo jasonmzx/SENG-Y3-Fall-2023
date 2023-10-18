@@ -976,3 +976,109 @@ The final output is a well-defined software architecture design.
 </details>
 
 
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 7. October 6th </summary>
+
+  ## Architecture Design Methods
+  - Way to look at arch. design; Drivers !
+    - Rational Unified Process *(Class Diagrams, Focus on specific design)*
+    - Attribute-Driven Design *(Developped at CMU's software group)*
+    
+  ## A.D.D
+  - Interactions, using Interfaces
+
+
+
+
+  - Exam Hint: In most cases in exam, Open-ended A.D.D Question
+  - Generally gives us an existing system | *Brownfield systems* is used to modify
+  - Add this functionality onto the brownfield system, re-vamp it
+
+  - *Greenfield systems* is in mature domains
+
+  ## Mature Domains vs Noval Domains:
+
+  - Novel Domains, emphasis on Prototyping and getting it right
+    - Still involves lots of R&D
+
+  - Mature Domains, *Greenfield systems* is in mature domains
+
+  ---
+
+
+![Ref Arch](./static/SD_105.png)
+
+Nowadays: We use frameworks, this kind of molds our **Architecture**
+
+- Deployment Patterns : Tiers
+- What's external : Database, etc...
+
+**DESIGN AGAINST USE CASES** As Use Cases capture Requirements *(and more)*
+
+"Tactics" Are use to solve Quality Attributes, for Quality Requirements
+
+**Know your Tactics** 
+
+---
+
+Use Cases are very important, in **Agile** they use Scenario.
+
+Final Principal Use Cases in the Requirements, Sign Up is like a sub-use-case don't elaborate on it....
+
+**Constraints** Something you need to adopt, and work arround in the System
+
+
+### Architectural Concerns
+EX: My team knows Java, so when we write the API, it will be JAX-RS or Spring *(In Java)*
+
+Concerns that Devs have on general Feasiblity
+
+
+
+
+
+</detail>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Assignment #2 | Talk </summary>
+
+
+
+</details>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">FCAPS Elaborations</summary>
+
+- Can't build anything, unless you build use-cases
+  - What's the functionality of a system? Use Cases!
+  - Giving Use-Case; **Title & Description**
+  - Informal use cases (like FCAPS) capture Quality Attributes aswell
+
+- Requirements aren't use-cases, but are related to use-cases. Requirements are met via Use-cases
+
+- For Smaller Systems, you built straight from Use-Cases 
+
+- Gotta get your Quality in there *(Quality Attributes)*
+
+**Make sure you get Quality Attributes out of Client**
+- *EX:* QA-1 : Performance : 100% of traps are processed and stored
+
+- Need to Quantify some Quality Attributes that are "Awkward"
+  - **How long do you want your system to be down?** Ideally they don't, but if it happens it should reset in under 1 SECOND
+
+- Constraint are straight-forward; *(Some Functional, Some Quality)*
+  - OS / Application Compatibility Requirements
+    - Works on WIN10, OSX, on Chromium and Firefox   
+
+- **Concerns:** Issues from the design team
+  - Establishing an overall initial system design *(Will it work as a whole system?)*
+  - Allocate work to members of a Dev team *(They are Java Devs, so let's use a Java Stack)*
+
+
+^ Pretty much the first deliverable
+---
+### Design Process
+
+</details>
