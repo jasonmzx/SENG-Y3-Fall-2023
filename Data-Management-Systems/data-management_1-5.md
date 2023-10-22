@@ -113,13 +113,13 @@ Transactions are critical for ensuring data consistency and integrity in a datab
 
 #### Example (UNIVERSITY DATABASE) :
 
-![DB-1](./static/DB_1.png)
+![DB-1](../static/DB_1.png)
 
 **Elaboration on "Meta-Data" in the context of DBs**
 
 In the context of databases, **"Meta-Data"** refers to data that provides information about the structure, definition, and organization of the actual data within the database. This includes details about tables, columns, data types, constraints, indexes, and more. Metadata essentially defines how the data is structured and what kind of data it contains.
 
-![DB-2](./static/DB_2.png)
+![DB-2](../static/DB_2.png)
 
 
 DB Manipulation Example:
@@ -134,7 +134,7 @@ I'll be trying to regularly annotate word related db problems into SQL cuz why n
 
 More examples from the book:
 
-![DB-3](./static/DB_3.png)
+![DB-3](../static/DB_3.png)
 
 ---
 
@@ -167,14 +167,14 @@ efficiently
 - This allows hundreds of concurrent transactions to execute per
 second.
 
-![DB-4](./static/DB_4.png)
+![DB-4](../static/DB_4.png)
 
 
 ---
 
 ### Actors on Scene
 
-![DB-5](./static/DB_5.png)
+![DB-5](../static/DB_5.png)
 
 **Actors on the Scene (Actual Database Users):**
 - **Professional Users:** Responsible for database development, design, and application.
@@ -244,7 +244,7 @@ frequently
 **Schema construct**
 - A component of the schema or an object within the schema, e.g., STUDENT, COURSE
 
-![DB-6](./static/DB_6.png)
+![DB-6](../static/DB_6.png)
 
 **NOTE**: A schema diagram displays only some aspects of a schema, such as the names of
 record types and data items, and some types of constraints. Other aspects are not
@@ -256,7 +256,7 @@ type of each data item nor the relationships among the various files.
 
 Schema is the actual Meta-data telling the DBMS how data is structured within Tables, the current data refers to actual entries
 
-![DB-7](./static/DB_7.png)
+![DB-7](../static/DB_7.png)
 
 *empty state* -> No data
 *initial state* -> Data after large load-in or something of this nature
@@ -270,7 +270,7 @@ The goal of the three-schema architecture, illustrated in Figure 2.2, is to sepa
 the user applications from the physical database. In this architecture, schemas can
 be defined at the following three levels:
 
-![DB-8](./static/DB_8.png)
+![DB-8](../static/DB_8.png)
 
 **External Level** includes many External Schemas or User Views. an External Schema describes the part of the DB that the user is interested in, or a JOIN of tables for the user *(External Schema uses representational data model to make it's own schema views)*
 
@@ -454,12 +454,12 @@ DML is responsible for data operations within a database, including:
    - Example: Voice assistants checking flight details or credit card balances.
 
 Programmer interfaces:
-![DB11](./static/DB_11.png)
+![DB11](../static/DB_11.png)
 
 ---
 ### The Database System Environment
 
-![DB10](./static/DB_10.png)
+![DB10](../static/DB_10.png)
 
 Components:
 - **The database & DBMS catalog** are usually stored on disk. Access to the disk is controlled primarily by the operating system *(OS)*, which schedules disk read/write.
@@ -573,7 +573,7 @@ Other utilities may be available for sorting files, handling data compression, m
 
 Figure 2.4 illustrates the physical components in a centralized architecture. Gradually, DBMS systems started to exploit the available processing power at the user side, which led to client/server DBMS architectures. *(Better for the DB host, and needed nowadays)*
 
-![DB12](./static/DB_12.png)
+![DB12](../static/DB_12.png)
 
 Old Computer Systems at Work used to be a bunch of Display Terminals, connected to a central computer, which housed the DBMS itself.
 Now everyone uses PC or Mobile Device, so it's different, however the figure shows the O.G style of Display Monitors connecting to the 1 DBMS!
@@ -582,8 +582,8 @@ Now everyone uses PC or Mobile Device, so it's different, however the figure sho
 The client/server architecture was developed to deal with computing environments in which a large number of PCs, workstations, file servers,
 printers, database servers, Web servers, e-mail servers, and other software and equipment are connected via a network.
 
-![DB13](./static/DB_13.png)
-![DB14](./static/DB_14.png)
+![DB13](../static/DB_13.png)
+![DB14](../static/DB_14.png)
 
 - Has **specialized servers** with specific use-cases / functionalities. for example, here we've got
   - File server: Maintains the files of the client machines.
@@ -637,7 +637,7 @@ In a three-tier setup, the application tier acts as a mediator, processing clien
 
 The concept of "n-tier" signifies multiple layers or tiers in the system architecture. Each additional tier allows for further separation of concerns, potentially making systems more modular, scalable, and maintainable. However, each added layer might introduce additional complexity.
 
-![DB15](./static/DB_14.png)
+![DB15](../static/DB_14.png)
 
 ##### Three-Tier Architecture
 
@@ -774,7 +774,7 @@ Now, consider the entities `EMPLOYEE` and `PROJECT`. While some employees might 
 --- Partial participation ---: Represented by a single line.
 
 ---
-![DB20](./static/DB_35.png)
+![DB20](../static/DB_35.png)
 
 **MANAGES:** It's a specific relationship type that associates an `EMPLOYEE` with a `DEPARTMENT` indicating that the employee manages that department. Not every employee manages a department, but every department must have a manager. That's why `DEPARTMENT`'s participation to `MANAGES` is Total, whereas the link between `EMPLOYEE` and `MANAGES` is partial... 
 
@@ -786,7 +786,7 @@ Now, consider the entities `EMPLOYEE` and `PROJECT`. While some employees might 
 
 **Using High-Level Conceptual Data Models for Database Design**
 
-![DB20](./static/DB_20.png)
+![DB20](../static/DB_20.png)
 
 **Note** We start off quite high level, "DBMS Independent" and once Implementation an storage comes into play, that's where it gets "DBMS Specific"
 
@@ -812,7 +812,7 @@ projects. Suppose that after the requirements collection and analysis phase, the
 database designers provide the following description of the *miniworld*—the part of
 the company that will be represented in the database.
 
-![DB21](./static/DB_21.png)
+![DB21](../static/DB_21.png)
 
 
 ## Loose / High-Level Mapping of our Database (High Level Phase)
@@ -849,7 +849,7 @@ ER Model describes data as:
 - Relationships
 - Attributes
 
-![DB33](./static/DB_33.png)
+![DB33](../static/DB_33.png)
 
 ### Composite VS. Simple (Atomic) Attributes
   - Composite attributes can be divided into subparts with independent meanings, forming a hierarchy if necessary.
@@ -858,7 +858,7 @@ ER Model describes data as:
   - Use composite attributes when users refer to the attribute as a unit but may also reference its components.
   - If the attribute is always referenced as a whole, it can be designated as a simple attribute.
 
-![DB34](./static/DB_34.png)
+![DB34](../static/DB_34.png)
 
 ### Single-Valued vs Multivalued Attributes
   - **Single-Valued Attributes:** Have only one value for a particular entity.
@@ -893,7 +893,7 @@ ER Model describes data as:
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Section 3.3 & 3.4
   </summary>
 
-  ![DB21](./static/DB_21.png)
+  ![DB21](../static/DB_21.png)
   
   > [!NOTE]  
   > Displays the COMPANY ER database schema as an ER diagram
@@ -901,7 +901,7 @@ ER Model describes data as:
 ### Relationship Types, Relationship Sets, Roles, and Structural Constraints
 - Can be defined as a subset of the Cartesian product of the entity Sets `E1 x E2 x ... x En` (cool xD)
 
-![DB22](./static/DB_22.png)
+![DB22](../static/DB_22.png)
 
 In ER diagrams, relationship types are displayed as diamond-shaped boxes, which
 are connected by straight lines to the rectangular boxes representing the participat-
@@ -924,7 +924,7 @@ Another example, the `SUPPLY` relationship, is ternary. In this case:
 
 Most common is Binary Relationships
 
-![DB22](./static/DB_23.png)
+![DB22](../static/DB_23.png)
 
 ## Recursive Relationships and Roles
 
@@ -934,7 +934,7 @@ For instance, within the `WORKS_FOR` relationship:
 **EMPLOYEE** might have a role such as "worker."
 **DEPARTMENT** might have a role like "employer."
 
-![DB22](./static/DB_24.png)
+![DB22](../static/DB_24.png)
 
 Consider the `SUPERVISION` relationship. Here, one `EMPLOYEE` might be another `EMPLOYEE's` supervisor. In this case:
 - The same `EMPLOYEE` entity type is involved twice in the relationship.
@@ -1115,7 +1115,7 @@ Entity types that do not have key attributes of their own are called **weak enti
 
 - **ER Diagram Representation**
 
-![WE](./static/DB_30.png)
+![WE](../static/DB_30.png)
   - Weak entities and their identifying relationships are shown with **double lines**.
   - The partial key attribute is underlined with a **dashed or dotted line**.
 
@@ -1133,7 +1133,7 @@ Entity types that do not have key attributes of their own are called **weak enti
 
 UML Diagram Standard:
 
-![UMLD](./static/DB_31.png)
+![UMLD](../static/DB_31.png)
 
 In ER diagrams the emphasis is on representing the schemas rather than the instances. This is more useful in database design because a database schema changes rarely, whereas the contents of the entity sets may change frequently. In addition, the schema is obviously easier to display, because it is much smaller.
 
@@ -1176,7 +1176,7 @@ In ER diagrams the emphasis is on representing the schemas rather than the insta
 
 ## "OPTIONAL READ" | 3.7.4 Alternative Notations for ER Diagrams
 
-![DB32](./static/DB_32.png)
+![DB32](../static/DB_32.png)
 
 - **Variety of ER Diagram Notations**
   - Multiple diagrammatic notations exist for representing ER diagrams.
@@ -1193,7 +1193,7 @@ In ER diagrams the emphasis is on representing the schemas rather than the insta
     - `min = 0`: Partial participation of the entity.
     - `min > 0`: Total participation of the entity.
 
-![DB36](./static/DB_36.png)
+![DB36](../static/DB_36.png)
 
 </details>
 
@@ -1250,3 +1250,9 @@ SELECT Fname, Lname FROM Employee E WHERE E.FName = "";
 `FROM Course C, Section S WHERE S.Instructor = "King" AND S.year = 07 AND C.course_number = S.course_number`
 
 </details>
+
+
+</details>
+
+---
+
