@@ -219,5 +219,23 @@ SET FOREIGN_KEY_CHECKS = 1;
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Section 6 | In Lecture
   </summary>
 
+Nested Queries:
+
+Get all Employees with the same salary as an Employee named Alicia.
+
+```sql
+SELECT * FROM EMPLOYEE e WHERE e.Salary = (SELECT e2.Salary FROM EMPLOYEE e2 WHERE e2.fname = 'Alicia')
+```
+
+Evaluating = to the nested query...
+
+A WHERE clause of a query may contain one or more subqueries combined using operators **AND** or **OR**
+
+```sql
+SELECT * FROM EMPLOYEE e 
+	WHERE e.Salary = (SELECT e2.Salary FROM EMPLOYEE e2 WHERE e2.fname = 'Alicia')
+	OR Salary <= (SELECT e2.Salary FROM EMPLOYEE e2 WHERE e2.fname = 'John')
+```
+![DBCS_6x1](../static/DB_6x1.png)
 
 </details>
