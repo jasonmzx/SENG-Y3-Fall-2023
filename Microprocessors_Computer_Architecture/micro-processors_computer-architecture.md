@@ -715,5 +715,140 @@ refers to the process of checking the status or condition of a device or input s
 
 **Polling** can be resource-intensive because it requires the processor's constant attention, potentially wasting processing time when there's nothing to process.
 
-Interrupts, as an alternative approach, provide a more efficient way of handling I/O. Instead of polling, interrupts allow the processor to be notified by the device when it has data or an event to process. This way, the processor is only active when there's actual work to be done, and it can efficiently respond to events as they occur, rather than repeatedly checking the device's status.
+Interrupts, as an alternative approach, provide a more efficient way of handling I/O. Instead of polling, interrupts allow the processor to be notified by the device when it has data or an event to process. This way, the processor is only active when there's actual work to be done, and it can efficiently respond to 
+events as they occur, rather than repeatedly checking the device's status.
+
+**Vector Table ?**
+
+
+
+---
+
+### The ASM Process:
+![MCPA_asmp](../static/MCPA_asmp.png)
+
+**Compiler** Translates High Level Language (C/C++/Java) into assembly source files. 
+
+**Assembler** Translates source files (*asm files*) into Object Files.
+
+**Linker** Combines all object files & libraries into a single main Object Program.
+
+**Loader** Loads everything into Memory.
+
+**Debugger** Can indentify errors for the programmer during execution. *(GDB for ex.)*
+
+
+
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">
+  BUS
+  </summary>
+
+ ### BUS : B.inary U.nit S.ystem
+
+  - Used to transfer data among the processor, memory, and I/O devices.
+  - The most common interconnection network called a bus.
+
+ ### A Single-Bus System (Serial Bus)
+
+  - Only one source/destination pair of units can use the single bus to transfer data at any one time.
+  - It consists of three sets of lines used to carry address, data, and control signals.
+  - Used for Long Communication, slow asf tho
+
+  **1 or multiple lane Bus'es, 1 or more wires**
+
+**Parallel Bus**
+  - Uses Multiple Lanes *(Especially transmittion memory address for ex.)*
+
+**Multiplexers are used to transfer larger data over small n. lanes**
+
+*Splits 32 bit value, and transfers 16 bit every clock cycle*
+
+![MCPA_asmp](../static/MCPA_MUX_11.png)
+![MCPA_asmp](../static/MCPA_MUX_12.png)
+
+### I/O Interface for an Input Device
+- Processor sends an address that's checked by all devices on the bus.
+- Matching address device responds (Read/Write).
+#### Bus Protocol
+- Requires control signals *(e.g., R/W line)*.
+- Must know when to check address and manage data.
+
+---
+
+## SYNC vs. ASYNC BUS
+
+### Synchronous Bus
+- Devices use a control line named bus clock for timing.
+- **Delays will occur from:**
+  - By bus drivers updating address or data lines.
+  - When data propagating along the bus.
+
+- Receivers need setup time to accurately get data.
+![MCPA_asmp111](../static/MCPA_bus_sync.png)
+![MCPA_asmp111111](../static/MCPA_bus_sync_1.png)
+
+Delays are inherent in this setup. When data or address information is updated by the bus drivers, there's an inherent delay. Moreover, as data travels along the bus, it incurs propagation delay due to the physical characteristics of the bus. Lastly, receivers on the bus need a certain setup time to ensure they correctly capture and process incoming data. This setup time is crucial to guarantee data integrity and prevent errors in data capture.
+
+### Async Bus 
+
+Asynchronous buses are pivotal in systems with devices operating at different speeds. They:
+
+- Allow for flexibility in design as components don't need to operate at a unified speed.
+- Prevent data loss or corruption during transmission.
+- Enhance overall system efficiency by ensuring seamless communication between the master and slave devices.
+
+Good video on ASYNC BUS
+![vid](https://youtu.be/VSoqiGwCd-Q)
+
+- Doesn't use Clock, rather a "Handshake"
+- Waits for an **ON** Masters Ready Signal
+
+**Handshake Protocol:** Facilitates communication between the master and the slave devices.
+**Timing:** Adjusts automatically to accommodate delays.
+**Data Transfer Signals:** Utilizes two main interlocked signals - Master-ready and Slave-ready.
+**Processor Action:** The processor waits for the device interface to respond before initiating the next action
+
+#### Handshaking 
+- In the realm of digital electronics, devices need to establish a common understanding before data transfer. This is done using the handshake protocol.
+- It ensures that data is transmitted and received correctly, even if both devices operate at different speeds.
+
+#### Timing Adjustments
+- Different devices might process data at varying speeds. Asynchronous buses can handle these differences by adjusting timings automatically.
+- It ensures seamless data transfer without the need for both devices to operate at the same speed.
+
+#### Data Transfer Signals
+`Master-Ready` and `Slave-ready` signals indicate when the master device is ready to send data and when the slave device is ready to receive data.
+- These signals ensure that data is not lost or corrupted during transmission. *(Important upon data transfer)*
+
+#### Processor Action
+- For efficient operation, the processor waits for the device *(like memory or I/O device)* to be ready before taking the next step. This avoids potential clashes and data loss.
+
+**Example:** Consider a person (the processor) handing over boxes to a conveyor belt (the device). The person will wait for the conveyor to be clear before placing the next box.
+
+![MCPA_asmp111111](../static/MCPA_bus_async.png)
+
+---
+
+### BUS Arbitration
+
+**Purpose:** Bus arbitration is about deciding which of the multiple devices gets control of the bus when multiple devices want to communicate. This is crucial in systems where multiple devices might need to use a shared communication bus.
+
+**Operation:** A device that wants to use the bus sends a Bus Request (BR).
+The controller, after considering all requests, grants access using the Bus Grant (BG) signal. The granted device can then use the bus for communication.
+There can be different arbitration schemes like priority-based, round-robin, etc.
+
+**Example:** Think of it as multiple people wanting to speak on a shared microphone. They signal (BR) when they want to speak. An organizer decides who gets to speak next and gives them the microphone (BG). Only the person with the microphone can speak at that moment.
+
+*ASYNC BUS VS. ARBITER*, while both asynchronous bus operation and arbitration involve coordination for communication, they serve different needs. An asynchronous bus is about coordinating timing for data transfer between two devices, while arbitration is about deciding which device gets to use the shared bus when there are multiple contenders.
+
+![MCPA_asmp111111](../static/MCPA_arbiter.png)
+
+![MCPA_asmp111111](../static/mcpa_arbiter_1.png)
+
+In this analogy, the arbiter's role is to ensure that both microphones *(masters 1 & 2)* get alternating opportunities to be heard *(transmit data)* without overlapping or causing conflict.
+
+---
 </details>
