@@ -93,7 +93,7 @@ Manjikian,
 
 <br>
 
-![MPCA](./static/mpca_1.png)
+![MPCA](../static/mpca_1.png)
 
 *Every Computer has a CPU *(Central Processing Unit)*
 
@@ -184,7 +184,7 @@ Cache gets stored into Registers on CPU *(known as Processor Registers)*
 
 ### Basic Operational Concepts
 
-![MPCA_3](./static/MCPA_3.png)
+![MPCA_3](../static/MCPA_3.png)
 
 - Hardware, Lowest Level, can't operation without system Software
 
@@ -201,7 +201,7 @@ A **32-bit** word typically holds one encoded instruction.
 
 ---
 
-![MPCA4](./static/MCPA_4.png)
+![MPCA4](../static/MCPA_4.png)
 
 Just for `C = A + B`
 
@@ -219,7 +219,7 @@ Here we assumed that **A** & **B** where already loaded in, that's why we are ju
 
 ---
 
-![MPCA](./static/MCPA_5.png)
+![MPCA](../static/MCPA_5.png)
 
 **Program Counter (PC)** : Has the Address of the Instruction to be ran Next. Since it's sequentially going down the list of Instructions.
 
@@ -268,7 +268,7 @@ These **Interrupt Service Routines** are usually proprietary systems, that's why
 
 Each Memory **byte** has distinct address
 
-![MPCA_2](./static/MPCA_2.png)
+![MPCA_2](../static/MPCA_2.png)
 
 Numbers **0** to **2^k − 1** are used as addresses
 for successive locations in the memory.
@@ -282,7 +282,7 @@ Some Processors are 32bit, meaning each **Word Length** is 32 bits
 
 Address Assignments per byte *( byte-adressable )*
 
-![m10](./static/mpca_10.png)
+![m10](../static/mpca_10.png)
 
 #### Big & Little Endian Addressing:
 
@@ -295,16 +295,16 @@ Address Assignments per byte *( byte-adressable )*
 HIGHER ORDER BYTE: `00000001`
 LOWER ORDER BYTE: `11000010`
 
-![m11](./static/mpca_11.png)
+![m11](../static/mpca_11.png)
 
 **NOTE** here `x000001C2` is stored in Big Endian in Memory
 
-![m12](./static/mpca_12.png)
+![m12](../static/mpca_12.png)
 
 #### Word Alignment:
 - Number of bytes per word is normally a power of 2
 - Word locations have aligned addresses if they begin at byte addresses that are multiples of the number of bytes in a word
-![m13](./static/mpca_13.png)
+![m13](../static/mpca_13.png)
 
 #### Memory Operations
 
@@ -410,7 +410,7 @@ Lec 2 ; Page. 16+ TODO
   
   Processor Formats
 
-  ![MPL_IJR](./static/MCPA_IJR.png)
+  ![MPL_IJR](../static/MCPA_IJR.png)
 
 
 ## Autoincrement Mode:
@@ -487,12 +487,12 @@ In many assembly programs, especially those intended to be standalone (not part 
 
 # Example 1
 
-  ![mcpaex1](./static/MCPA_EX1.png)
-  ![mcpaex10](./static/MCPA_EX1_0.png)
+  ![mcpaex1](../static/MCPA_EX1.png)
+  ![mcpaex10](../static/MCPA_EX1_0.png)
 ---
 # Example 2
-  ![mcpaex2](./static/MCPA_EX2.png)
-  ![MCPA_EX2_0](./static/MCPA_EX2_0.png)
+  ![mcpaex2](../static/MCPA_EX2.png)
+  ![MCPA_EX2_0](../static/MCPA_EX2_0.png)
 
   **Under the line**, I wrote some basic Pseudo-code for this Example, it helped me understand the functionality
 </details>
@@ -503,13 +503,13 @@ In many assembly programs, especially those intended to be standalone (not part 
  
 # Example 4
 
-  ![mcpaex4](./static/MCPA_EX4.png)
-  ![mcpaex41](./static/MCPA_EX4_1.png)
+  ![mcpaex4](../static/MCPA_EX4.png)
+  ![mcpaex41](../static/MCPA_EX4_1.png)
 ---
 # Example 5
 
-  ![mcpaex5](./static/MCPA_EX5.png)
-  ![mcpaex51](./static/MCPA_EX5_1.png)
+  ![mcpaex5](../static/MCPA_EX5.png)
+  ![mcpaex51](../static/MCPA_EX5_1.png)
 
 
 **Note | Link Register**
@@ -533,7 +533,7 @@ When the subroutine is ready to return, it loads the value from the *Link Regist
   ---
   ### Digit Packing Example (With Logical Shift Left)
 
-  ![MCPA_dp](./static/MCPA_dp.png)
+  ![MCPA_dp](../static/MCPA_dp.png)
 
 </details>
 
@@ -546,7 +546,7 @@ When the subroutine is ready to return, it loads the value from the *Link Regist
   ### How do we do it then?
   To construct 32-bit immediate values or addresses, use two instructions in sequence:
 
-  ![MCPA_32bit](./static/MCPA_32bit.png)
+  ![MCPA_32bit](../static/MCPA_32bit.png)
 
 </details>
 
@@ -577,7 +577,7 @@ When the subroutine is ready to return, it loads the value from the *Link Regist
   **Your preparation should include the following:**
   Derive the machine code representation for the instruction `blt r7, r8, LOOP`:
 
-  ![mpl_1](./static/MPL_1.png)
+  ![mpl_1](../static/MPL_1.png)
 
   Looks like a Branch Statement that checks **branch if less than (signed)** checks if a signed number is lesser than another signed number.
 
@@ -660,7 +660,7 @@ Computer components communicate via an **Interconnection network**:
 - Enables transfer of data between processor, memory, and I/O devices.
 - Concepts of memory access and address spaces are applicable here.
 
-  ![mcpaio1](./static/MCPA_IO_1.png)
+  ![mcpaio1](../static/MCPA_IO_1.png)
 
 ---
 

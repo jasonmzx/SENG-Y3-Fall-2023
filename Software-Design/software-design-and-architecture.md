@@ -155,7 +155,7 @@ Difficult tasks:
 - 
 
 
-![sd_obs](./static/sd_observer.png)
+![sd_obs](../static/sd_observer.png)
 
 Observer Pattern uses three actor classes:
 
@@ -219,13 +219,13 @@ The Facade pattern is a type of broker pattern that simplifies the interaction b
    - **Advantage:** Sub-systems often comprise numerous classes with complex interfaces and relationships. Facade encapsulates this complexity, shielding clients from the inner workings.
    - **Example:** In a banking system, the Facade can manage various sub-systems like customer accounts, transactions, and loan approvals. Clients interact with the Facade to perform tasks like transferring funds, which involves interactions with multiple sub-systems. The Facade coordinates the underlying processes seamlessly.
 
-![sd_faca](./static/sd_facade.png)
+![sd_faca](../static/sd_facade.png)
 
 Here we see a Client, accessing the *Facade* , which is the Broker to all these Components, that are either Low or High Abstraction Sub-systems, doing different things...
 
 This *Facade* is very nice for the Client however, since it's a simplified interface for em.
 
-![sd_faca2](./static/sd_facade_2.png)
+![sd_faca2](../static/sd_facade_2.png)
 
 Home Theater Example, the Facade will just Abstract all the Sub-systems of Theater. Lights, Popcorn Popper, WatchMovie, EndMovie
 
@@ -274,7 +274,7 @@ facadeBroker.listenToRadio();
 - Consider Factory that produces Cars, *(Christler, Subaru, Ford)* 
 - Factories are like Assembly Lines, first Instantiate, Load the Wheels on, Paint the Body, Q/A 
 
-![Factory Method](./static/SD_55.png)
+![Factory Method](../static/SD_55.png)
 
 Interface is being *adopted* by all these companies, for their "Factories"
 
@@ -388,7 +388,7 @@ In the Abstract Factory pattern example, rather than creating just one type of p
 ### Aqualush Product 
 *(complex product) , Measures pH levels from VATS, from various sensors*
 
-![SD_56](./static/SD_56.png)
+![SD_56](../static/SD_56.png)
 </details>
 
 
@@ -430,7 +430,7 @@ Dr. Liscano says that **tutorialspoint.com** is a good ressource for Design Patt
 
 **Class Diagram** Attributes & Operations
 
-![SDC](./static/SD_class.png)
+![SDC](../static/SD_class.png)
 
 3 Types of Relationships exists:
 - Part of some relationship
@@ -440,12 +440,12 @@ Dr. Liscano says that **tutorialspoint.com** is a good ressource for Design Patt
 **Composite Aggregate Class**
 *Example:* Player is composed of PlayerHead, PlayerBody, PlayerArms, PlayerLegs
 
-![SDCa](./static/SD_ca.png)
+![SDCa](../static/SD_ca.png)
 
 **Class Associations**
 *Directional* A2 has relation with B2, but not vice-versa
 
-![SD](./static/sh_asso.png)
+![SD](../static/sh_asso.png)
 
 *B2* is the Generalization of *A2*
 *A2* is the Specialization of *B2*
@@ -469,7 +469,7 @@ When stuff is Tightly Coupled, and it's interworking tightly.
 - One class sends a message to another (dep)
 - One class has another as part of it's data *(Instance of class within another class object)*
 - One class mentions another as a parameter to an operation
-![SD_dl](./static/SD_dash_line.png)
+![SD_dl](../static/SD_dash_line.png)
 
 #### Association vs Dependency
 
@@ -502,7 +502,7 @@ Association represents that one entity uses another entity as part of it's behav
   - Simple 2D Game, basic physics engine
   - **Blue** are the components, and it streams data via Interfaces to the next
 
-  ![SD_luna](./static/sd_luna.png)
+  ![SD_luna](../static/sd_luna.png)
 
 #### What do we Model?
 - Components, Connectors, Interface.
@@ -552,10 +552,10 @@ _*PROF WANTS CONSISTENCY WITH VIEWS!*_
 ### Statement Templates for Design
 
 - **Natural Language**: it's good to write it out, but it might be verbose for large and complex designs...
-  ![SD_NLP](./static/SD_NLP.png)
+  ![SD_NLP](../static/SD_NLP.png)
 
 - **Informal Graphical Modelling**: Box & Line, informal, it's good to have a *Legende* and or Text descriptors
-  ![SD_IG](./static/SD_IG.png)
+  ![SD_IG](../static/SD_IG.png)
   *Ambigious!? what do these lines mean !?*
 
 - **UML** : Formal definition of Diagrams
@@ -565,7 +565,7 @@ _*PROF WANTS CONSISTENCY WITH VIEWS!*_
 
   The little white boxes within components are **Interfaces**
 
-  ![SD_NLP](./static/SD_UML_COMP.png)
+  ![SD_NLP](../static/SD_UML_COMP.png)
 
   *These are "Components" in UML, which can be made-up of other boxes, but here we show high-level component dependency*
   *Can specify an action like `<<import>>` or `<<call>>` on these lines, <-- stereotypes*
@@ -575,7 +575,7 @@ _*PROF WANTS CONSISTENCY WITH VIEWS!*_
 
   Server requires interface from Database, and Provides API (HTTP Request) Interface
 
-  ![SD_NLP](./static/SD_bns.png)
+  ![SD_NLP](../static/SD_bns.png)
 
 
 </details>
@@ -619,7 +619,7 @@ By using stereotypes, you've tailored UML to better represent the intricacies of
 
 **UML Package Notation**
 
-![SD package](./static/SD_pkg.png)
+![SD package](../static/SD_pkg.png)
 
 We'll see Dependencies from Packages to other Packages (*Core Pkgs*)
 
@@ -628,7 +628,7 @@ We'll see Dependencies from Packages to other Packages (*Core Pkgs*)
 
 ### POS Deployment (Point of Sale)
 
-![SD POS](./static/SD_POS.png)
+![SD POS](../static/SD_POS.png)
 
 *This is similar to REST*
 
@@ -678,7 +678,7 @@ Ways of Modelling Architecture:
 - "Software Architectural Style" is a specific method of construction, characterized by the features that make it notable.
 - "Style" & "Pattern" are generally used inter-changably
 
-![dssa](./static/SD_dssa.png)
+![dssa](../static/SD_dssa.png)
 
 
 **Function-strong Architecture**
@@ -716,7 +716,7 @@ Help put modules that are highly/tightly Coupled together into a Layer
 
 *Ideally we always _REDUCE_ Dependencies*
 
-![3T](./static/SD_3t.png)
+![3T](../static/SD_3t.png)
 </details>
 
 <details>
@@ -749,7 +749,7 @@ Components receive and carry out commands from users
 --- 
 
 
-![MVC](./static/SD_200.png)
+![MVC](../static/SD_200.png)
 
 **Problem:**
 
@@ -763,7 +763,7 @@ Once the View is changed, now the Model needs to change!
 
 **MVC Static Structure Follows a Layered Style**
 
-![MVC1](./static/SD_201.png)
+![MVC1](../static/SD_201.png)
 
 Write me a program that takes in user input:
 
@@ -783,7 +783,7 @@ Model is a Subscriber (View) to Publisher (Model) pattern **KNOWN AS OBSERVER PA
 
 ## GOOD MVC MODEL !
 
-![MVC2](./static/SD_202.png)
+![MVC2](../static/SD_202.png)
 
 *Diamonds* Indicate Tight Coupling of Components, kind of like Containment Concept
 
@@ -791,7 +791,7 @@ Model is a Subscriber (View) to Publisher (Model) pattern **KNOWN AS OBSERVER PA
 
 ### Django uses | Model, Template, View
 
-![MVC1](./static/SD_203.png)
+![MVC1](../static/SD_203.png)
 
 ---
 
@@ -1006,7 +1006,7 @@ The final output is a well-defined software architecture design.
   ---
 
 
-![Ref Arch](./static/SD_105.png)
+![Ref Arch](../static/SD_105.png)
 
 Nowadays: We use frameworks, this kind of molds our **Architecture**
 

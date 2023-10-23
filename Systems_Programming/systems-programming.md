@@ -28,7 +28,7 @@
 
   - Root, with Children, Children with Users, etc...
 
-  ![Linux Directory Structure](./static/linux-directory-structure.webp)
+  ![Linux Directory Structure](./../static/linux-directory-structure.webp)
 
   **Everytime you want to MODIFY a File**, make a backup first!
 
@@ -373,9 +373,9 @@ int main() {
 
 ---
 
-![fork](static/SYS_1.png)
+![fork](../static/SYS_1.png)
 
-![getpid](static/SYS_2.png)
+![getpid](../static/SYS_2.png)
 
 TODO: Slide 33+ (How a shell runs a utility on)
 

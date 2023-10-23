@@ -7,11 +7,11 @@
 
 
 ## LOG RULES:
-  ![DSA_LG](./static/DSA_LOG.png)
+  ![DSA_LG](../static/DSA_LOG.png)
 <br></br>
 
 ## EXPONENT RULES:
-  ![DSA_EX](./static/DSA_EXP.png)
+  ![DSA_EX](../static/DSA_EXP.png)
 
 </details>
 
@@ -142,7 +142,7 @@ Insertion Sort beats Merge Sort until **n** goes past ~6.5
 
 Here Merge Sort start's taking the lead with it's logarithmic advantage *(n = 6.7, means 6.7 complexity for Insertion, which is now worst than Merge)*
 
-![dsa_1](./static/dsa_1.png)
+![dsa_1](../static/dsa_1.png)
 
 
 
@@ -187,7 +187,7 @@ Issues of data abstraction, modularity, and error handling are often ignored in 
 **Input:** Sequence of numbers (Unordered) {a1, a2, ... , an}
 **Output:** A permutation (reordering) {a1', a2', ... , an'} where a1' < a2' < ... < an'
 
-![DSA_insert](./static/dsa_insertion_sort_pseudo.png)
+![DSA_insert](../static/dsa_insertion_sort_pseudo.png)
 
 **Note: (Card Analogy from Text)**
 `A[ 1 .. j-1 ]` constitutes the currently sorted hand of cards *(as the j iterator already passed thru it)*
@@ -343,39 +343,39 @@ After a few steps, what are the values in the Array.
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 3. | Growth of Functions (as `n` increases) 
   </summary>
 
-![BIG_Oog](./static/DSA_OOG.png)
+![BIG_Oog](../static/DSA_OOG.png)
 
 Prof asked us to prove: `O(n!) / O(2^n) > 1`
 **I.E:** prove Big O of **n!** is larger than Big O of **2^n**
 
 ## This is Stirling's Approximation of `n!`
 
-![DSA_ST](./static/DSA_STIRLING.png)
+![DSA_ST](../static/DSA_STIRLING.png)
 
 ---
 
 ### Big O Notation & Asymptotic  
 - Upper Bound of the Growth Rate
 
-![BIG_O](./static/DSA_BIG_O.png)
+![BIG_O](../static/DSA_BIG_O.png)
 
 **Examples**
 
-![DSA_ST](./static/DSA_BIG_O1.png)
+![DSA_ST](../static/DSA_BIG_O1.png)
 
 ---
 ### Big Omega Notation & Asymptotic  
-![DSA_OME](./static/DSA_OMEGA.png)
+![DSA_OME](../static/DSA_OMEGA.png)
 
 **TODO
 
 ### Big Theta Notation & Asymptotic  
 - Average case, mid-range of Growth Rate, "Sandwiched between **Big O**, and **Big Omega**"
-![THETA](./static/DSA_THETA.png)
+![THETA](../static/DSA_THETA.png)
 
 **Examples**
 
-![THETA1](./static/DSA_THETA1.png)
+![THETA1](../static/DSA_THETA1.png)
 
 **Important NOTE:** 
 - As **n** tends to a larger number (+inf) , `2/n` tends to 0, and we're left with *1/2* for *f(n)*
@@ -399,24 +399,24 @@ This is trivially the proof...
 
 ## Example 1:
 
-![SUB_1](./static/DSA_SUB_1.png)
+![SUB_1](../static/DSA_SUB_1.png)
 
 ## Example 2:
 
-![SUB_2](./static/DSA_SUB_2.png)
+![SUB_2](../static/DSA_SUB_2.png)
 
 ---
 
 ### General Conventions & Information for Substitution
 
-![SUB_2](./static/DSA_sub_0.png)
+![SUB_2](../static/DSA_sub_0.png)
 
 **NOTE:**
 Once again, we get to name and choose the constant **𝑐** in the inductive hypothesis. And we also get to name and choose the constant **𝑑** that we subtract off.
 
 Also, you must only substract constant along with a Big Theta term if and only if the constant is larger than ur Big Theta term *(Example of d = 2, which is larger than Theta of 1)* 
 
-![SUB_C](./static/DSA_sub_cont.png)
+![SUB_C](../static/DSA_sub_cont.png)
 
 TODO: lec 4, slide 20+
 
@@ -437,17 +437,17 @@ You can use Masters Theorem if:
 
 3.) For some Epsilon `ε > 0`
 
-![DS Master](./static/DSA_mt_master.png)
+![DS Master](../static/DSA_mt_master.png)
 
 ---
 
 ## Case 1 & 2:
 
-![DS Case 1 & 2](./static/DSA_mt_case12.png)
+![DS Case 1 & 2](../static/DSA_mt_case12.png)
 
 ## Case 3: 
 
-![DS Case 3](./static/DSA_mt_case3.png)
+![DS Case 3](../static/DSA_mt_case3.png)
 
 </details>
 
@@ -456,7 +456,7 @@ You can use Masters Theorem if:
   </summary>
 
 ## Matrix Multiplication Recap:
-![DSA_MAT_MULL_1](./static/DSA_MAT_MUL_1.png)
+![DSA_MAT_MULL_1](../static/DSA_MAT_MUL_1.png)
 
 </details>
 
@@ -465,9 +465,9 @@ You can use Masters Theorem if:
 
 ### Other Midterm's Masters Theorem
 
-![DSA_MAT_MT_1](./static/DSA_MT_1.png)
+![DSA_MAT_MT_1](../static/DSA_MT_1.png)
 
-![DSA_MAT_MT_2](./static/DSA_MT_2.png)
+![DSA_MAT_MT_2](../static/DSA_MT_2.png)
 
 
 </details>

@@ -219,7 +219,7 @@ SET FOREIGN_KEY_CHECKS = 1;
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Section 6 | In Lecture
   </summary>
 
-Nested Queries:
+## Nested Queries:
 
 Get all Employees with the same salary as an Employee named Alicia.
 
@@ -231,11 +231,42 @@ Evaluating = to the nested query...
 
 A WHERE clause of a query may contain one or more subqueries combined using operators **AND** or **OR**
 
+Get all Employees with the same salary as an Employee named Alicia, or Employees with salaries lesser or equal to John
+
 ```sql
 SELECT * FROM EMPLOYEE e 
 	WHERE e.Salary = (SELECT e2.Salary FROM EMPLOYEE e2 WHERE e2.fname = 'Alicia')
 	OR Salary <= (SELECT e2.Salary FROM EMPLOYEE e2 WHERE e2.fname = 'John')
 ```
 ![DBCS_6x1](../static/DB_6x1.png)
+
+
+Retrieve the name of each employee that:
+    - Has a Dependent of the same firstname & same sex 
+
+```sql
+SELECT e.Fname, e.Lname FROM EMPLOYEE e 
+	WHERE e.Ssn IN (
+		SELECT d.Essn FROM DEPENDENT d WHERE e.Fname = d.Dependent_name AND e.Sex = d.Sex
+	);
+```
+
+![DBCS_6x2](../static/DB_6x2.png)
+
+---
+
+## Correlated Nested Query
+
+Whenever a condition in the WHERE clause of a nested query references some attribute of a relation declared in the outer query, the two queries are said to be correlated.
+
+- A correlated nested query is evaluated once for each row in the outer query
+- Queries that are nested using the = or IN comparison operator can be collapsed into one single block
+
+```sql
+SELECT * FROM EMPLOYEE e 
+	WHERE e.Ssn IN (
+		SELECT d.Essn FROM DEPENDENT d WHERE e.Fname = d.Dependent_name AND e.Sex = d.Sex
+	);
+```
 
 </details>
