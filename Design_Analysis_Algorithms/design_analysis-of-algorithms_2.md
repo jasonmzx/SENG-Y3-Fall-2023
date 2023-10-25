@@ -31,6 +31,8 @@
 - Using the building blocks
 
 ![DSA C66](../static/DSA_c66.png)
+![DSA C67](../static/DSA_c67.png)
 
+---
 
 </details>
