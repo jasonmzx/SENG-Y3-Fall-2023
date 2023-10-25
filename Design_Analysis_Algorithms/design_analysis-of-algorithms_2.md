@@ -33,6 +33,9 @@
 ![DSA C66](../static/DSA_c66.png)
 ![DSA C67](../static/DSA_c67.png)
 
+**Note:**
+- Pop Max does the `MaxHeapify()`, so calling PopMax is sufficient, whereas the sudo-code does it directly in the Algo
+
 ---
 
 </details>
