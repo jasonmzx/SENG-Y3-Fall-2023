@@ -850,5 +850,53 @@ There can be different arbitration schemes like priority-based, round-robin, etc
 
 In this analogy, the arbiter's role is to ensure that both microphones *(masters 1 & 2)* get alternating opportunities to be heard *(transmit data)* without overlapping or causing conflict.
 
+
+**I/O Interconnection Standards**
+
+Other companies can follow standards, and we can connect them to our Boards
+
+*Example* USB, Universal Serial Bus 
+
+![usb](../static/MPCA_usb.png)
+
+
+**ROM** Will be explained later *(Impl details)*
+- Tells the processor some info about the device (Interrupts, Type of Bus, Peripherals)
+
+**PCI** Bus
+- Connects the main components of computer system *(CPU, Memory, Ethernet)*
+- How the Processor identifies every device connect to it
+*Plug and Play*
+
+![pci](../static/MPCA_pci.png)
+
+# PCIexpress
+
+- **Serial Point-to-point connections** with one or more switches forming a tree.
+- **Root complex** provides high-speed ports for memory and other devices.
+
+## I/O interconnection standards
+
+- **PCIe links**
+    - The basic connection is called a lane.
+    - A lane consists of two twisted-pairs or optical lines for each direction of transmission.
+    - **The data rate is 2.5 Gb/s** in each direction.
+    - A connection to a device (link) may use up to 16 lanes. **Up to 252 GBps (PCIe 6.0)**
+    - The PCIe protocols are **fully compatible with PCI**,
+
+![pcie](../static/MPCA_pci.png)
+
+
 ---
+</details>
+
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">
+  Pre Lab II.
+  </summary>
+
+  
+
 </details>
