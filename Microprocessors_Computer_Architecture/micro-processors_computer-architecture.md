@@ -785,8 +785,8 @@ events as they occur, rather than repeatedly checking the device's status.
 - **Delays will occur from:**
   - By bus drivers updating address or data lines.
   - When data propagating along the bus.
+  - Receivers need setup time to accurately get data.
 
-- Receivers need setup time to accurately get data.
 ![MCPA_asmp111](../static/MCPA_bus_sync.png)
 ![MCPA_asmp111111](../static/MCPA_bus_sync_1.png)
 

@@ -377,6 +377,41 @@ int main() {
 
 ![getpid](../static/SYS_2.png)
 
-TODO: Slide 33+ (How a shell runs a utility on)
+### How shell runs a utility:
+
+![su](../static/SYS_3.png)
+
+**Start with Parent Process:** The shell starts as a parent process with a specific Process ID *(PID)*. In the diagram, this is Parent process PID 34.
+
+**Dupe process using `fork()`:**
+- Shell duplicates itself with fork()
+- This results in the creation of a child process which is almost identical to the parent process. In the diagram, the child has the **Child process PID 35.**
+
+**Child Process Differentiation using exec():**
+- The child process uses the **exec()** system call to replace its current program *(in this case, the shell)* with a new utility program.
+- The child process is now running the desired utility instead of the shell.
+
+**Parent Process Waits:**
+- While the child process is running the utility, the parent process *(original shell)* waits for the child to complete.
+- This is done using the **wait()** system call.
+
+**Child Process Termination using exit():**
+- Once the child process finishes executing the utility, it terminates using the **exit()** system call.
+
+**Parent Process Cont.**
+- After the child process terminates, the parent process (shell) receives a signal indicating the child's termination.
+- The parent process then continues its operations, which in many cases means it returns to a prompt waiting for the next command.
+
+# Linux process-oriented system calls
+
+| Name    | Function                                         |
+| ------- | ------------------------------------------------ |
+| fork    | Duplicates a process.                            |
+| getpid  | Obtains a process's ID number.                   |
+| getppid | Obtains a parent process's ID number.            |
+| exit    | Terminates a process.                            |
+| wait    | Waits for a child process.                       |
+| exec..  | Replaces the code, data, and stack of a process. |
+
 
 </details>
