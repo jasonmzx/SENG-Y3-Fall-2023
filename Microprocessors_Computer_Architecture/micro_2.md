@@ -85,7 +85,6 @@ HLT
 
 
 
-
 </details>
 
 
@@ -166,6 +165,8 @@ HLT
   <details>
     <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Fundementals, Pipelining & Instruction Execution</summary>
 
+  ![xDxD](../static/MPCA_bb.png)
+
   proc. = processor
 
   **Processing Unit**
@@ -211,10 +212,56 @@ HLT
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Hardware Components </summary>
 
-## ALU
-todo:
+## Register File
+
+"Access Circuitry" Enables 2 registers to be read in at the same time, for their contents to be available at 2 seperate outputs
+- RA, and RB
+- Register File has Data Input C *(Aswell as an indication to which Register File to Write in)*
+- Connected with **IR** instruction register
+
+- **Registers**: Super fast CPU memory spots.
+- **Types**:
+  - **Memory Access Registers**: MDR, MAR
+  - **Instruction / Fetching Registers**: PC, IR
+  - **Condition Registers**: Carry, Overflow, etc.
+  - **Special**: Index, Stack Pointer
+- **Implementation**: Registers often come in a 'register file' - a quick memory block allowing data read/write.
+
+  ![ixr](../static/MPCA_6_r.png)
+
+#### **Dual-ported Mem Block**
+
+- **Concurrency**: Allows for simultaneous Read/Write
+- **Complexity**: More complex hardware design to manage both ports
+- **Size and Cost**: Larger / Costly
+- **Applications** that require lots of simultaneous Read/Write want a **Dual-ported** mem block.
+
+#### **Two Single-Ported Mem Blocks**
+
+- **Synchronization**: Two single-ported may require additional synchronization.
+- **Flexibility**: Two separate blocks can offer design flexibility.
+- **Applications**: Dual-ported for high-speed access; two single-ported for cost-effectiveness or simpler systems.
+
+## ALU (Arithmetic Logic Unit)
+
+- **ALU's Role**: Processes data (both arithmetic and logical operations).
+- **Hardware View**: Shows components needed for computational instructions.
+- **Data Source & Destination**: Both come from the register file.
+- **Notation**:
+  - **[RA]** and **[RB]**: Values from registers at addresses A and B.
+  - **new [RC]**: Result stored to the register at address C.
+- **Immediate Values**: If a source operand is an immediate value, it's directly provided to the ALU without coming from a register.
+      - Discussed in datapath, refer to *MUX B*
+
+  ![ixalu](../static/MPCA_6_alu.png)
 
 ## Datapath
+
+  #### Generic 5 Stages of Organization:
+
+  ![ix5s](../static/MPCA_5_stage.png)
+
+  #### Datapath *(From textbook)*
 
   ![ix](../static/MPCA_datapath.png)
 
@@ -234,6 +281,13 @@ This is the multiplexer situated at the bottom of the diagram. It has three inpu
 **1** - Memory data: This is the data retrieved from the memory. This would be used in operations where data is being loaded from memory.
 
 **2** - Return address: This is typically used in subroutine calls in assembly or machine code. When a subroutine is called, the address of the next instruction *(i.e., the one to be executed after the subroutine finishes)* is saved so that the program can return to it. This is the "return address."
+
+---
+
+#### Data Path Examples
+*With Various Addressing Modes and instructions*
+
+TODO:
 
 </details>
 
