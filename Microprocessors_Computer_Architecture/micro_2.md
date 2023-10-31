@@ -164,7 +164,7 @@ HLT
 
 
   <details>
-    <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Fundementals & Instruction Execution</summary>
+    <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Fundementals, Pipelining & Instruction Execution</summary>
 
   proc. = processor
 
@@ -179,7 +179,7 @@ HLT
 
   ![wdqwdqef](../static/MPCA_6_slow.png)
 
-  ### Much Faster *(Pipeline)*
+  ### Much Faster *(Pipelining)*
   Way more Thruput, and in a pipeline, the "Station" *(Smaller logic circuit)* is able to process a portion of the Compute!
 
   **Example:** Report writing *(Abstract, Intro, Body, Conclusion)* at every stage in pipeline, one paragraph is added, and once the *Intro* Writer finishes Intro for Report #1, next cylce he can do Report #2's Intro. **THRU-PUT is 5x!!!**
@@ -197,23 +197,51 @@ HLT
   We can have `n` stages, but due to Hardware limitations we usually have **5** with RISC and NIOS 2
   The **5** Steps we define, need to be as generic as possible to support the ut-most variety of instructions
 
+  That's why some steps aren't use for certain Instructions, as that generic step isn't needed for a specific operation
+
   ![ix](../static/MPCA_6_i1.png)
 
   ![ix](../static/MPCA_6_i2.png)
 
+  Generics:
   ![ix](../static/MPCA_6_i3.png)
 
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Hardware Components </summary>
+
+## ALU
+todo:
+
+## Datapath
+
+  ![ix](../static/MPCA_datapath.png)
+
+#### Mux B
+This MUX selects wether it uses the Immediate Value, or RB *(Inter-state register, as output for Stage 2)* for the ALU operation.
+This MUX will determine the value going into **InB** in ALU.
+
+**Examples:**
+`ADD R2, R3, R4` , the ALU's InA will be RA (R3) , InB wil be RB (R4)
+`ADD R2, R3, #2` , the ALU's InA will be RA (R3) , InB wil be Immediate Value (`#2`)
+
+#### Mux Y
+This is the multiplexer situated at the bottom of the diagram. It has three input choices *(indexed 0, 1, and 2)* and decides which of these inputs will pass through to the RY output based on the control input it receives:
+
+**0** - ALU output (RZ): The output from the ALU (Arithmetic Logic Unit) after a computation is completed.
+
+**1** - Memory data: This is the data retrieved from the memory. This would be used in operations where data is being loaded from memory.
+
+**2** - Return address: This is typically used in subroutine calls in assembly or machine code. When a subroutine is called, the address of the next instruction *(i.e., the one to be executed after the subroutine finishes)* is saved so that the program can return to it. This is the "return address."
 
 </details>
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Pipelining </summary>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Control Signals </summary>
 
-</details>
 
-<details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Data Path </summary>
-
+TODO:
 
 </details>
 
