@@ -294,9 +294,171 @@ TODO:
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Control Signals </summary>
 
+  **Control Signals**
+  - Selects MUX inputs to guide data flow (for MuxB, MuxY)
+  
+  - Determines when data is written into **PC**, **IR**, 
+  Register File and the memory
 
-TODO:
+  - Tells the ALU, the OpCode, so ALU knows which circuit to use *(Add, Substract, Shift)*
 
+  - Handles incoming data on *C*
+
+  **MuxC**
+  Selects IR, or LINK to be taken from Register
+
+  ---
+
+  **Memory Interface Control Signals**
+
+  ![](../static/MPC_cs_1.png)
+
+  - What address to send to mem.
+  - If Load/Store, **RZ** is used
+  - If we need to store from **RM** ...
+
+  TODO: understand this
+
+  ---
+
+  **Instruction Address Generation**
+
+  ![](../static/MPC_cs_2.png)
+
+  Branch (with offset)? or goto next instruction +4
+
+  If Instruction is a Call; 
+
+  ---
+
+  ### Hardwired Control
+
+  **Hardwired** : Hardwired to support every instruction *(Derived from Truth Tables, and physical circuits)*
+
+  ![mpc_cs_3](../static/MPC_cs_3.png)
+
+  - Clock here is the Processor Clock, and the Step counter just counts... and resets
+
+  - Step Counter *(goes from steps 1-5)* and repeats
+  - External Inputs *(Interrupts)*
+
+  Control Signal Gen: Takes in the Inputs & Signals, and generates *Control Signals*, to be sent to *Datapath*
+
+
+  ---
+
+  ## CISC STYLE processors
+
+  ![mpc_cs_4](../static/MPC_cs_4.png)
+
+  *Microprocessor* Is the control Circuit
+
+  Bus can only have **1 driver**
+
+  If want to read from bus, *Rin* = 1, Reading in (MUX = 1) to store into FlipFlop
+
+  If want to write to bus, *Rout* = 1, Write to mux from FlipFlop
+
+  **Think about it, high level**
+
+  ![mpc_cs_5](../static/MPC_cs_5.png)
+
+  Done in 7 Cycles, instead of 5 for risc
+
+  **MICROPROGRAMMED** control: Software based approach to generation of signals. Easier phyiscal implementation, over hardware. *(Stores Control Words, and gives the right word to right instruction)* It's like stored in a **ROM** chip.
+
+  ![mpc_cs_6](../static/MPC_cs_6.png)
+  
+  Sends the control signals per clock cycle from *Control Store*
+
+  ---
+
+  ### Examples:
+
+  **Q1**
+
+  1- GHz Clock
+
+  Load & Store is 20% Percent of the Dynamic Instruction Count in a program
+
+  5- Clock Cycles *(Every clock cycle, there is a fetch)*
+
+  **Whats the frequency of Memory Access?**
+
+  Stage 1. Fetch Instruction *(Mem Access, 1 access)*
+  ...
+  Stage 4. on average uses the memory by 20% *(Mem Access, 2 access for Load & Store)*
+
+  (1 + 1 + 1 + 2 + 1) = 6 / 5 = 1.2
+
+  On Average... 1.2 memory accesses
+
+  *(Mem Access / Stages) * Frequency of Clock*
+
+  (1.2 / 5) * 10^9 = 240 million memory accesses a second
+
+  ---
+
+  **Q2**
+
+  ...
+
+  Goes into program counter circuit from **RA**
+
+
+  ---
+
+  **Q3**
+
+  Load R6, 1000(R9)
+
+  Let's say R6 has value 4200
+  R9 has value 85320
+
+  Mem.loc: 86320 has value 75900
+
+  R9 goes to Addr. A *RA=85320*
+  R6 goes to Addr. B *RB=4200*
+
+  **Link register** Address 31
+
+  **ALU** will add *1000* + *RA=85320*
+
+  **RZ** how has 86320
+
+  Beginning of stage 4:
+
+  **RM** has whatever is in **RB**
+
+  RZ get's looked up, and MuxY gets back the value (75900)
+
+  Will send it thru MuxY thru stage 4; 
+
+  End of Stage 4, RY has 75900 *Access of Data*
+
+---
+
+**Q4**
+
+```
+ADD R5, R2, R3
+ADD R6, R3, #20
+```
+
+
+R2 = 15
+R3 = 25
+R6 = 50
+
+
+Step RA RB RZ RM RY
+1. * * * * *
+2. * * * * *
+3. 15 25 * * * 
+4. 25 50 40 25 *
+5. * * 40 50 40  
+6. * * 45 * * 
+7. * * 45 * 45
 </details>
 
 
