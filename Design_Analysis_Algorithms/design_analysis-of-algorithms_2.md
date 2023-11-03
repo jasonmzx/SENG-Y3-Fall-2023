@@ -68,7 +68,7 @@ n^log base (3/2) 1 ~= n^1
 It takes time *O(n lg n)*, since the call to *BUILD-MAX-HEAP* takes time **O(n)**
 and each of the **n-1** calls to *MAX-HEAPIFY* takes time **O(lg n)**.
 
-![DSA HS](../static/DSA_hs_rt1.png)
+![DSA HS](../static/DSA_hs_rt.png)
 
 Usually we're only checking quadrant **I** & **II**, and section **IV** is usually empty as we start filling in Leaf-Nodes from the left, so in general it's *2/3*, sometimes *2/4* tho
 ---
@@ -92,7 +92,28 @@ Max Heap has more applications tho...
 ##### Increase Key
   - Increase value *(priority)* of a Node, so you need to `MaxHeapify` again aswell
 
+
+![DSA HS](../static/DSA_hs_rt2.png)
+
 ---
+
+
+</details>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Chapter 7. QuickSort</summary>
+
+  ## Abdul Bari Video Notes & Quicksort Steps
+  ![DSA 7](../static/DSA_7_1.png)
+
+  ## Book Notes:
+  ![DSA 7](../static/DSA_7_2.png)
+  ![DSA 7](../static/DSA_7_3.png)
+  ![DSA 7](../static/DSA_7_4.png)
+
+  **NOTE**: Average case is very close to best case, that's why QuickSort is known as quite "Practical" as the Worst Case is very rare, and the Average Case usually falls near the best case.
+
 
 
 </details>
