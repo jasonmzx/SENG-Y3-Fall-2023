@@ -182,7 +182,10 @@ Max Heap has more applications tho...
 
 The choice between Bucket Sort and Radix Sort should be made based on the known characteristics of the data to be sorted. If the distribution of the data can be leveraged, Bucket Sort may offer superior performance; otherwise, Radix Sort provides consistent performance regardless of data distribution.
 
-  **More on Stability**:
+
+---
+
+#  **More on Stability**:
 
 Example array [1, 5, 2, 5], a stable sort would ensure that the first '5' in the input array remains the first '5' in the sorted array. After sorting, a stable algorithm would give you [1, 2, 5, 5] where the position of the two '5's relative to each other hasn't changed.
 
@@ -214,4 +217,6 @@ Notice that Alice and Charlie both have a grade of 'B', and in the sorted array,
 
 **Data integrity:** When elements are otherwise indistinguishable by their key (like the two '5's), you may not care about stability. However, if there is additional context or data associated with those keys, stability ensures that the data's integrity is maintained through the sorting process.
 
+
+good video for this chapter: [CLICK](https://youtu.be/pJ1IQD5rv4o)
 </details>
