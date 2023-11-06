@@ -467,3 +467,205 @@ Step
 </details>
 
 
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Pipelining </summary>
+
+**Pipelining** Increases thru-put:
+
+![thru put laundry](../static/MPCA_6_1.png)
+
+![pipelining in a computer](../static/MPCA_6_23.png)
+
+With Pipelining, 1 Instruction is finished **EVERY** Clock Cycle
+
+*Some Problems*
+Lets say something is stored in Instruction Register,
+Well on the next *TICK*, it can be over-written by new instruction being loaded in
+
+Not good...
+
+![pipelining in a computer](../static/MPCA_6_3.png)
+
+**Clear Stage** so the next Instruction can use a fresh stage, Interstage Buffers become important. *All nessarcy info, should be passed along with the buffer*
+
+TLDR: Datapath has buffers in between, for Stage Clearance and stuff
+
+---
+
+## Data Dependency
+
+![Data Issues](../static/MPCA_6_4.png)
+
+We need R1 and R2 to have loaded in the Immediate values, before being added into R3 !
+
+So the `Add R3, R2, R1` should stall, Until R1 & R2 have been loaded in and are "available"
+
+Then it can do the Compute, Memory and Write.
+
+**How do we Determine a Dependency?**
+
+Control Circuit will compare between the Interstage Buffers, and will recognize Data Dependencies and *"stall"* when necessary.
+
+We call it a "bubble", effectively wasting 3 clock cycles
+
+
+![Data Issues](../static/MPCA_6_5.png)
+
+## STALLING IS BAD !!111!
+
+Execution Time grows, much more than you think with this...
+
+**Sollution**:
+
+### Data Forwarding (Solution 1.) Hardware
+
+Mitigation technique of Bubbling, wasting clock cycles
+
+Here we "Skip" going into RY from RZ, into Register files... 
+
+We can directly put RZ into MuxA Immediately instead!
+
+![Data Issues](../static/MPCA_6_6.png)
+
+Here the RZ goes into Input A & Input B, as we don't know which spot the Data is used in... *Into 1 and 2* so Let's do BOTH!
+
+And the Control Circuit will choose which to use (IMMED values forwarded from RZ)
+
+**Saves wasted clock cycles**
+
+### Compiler NO Operations & Optimization (Solution 2.) Software
+
+![Data Issues](../static/MPCA_6_7.png)
+
+Compilers also handle this *(Software Approach)*
+And put's NOP *No Operation* Signals 
+
+Compiler checks if it can put some Uncorrolated stuff in the NOP, so the Operation isn't wasted... *Example: Loading something random into R10*
+
+**Most of the time** Instructions can be filled into the NOP's thus reducing execution time.
+
+### Memory Delays (Solution 3.) Hardware & Software
+
+**PROBLEM** Data isn't in the Cache! *cache miss*
+
+Sometimes when Data isn't cache, it needs to fetch from Memory which is quite slow, so everything in the pipeline is effectively waiting on this Memory Fetch.
+
+![Data Issues](../static/MPCA_6_8.png)
+
+![Data Issues](../static/MPCA_6_9.png)
+
+---
+
+Another Issue... Branching lmfao
+
+## Branch Delays
+
+After the branch, sometimes the PC still does #4, then #4 for the pipelining, and so in the 3rd cycle it's like OFFSET + #8 which **isn't good**
+
+![Data Issues](../static/MPCA_6_10.png)
+
+We need to discard the work of adding #4 to PC, twice let's say... so this is a **Branch Penalty** aka "Bubbling" so we can put NO-Operations instead.
+
+Can we calculate the Branch Offset earlier? so we don't waste cycles??
+
+Another *ADDER* added in Decode Stage
+
+![Data Issues](../static/MPCA_6_11.png)
+![Data Issues](../static/MPCA_6_12.png)
+
+So in the **Decode Stage Adder** add comparator, for the Conditional Branch Comparison *Reduces Branch Penalty*
+
+#### Branch Delay Slot
+
+- Can put a No. Operation
+- Put an un-corrolated *(data InDependent)* Instruction in the Branch Delay Slot for Optimization
+  - **NEEDS TO BE an Instruction that is supposed to be executed BEFORE THE BRANCH INSTRUCTION!*
+
+**Example**:
+![Data Issues](../static/MPCA_6_13.png)
+
+Compiler might also "Unroll" the loop, if the loop is simple enough, so we don't need to do all this Branch Instruction stuff, just go sequentially over an "Unrolled" loop.
+
+---
+
+### Branch Prediction
+
+![Data Issues](../static/MPCA_6_14.png)
+
+I'm trying to predict..
+
+If it's unconditional, we "Predict" in the Fetch phase that it will Branch forsure...
+
+```
+A = 100
+
+Loop Till A is 0 {
+  A--
+}
+```
+
+here the prediction will be correct 100 times, and in the last time it be will wrong *(Accidentally branch, when A is 0, but that's only 1 branch delay instead of like.. 101 delays)*
+
+*First Run of the Loop* Will Predict wrong **ONCE** at the end (0 -> 1)
+
+*Second Run of the Loop* Will Predict wrong **TWICE** 1 at the beginning & 1 at the end
+(1 -> 0) then (0 -> 1)
+
+**Build Branch Buffer Table**
+
+Every Entry in this table (Row) is another Branch, with it's Respective Prediction and Offset.
+
+---
+
+### Dynamic Branch Prediciton
+
+![Data Issues](../static/MPCA_6_15.png)
+
+*Here there is more State involved, and this reduces the Wrong Predictions that waste clock cycles!, shortening Branch Delay*
+
+---
+
+### Resource Limitations
+
+- Limited Number of Registers *(Nios 2 has like 30)*
+  - We get more Data Dependency aswell if we use Less Registers...
+
+- Cache Memory
+  - Stage 1: Read from Cache  
+  - Stage 4: Also want's to use the Memory at the same time! *(LOAD & STORE)*
+
+  - **Cache** is divided in 2 Halfs:
+    - 1/2 Instructions (Stage 1)
+    - 2/2 Data (Stage 4)
+
+---
+
+**For: Non-pipelined Processors**
+
+N. Instructions
+R. Clock Rate *(1 GHz)*
+S. Average Number of Cycles for Fetch & Execute *(N STAGES)*
+
+`T = ( N*S ) / R`
+T. Is Time
+
+`Pnp = R / S`
+Pnp. Amount of Instructions executed within a Cycle *(INSTRUCTION THROUGHPUT)*
+
+
+### Preformance Evaluation
+
+![Data Issues](../static/MPCA_6_16.png)
+
+
+*ALU* Stage is usually the slowest, so we need to design our Clock Rate, with this slowest stage!
+
+*Every Stage* needs to do a substantial amount of work!
+
+![Data Issues](../static/MPCA_6_17.png)
+
+**Some companies**:
+
+- Since ALU takes lots of time, Some Companies will Actually Pipeline the ALU itself! *Intel can do like 14 stages, but this includes ALU sub-stages*
+
+</details>

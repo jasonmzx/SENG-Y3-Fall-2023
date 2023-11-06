@@ -568,8 +568,11 @@ int main() {
 This program creates a named pipe, writes a message to it, and then reads the message back. Typically, the write and read operations would be done in separate processes. The **unlink()** function is called at the end to remove the named pipe from the filesystem.
 </details>
 
-
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Sockets</summary>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Sockets
+</summary>
+
+
+
 
 </details>
