@@ -576,3 +576,217 @@ This program creates a named pipe, writes a message to it, and then reads the me
 
 
 </details>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Week 7. Linkers and Loaders
+</summary>
+
+Convenient Environment for Program Developpement:
+
+![Sys 71](../static/SYS_7_1.png)
+
+**Device Management**:
+
+**Memory Management**:
+- Crucial component in O.S
+- Manages Physical Memory, to support the large infra-structure built on top of the hardware.
+
+#### System Programs:
+- File manipulation
+- Status information
+- File modification
+* Program language support
+* Program loading and execution
+- Communications
+- Application programs
+
+**Object File** Created by Compilation
+
+**Assembler** takes **object** files and makes them **Assembly Files**
+
+Then the **Loader** Executes the Assembly Files *(Instructions)*
+
+---
+
+#### *Linking*
+Combining a set of programs, including library routines, to create a loadable image. Links seperate files, together into a final image of that program. 
+*(Let's say I have 2 C files, and then some Library Usage, It will link my source files together, and also linked the compiled libraries also)*
+
+- Resolving symbols defined with the set
+- Listing symbols needing to be resolved by Loader.
+
+
+#### *Loading*
+Copying the loadable image into memory, connecting it with any other programs already loaded, and updating addresses as needed.
+- (In Unix) interpreting file to initialize the process address space
+- (in all systems) kernel image is special (own format)
+
+---
+
+## Workflow for Typical Compilation and Execution
+
+![Sys 72](../static/SYS_7_2.png)
+
+**Static Libraries:** They are linked to the program at compile time. When you compile a program that uses a static library, the code from the library is copied into the executable. This means that the executable contains the library code within it.
+
+- This is better for Distributing Software, as an EXE might compile, but rely on a DLL that might not be there. Static Libraries are "Baked-In" to the EXE.
+
+**Dynamic Libraries:** They are linked during runtime or load time, not at compile time. The code is not included in the executable; instead, the program uses the library code that is stored separately in `.dll` files.
+
+- Multiple different Executable's use the same **DLL**s so it doesn't need to be replicate static libraries all the time. *(Example: Window DLLs)*
+
+- You can update a dll without having to recompile the orginal program. The static libraries get baked into the program.
+
+![Sys 72](../static/SYS_7_3.png)
+
+`gcc main.c second.c -o final`
+
+</details>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">November 8th | ADD Iteration , Architecture Design Process
+</summary>
+
+## **ADD Iteration 1**:
+    - Deliverable 2; 
+
+*First Deliverable:* Design Objectives, Quality Attributes, Constraints, Concerns
+
+# **ADD Step 1**:
+- Look at my Inputs, why are we building this Design
+- Primary Function Requirements
+- Prioritize Quality Attributes *(Pick the Highest Priority Values, Utility Tree)*
+    - Pick the ones that are `H / H`
+
+# **ADD Step 2**
+- Establishing a goal for the Iteration is
+important as it is used to decide what drivers
+are important for this Iteration.
+
+- **Iteration 1** Establising an Overall System Structure
+- **Iteration 2** Identifying Structures to Support Primary Functionality
+- **Iteration 2** Addressing Quality Attribute Scenarios
+
+# **ADD Steps 3-5**
+
+---
+
+What Occurs when we go thru this?
+
+![SD_8_1](../static/SD_8_1.png)
+
+- Don't re-invent the Wheel!
+
+**Deployment Patterns**
+Guide deployment of Reference Architectures
+
+- 2,3,4 or N-Tier Deployment
+- Load Balanced Cluster
+- Failover Cluster
+- Private/Public Cloud
+- Etc...
+
+**Tactics** (Revisited)
+
+![SD_8_2](../static/SD_8_2.png)
+
+![SD_8_3](../static/SD_8_3.png)
+
+**Frameworks & their Concerns**
+
+![SD_8_4](../static/SD_8_4.png)
+
+**Design Concepts, Pros and Cons**
+
+![SD_8_5](../static/SD_8_5.png)
+
+![SD_8_5](../static/SD_8_6.png)
+
+- Justify what I'm covering *(Covering Use Case #1)*
+    - Decision Addressing Functionality of System
+
+![SD_8_7](../static/SD_8_7.png)
+
+---
+
+# **ADD Step 6**
+- UML Diagrams, Refference Architecture
+- Sketch Views, and Record Design Decisions
+
+
+**Usually the Software Architect's Job**
+![SD_8_7](../static/SD_8_8.png)
+
+- Minimal Design Documentation
+    - Choosing why you did something
+    - Initial Interface Specification
+        - From Sequence Diagrams / Swimlane
+
+---
+
+## Example (FCAPS)
+
+#### Logical View Example
+
+![SD_8_9](../static/SD_8_9.png)
+**Layered Architecture**
+
+#### Deployment View
+
+![SD_8_10](../static/SD_8_10.png)
+
+#### External Interface
+- External interfaces include interfaces from other systems that are required by the system that you are developing and interfaces that are provided by your system to other systems.
+
+
+![SD_8_11](../static/SD_8_11.png)
+
+#### Internal Interfaces
+
+![SD_8_12](../static/SD_8_12.png)
+
+- Get's Components & Interfaces from it, very powerful for System Design
+
+**Common Issue**: Elements "pop-up" in the sequence diagram that isn't in the Architecture.
+
+![SD_8_13](../static/SD_8_13.png)
+
+---
+
+#### Add Step 7.
+
+Recording & Addressing Design Decisions
+
+![SD_8_14](../static/SD_8_14.png)
+- Trying to Use Concurrency for general System
+- Message Queue
+
+![SD_8_15](../static/SD_8_15.png)
+
+![SD_8_15](../static/SD_8_18.png)
+
+**Frameworks** VS **Reference Architecture**
+
+Framework is a Tool, Code, you can build off of it.
+Ref. Arch is a Architectural Structure to maybe follow.
+---
+
+#### Use Kanban
+![SD_8_15](../static/SD_8_156.png)
+
+**How Addressed** Are these Q.A Scenarioes, Notice that the High Priority ones are being **ADDRESSED FIRST**
+
+![SD_8_15](../static/SD_8_17.png)
+
+We're building something from Scratch, maybe you'll do an Iteration on a pre-designed architecutre... and do like Iteration 3 off the bat.
+
+- Mitigation of Technical Risks, coming back to Kanban Board
+
+**Prototype**
+- Understand Concept of Product
+- Monolithic System
+
+- Learn something about the Product you're building, Testing & Trials
+</details>
