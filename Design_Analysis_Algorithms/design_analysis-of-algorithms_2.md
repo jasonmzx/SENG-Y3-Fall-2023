@@ -1,4 +1,23 @@
 
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Chapter 5. Probabilistic Analysis and Randomized Algorithms</summary>
+
+**Parking Problem**:
+
+37% Rule, 1 / Euler's Number = ~0.3697, which is the "Optimal Stopping" point for an Algorithm where you don't know the next entry, but you're trying to Optimize your chances of picking the "Best" *(Highest Ranking)* Thing. In the case of the Hiring Problem, it's the highest ranking candidate for employement.
+
+![DSA C61](../static/DSA_5_1.png)
+
+**BIAS**
+For the Hiring Problem, <br><br/>
+If we consider the sequence in which candidates arrive for the interview, a **"BIASED"** sequence would be one in which the likelihood of encountering a better candidate is not equal at each step of the interview process. In other words, if some candidates have a higher chance of showing up earlier or later in the interview process, then the sequence would be biased.
+
+However, the hiring problem assumes a uniform random permutation of applicants, which means that each candidate is equally likely to be interviewed at any point in the process. This implies that there is no bias in the order of interviews.
+
+The hiring algorithm itself doesn't involve a biased random process; it's a deterministic procedure that assumes a fair comparison of candidates based on their qualifications. The discussion of **BIASED-RANDOM** is more about understanding the nature of probabilistic processes and how they can be manipulated to achieve desired outcomes, which is a common theme in the study of randomized algorithms and probabilistic analysis.
+
+</details>
+
 
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Chapter 6. HeapSort</summary>
@@ -219,4 +238,34 @@ Notice that Alice and Charlie both have a grade of 'B', and in the sorted array,
 
 
 good video for this chapter: [CLICK](https://youtu.be/pJ1IQD5rv4o)
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Midterm Study #2</summary>
+
+  ## Q1.
+   ![DSA RTA2](../static/DSA_M2_1.png)
+
+   **Extracted info**
+   A.) Avg case: Theta(N) , Worst case: Theta(N^2)
+  - Smaller hidden constants, and easier implementation
+
+   B.) Avg case & Worst case is Theta(N * lg n)
+  - Larger constants, More complex implementation
+
+  Solve the same problem P.
+
+  **The inputs are fairly small.**
+  - Algorithm A would be the better choice. Since the inputs are small, the quadratic worst-case time complexity of A is less of a concern. Moreover, the smaller constants hidden by the Θ-notation and the ease of implementation make A more suitable for this scenario.
+  - TL:DR, if A does end up with Quadric time, it's fine because of small input, I'd rather reduce the hidden constants cost!
+
+  **For large and uniformly chosen inputs, processing in bulk:** 
+  - Algorithm B should be preferred because its average-case and worst-case running times are both Θ(n lg n), which is better than A’s quadratic worst-case running time. When processing a large number of inputs, the lower worst-case time complexity of B will likely lead to better overall performance, despite the larger hidden constants.
+
+  **For large inputs skewed towards A’s worst case:** 
+  - Ofcourse, Algorithm B is the better option. Given that the inputs are heavily skewed towards A’s worst-case scenario, the Θ(n^2) running time of A would become a significant problem. B’s consistent Θ(n lg n) performance, in both average and worst cases, would result in a more predictable and generally lower total processing time.
+
+  **For moderate-sized inputs, processed one at a time in real-time:**
+  - Algorithm A could be more desirable due to its linear average-case time complexity and the fact that it is easier to implement, which might be important in an interactive tool that is being used to explore data. Since we care about the response time on each individual input, A’s faster average-case, given the smaller constants, would likely provide a more responsive experience for the user.
+
 </details>
