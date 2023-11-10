@@ -16,8 +16,8 @@ However, the hiring problem assumes a uniform random permutation of applicants, 
 
 The hiring algorithm itself doesn't involve a biased random process; it's a deterministic procedure that assumes a fair comparison of candidates based on their qualifications. The discussion of **BIASED-RANDOM** is more about understanding the nature of probabilistic processes and how they can be manipulated to achieve desired outcomes, which is a common theme in the study of randomized algorithms and probabilistic analysis.
 
-**Question(s)**
-   ![DSA 51](../static/DSA_5_1.png)
+## **Question(s)**
+   ![DSA 51](../static/DSA_5_2.png)
 </details>
 
 
