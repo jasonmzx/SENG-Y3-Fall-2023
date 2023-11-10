@@ -16,6 +16,8 @@ However, the hiring problem assumes a uniform random permutation of applicants, 
 
 The hiring algorithm itself doesn't involve a biased random process; it's a deterministic procedure that assumes a fair comparison of candidates based on their qualifications. The discussion of **BIASED-RANDOM** is more about understanding the nature of probabilistic processes and how they can be manipulated to achieve desired outcomes, which is a common theme in the study of randomized algorithms and probabilistic analysis.
 
+**Question(s)**
+   ![DSA 51](../static/DSA_5_1.png)
 </details>
 
 
@@ -133,9 +135,12 @@ Max Heap has more applications tho...
 
   ## Loop Invariant:
   ![DSA 7](../static/DSA_7_3.png)
+  ![dsa 77](../static/DSA_7_LI.png)
 
   ## Scenarios:
   ![DSA 7](../static/DSA_7_4.png)
+
+  **QuickSorts WORST CASE**: 1 Parition has `n-1` Elements in it, and the other has `0` Elements in it. *(last parition is the Pivot Set, of 1 element)*
 
   ![DSA Case Scenarios](../static/DSA_7_5.png)
 
@@ -144,14 +149,18 @@ Max Heap has more applications tho...
   ## **Recursion Tree Analysis**
   ![DSA RTA](../static/DSA_7_6.png)
   ![DSA RTA2](../static/DSA_7_7.png)
-
    ![DSA RTA2](../static/DSA_7_8.png)
+![DSA RTA2](../static/DSA_7_wc.png)
+
+   ## Randomized QuickSort
    ![DSA RTA3](../static/DSA_7_9.png)
+  - Random Pivot is Picked
+
    ![DSA RTA3](../static/DSA_7_10.png)
 
   ---
-
-  *proofs & more studies for quicksort TODO*
+   ## QuickSort Pseudo-Code:
+  ![DSA HS](../static/DSA_6_tb.png)
 
 </details>
 
@@ -253,7 +262,7 @@ good video for this chapter: [CLICK](https://youtu.be/pJ1IQD5rv4o)
    B.) Avg case & Worst case is Theta(N * lg n)
   - Larger constants, More complex implementation
 
-  Solve the same problem P.
+  **A** & **B** Solve the same problem P.
 
   **The inputs are fairly small.**
   - Algorithm A would be the better choice. Since the inputs are small, the quadratic worst-case time complexity of A is less of a concern. Moreover, the smaller constants hidden by the Θ-notation and the ease of implementation make A more suitable for this scenario.
