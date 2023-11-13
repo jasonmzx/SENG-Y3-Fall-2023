@@ -468,7 +468,7 @@ Step
 
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Pipelining </summary>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Pipelining *(Intro)*</summary>
 
 **Pipelining** Increases thru-put:
 
@@ -670,8 +670,12 @@ Pnp. Amount of Instructions executed within a Cycle *(INSTRUCTION THROUGHPUT)*
 
 </details>
 
+---
+
+## Chapter 6: Pipelining & Data Dependencies
+
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Pipelining | Branch Delays on</summary>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Pipelining | Issues & Data Dependencies</summary>
 
 Pipelining IN CISC:
 
@@ -680,5 +684,233 @@ Pipelining IN CISC:
 #### Summary
 
 - Pipelining increases Through-Put
+
+TODO: show pipelining issues
+</details>
+
+---
+
+## Chapter 7: The Memory System 
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Concepts & Static RAM</summary>
+
+  ![mcpa70](../static/MPCA_7_0.png)
+
+  ## Key Points on Computer Memory and Addressing
+
+### Addressing Scheme and Memory Size
+- **16-bit addresses:** Can address up to \(2^{16} = 64K\) memory locations.
+- **32-bit addresses:** Capable of utilizing up to \(2^{32} = 4G\) locations.
+- **64-bit addresses:** Access up to \(2^{64} = 16E \approx 16 \times 10^{18}\) locations.
+
+### Memory Operation
+- Memory stores and retrieves data in word-length quantities.
+- In a 32-bit address system:
+  - High-order 30 bits specify the word to be accessed.
+  - Low-order 2 bits determine the byte location for byte quantities.
+
+### Processor-Memory Interface
+- Consists of address, data, and control lines.
+- **Address lines:** Specify the memory location for data transfer.
+- **Data lines:** Transfer the data.
+- **Control lines:** Indicate Read/Write operations, byte/word transfer, and provide timing information.
+- Memory responds with MFC signal, signaling completion of the operation.
+
+### Memory Speed Measures
+- **Memory access time:** Time from the start to the completion of a data transfer operation *(per word or byte)*.
+- **Memory cycle time:** Minimum delay between two successive memory operations, typically longer than access time.
+
+### Memory Types
+- **Random-Access Memory (RAM):** Access time is the same for any location, independent of its address.
+- Contrasts with serial or partly serial access storage devices *(e.g., magnetic/optical disks)*, where access time depends on data position.
+- Computer memories are implemented using semiconductor integrated circuits.
+
+---
+
+  ![mcpa70](../static/MPCA_7_1.png)
+
+  ## Cache & Virtual Memory
+
+#### Memory Access Bottleneck
+- Processor processes data faster than it can be fetched from main memory.
+- Therefore, *Memory access time* is the system bottleneck.
+
+#### Cache Memory
+- A small, fast memory placed between the main memory and the processor. *(L2, and L1)*
+- Holds currently active portions of a program and their data.
+
+#### Virtual Memory
+- Only active parts of a program are kept in main memory; the rest is on secondary storage.
+- Involves transparent transfer of program sections between main memory and secondary storage.
+- Allows the application program to perceive a memory size larger than physical main memory.
+
+#### Block Transfers
+- Data are transferred in blocks (not one word at a time) between:
+  - Main memory and cache.
+  - Main memory and disk.
+  - Main memory and high-speed devices *(e.g., graphics display, Ethernet interface)*.
+- Block transfers involve tens, hundreds, or thousands of words.
+- The speed of reading/writing blocks of data is critical for main memory performance.
+
+---
+
+## Semiconductor RAM Memories
+- Cycle times range from 100 ns to less than 10 ns.
+
+### Internal Organization
+- **Memory Cells:** Organized in an array, each cell holds a single bit.
+- **Words:** Formed by rows of cells, connected to word lines.
+- **Columns:** Connect cells to bit lines.
+- **Sense/Write Circuits:** Act as interfaces between internal bit lines and chip's data I/O pins.
+
+### Control Pin Connections
+- **Read/Write (R/W) Input:** Specifies the operation (Read or Write).
+- **Chip Select (CS) Input:** Selects a specific chip in a multi-chip memory system.
+
+### Memory Operations
+- **Read Operation:** Sense/Write circuits sense data from selected cells and output them.
+- **Write Operation:** Sense/Write circuits store input data in selected cells.
+
+![mcpa70](../static/MPCA_7_2.png)
+
+**Figure 8.2** is an example of a very small memory circuit consisting of 16 words of 8 bits each. This is referred to as a `16 × 8 organization`. The data input and the data output of each Sense/Write circuit are connected to a single bidirectional data line that can be connected to the data lines of a computer. Two control lines, **R/W** and **CS**, are provided. The R/W
+*(Read/Write)* input specifies the required operation, and the CS *(Chip Select)* input selects
+a given chip in a multichip memory system.
+
+#### Additional Info. Fig 8.2
+
+- **Stores** 128 bit! *(16 x 8)*
+
+- **Address Decoder (AD)** Selects a word from the Memory, in this example each word is uniquely represented by 4 bits, for 16 different words that can be selected.
+
+- **Word Line(s)** Every word has a line,it's the horizontal lines that are connected to the Address Decoder. The AD activates, once that Word is in question *(R/W)*
+
+- **Bit Line(s)** Are the vertical lines from every Sense/Write Circuit. they are connected to every cell in a row, and upon *Word Line* Activation, the control signals know to send data up to the selected word for *Read/Write* ops.
+
+- *Word Line Activation:* The signal from the address decoder causes the transistors along **W1** for ex. to turn on, which effectively connects the cells in that word to their respective bit lines.
+
+-- **Power!** A 5V power input *(usually low Amperage)* along with a Ground (GND) is necessary for this kind of Static Memory to persist, and once the power is out, so does any bits stored in RAM.
+
+---
+
+## Static Memories (SRAM)
+
+![mcpa73](../static/MPCA_7_3.png)
+
+Figure 8.4 illustrates how a static RAM (SRAM) cell may be implemented. Two inverters are cross-connected to form a latch. The latch is connected to two bit lines by transistors **T1** and **T2**.
+
+These transistors act as switches that can be opened or closed under control of the word line. 
+When the word line is at ground level, the transistors are turned off and the latch retains its state.
+
+For example, if the logic value at **point X is 1** and at **point Y is 0**, this state is maintained as long as the signal on the word line is at ground level. Assume that this state represents the value **1**.
+
+## SRAM Cell Read and Write Operations
+
+### Read Operation Steps
+- Activate the word line to close switches T1 and T2.
+- If the cell is in **state 1**:
+  - Bit line \( b \) is high.
+  - Bit line \( b' \) is low.
+- If the cell is in **state 0**:
+  - Bit line \( b \) is low.
+  - Bit line \( b' \) is high.
+- Sense/Write circuit monitors the state of \( b \) and \( b' \) and sets the output.
+
+### Write Operation Steps
+- Sense/Write circuit drives bit lines \( b \) and \( b' \).
+- Place the desired value on bit line \( b \) and its complement on \( b' \).
+- Activate the word line to force the cell into the desired state.
+- The cell retains the state after the word line is deactivated.
+
+
+- Chip implementation typically uses CMOS *(complementary metal oxide semiconductor)* cell whose advantage is low power consumption
+
+![mcpa73](../static/MPCA_7_4.png)
+
+## Characteristics of SRAM (Static RAM)
+
+### Volatility
+- SRAM cells require continuous power to retain data.
+- Contents are lost if power is interrupted—SRAMs are volatile memories.
+
+### Power Consumption
+- CMOS SRAMs have low power consumption.
+- Current flows only during access; otherwise, transistors T1, T2, and one transistor in each inverter are off.
+- No continuous path between Vsupply and ground when not accessed.
+
+### Speed
+- SRAMs offer quick access times, with commercial chips featuring access times of a few nanoseconds.
+- They are favored in applications where speed is crucial.
+
+---
+*TODO*: More on Static Ram?
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Dynamic RAM</summary>
+  
+## Comparison of SRAM and DRAM
+
+### SRAM (Static RAM)
+- Short access times due to several transistors per cell.
+- Lower density because of complex cell structure.
+- Used in applications where speed is critical.
+
+### DRAM (Dynamic RAM)
+- Simpler cell design with one transistor and one capacitor, leading to higher density and lower cost.
+- Longer access times compared to SRAM.
+- Contents are volatile and need periodic refreshing as the charge in the capacitor leaks.
+- Widely used in computers for main memory.
+
+### DRAM Cell Operation
+- **Storing Data**: Transistor \( T \) turns on to charge the capacitor \( C \) to a known value.
+- **Retention**: After \( T \) turns off, the charge remains but starts to leak due to small current conduction by \( T \).
+- **Refreshing**: Contents are refreshed during read operations or by explicitly restoring the capacitor charge.
+- **Reading Data**: Transistor \( T \) turns on, and a sense amplifier detects the charge level, interpreting it as a logic value.
+  - If charge > threshold: Amplifier recharges capacitor to logic value 1.
+  - If charge < threshold: Amplifier discharges capacitor fully.
+
+### Memory Refresh
+- All cells in a row are refreshed simultaneously due to the common word line.
+- Refreshing is critical for maintaining data integrity over time.
+---
+
+# Dynamic RAM
+![mcpa73](../static/MPCA_7_55.png)
+
+## DRAM Example:
+![mcpa73](../static/MPCA_7_5.png)
+
+- 32M x 8 bytes Dynamic Memory Chip
+
+- *cell organization:* 16K x 16K array.
+
+  - The 16,384 cells in each row are divided into 2,048 groups of 8, forming **2,048 bytes** of data.
+
+- 14 Address Bits are needed to Select Row, and 11 bits, to specify group of 8, in selected row. *(Total: 25-bit Addresses to access each unique byte)*
+
+## DRAM Operation and Timing Controlled by RAS and CAS
+
+### RAS (Row Address Strobe) Process
+- A signal pulse on the RAS line loads the row address into the row address latch.
+- Initiates a Read operation where all cells in the selected row are read and refreshed.
+
+### CAS (Column Address Strobe) Process
+- After the row address is set, the column address is applied to the address pins.
+- The column address is loaded into the column address latch via the CAS line.
+- Decodes the column address and selects a group of 8 Sense/Write circuits.
+
+### Read Operation
+- If R/W indicates a Read, the data from the selected Sense/Write circuits are transferred to the data lines \( D_7−0 \).
+
+### Write Operation
+- If R/W indicates a Write, data on \( D_7−0 \) lines overwrite contents of the selected cells in the 8 columns.
+
+### Active Low Signals
+- In commercial DRAM chips, RAS and CAS are active when low.
+- Addresses are latched with a high-to-low signal transition, indicated as \(\overline{\text{RAS}}\) and \(\overline{\text{CAS}}\).
+
+---
 
 </details>
