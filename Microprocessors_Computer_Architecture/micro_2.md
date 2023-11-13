@@ -669,3 +669,16 @@ Pnp. Amount of Instructions executed within a Cycle *(INSTRUCTION THROUGHPUT)*
 - Since ALU takes lots of time, Some Companies will Actually Pipeline the ALU itself! *Intel can do like 14 stages, but this includes ALU sub-stages*
 
 </details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Pipelining | Branch Delays on</summary>
+
+Pipelining IN CISC:
+
+- Core 2, Core i7 go up to 17 Stages
+
+#### Summary
+
+- Pipelining increases Through-Put
+
+</details>
