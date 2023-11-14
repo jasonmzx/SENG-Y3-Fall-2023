@@ -227,3 +227,150 @@ API based, Service application provides service to other Applications
 Actual Web Application that serves content to Client
 
 </details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">November 8th | ADD Iteration , Architecture Design Process
+</summary>
+
+## **ADD Iteration 1**:
+    - Deliverable 2; 
+
+*First Deliverable:* Design Objectives, Quality Attributes, Constraints, Concerns
+
+# **ADD Step 1**:
+- Look at my Inputs, why are we building this Design
+- Primary Function Requirements
+- Prioritize Quality Attributes *(Pick the Highest Priority Values, Utility Tree)*
+    - Pick the ones that are `H / H`
+
+# **ADD Step 2**
+- Establishing a goal for the Iteration is
+important as it is used to decide what drivers
+are important for this Iteration.
+
+- **Iteration 1** Establising an Overall System Structure
+- **Iteration 2** Identifying Structures to Support Primary Functionality
+- **Iteration 2** Addressing Quality Attribute Scenarios
+
+# **ADD Steps 3-5**
+
+---
+
+What Occurs when we go thru this?
+
+![SD_8_1](../static/SD_8_1.png)
+
+- Don't re-invent the Wheel!
+
+**Deployment Patterns**
+Guide deployment of Reference Architectures
+
+- 2,3,4 or N-Tier Deployment
+- Load Balanced Cluster
+- Failover Cluster
+- Private/Public Cloud
+- Etc...
+
+**Tactics** (Revisited)
+
+![SD_8_2](../static/SD_8_2.png)
+
+![SD_8_3](../static/SD_8_3.png)
+
+**Frameworks & their Concerns**
+
+![SD_8_4](../static/SD_8_4.png)
+
+**Design Concepts, Pros and Cons**
+
+![SD_8_5](../static/SD_8_5.png)
+
+![SD_8_5](../static/SD_8_6.png)
+
+- Justify what I'm covering *(Covering Use Case #1)*
+    - Decision Addressing Functionality of System
+
+![SD_8_7](../static/SD_8_7.png)
+
+---
+
+# **ADD Step 6**
+- UML Diagrams, Refference Architecture
+- Sketch Views, and Record Design Decisions
+
+
+**Usually the Software Architect's Job**
+![SD_8_7](../static/SD_8_8.png)
+
+- Minimal Design Documentation
+    - Choosing why you did something
+    - Initial Interface Specification
+        - From Sequence Diagrams / Swimlane
+
+---
+
+## Example (FCAPS)
+
+#### Logical View Example
+
+![SD_8_9](../static/SD_8_9.png)
+**Layered Architecture**
+
+#### Deployment View
+
+![SD_8_10](../static/SD_8_10.png)
+
+#### External Interface
+- External interfaces include interfaces from other systems that are required by the system that you are developing and interfaces that are provided by your system to other systems.
+
+
+![SD_8_11](../static/SD_8_11.png)
+
+#### Internal Interfaces
+
+![SD_8_12](../static/SD_8_12.png)
+
+- Get's Components & Interfaces from it, very powerful for System Design
+
+**Common Issue**: Elements "pop-up" in the sequence diagram that isn't in the Architecture.
+
+![SD_8_13](../static/SD_8_13.png)
+
+---
+
+#### Add Step 7.
+
+Recording & Addressing Design Decisions
+
+![SD_8_14](../static/SD_8_14.png)
+- Trying to Use Concurrency for general System
+- Message Queue
+
+![SD_8_15](../static/SD_8_15.png)
+
+![SD_8_15](../static/SD_8_18.png)
+
+**Frameworks** VS **Reference Architecture**
+
+Framework is a Tool, Code, you can build off of it.
+Ref. Arch is a Architectural Structure to maybe follow.
+---
+
+#### Use Kanban
+![SD_8_15](../static/SD_8_156.png)
+
+**How Addressed** Are these Q.A Scenarioes, Notice that the High Priority ones are being **ADDRESSED FIRST**
+
+![SD_8_15](../static/SD_8_17.png)
+
+We're building something from Scratch, maybe you'll do an Iteration on a pre-designed architecutre... and do like Iteration 3 off the bat.
+
+- Mitigation of Technical Risks, coming back to Kanban Board
+
+**Prototype**
+- Understand Concept of Product
+- Monolithic System
+
+- Learn something about the Product you're building, Testing & Trials
+
+</details>

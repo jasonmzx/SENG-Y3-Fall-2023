@@ -278,3 +278,95 @@ good video for this chapter: [CLICK](https://youtu.be/pJ1IQD5rv4o)
   - Algorithm A could be more desirable due to its linear average-case time complexity and the fact that it is easier to implement, which might be important in an interactive tool that is being used to explore data. Since we care about the response time on each individual input, A’s faster average-case, given the smaller constants, would likely provide a more responsive experience for the user.
 
 </details>
+
+
+<details>
+<summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Chapter 10. Elementary Data Structure</summary>
+
+### Linked List 
+- Dynamic Data Structure *(Grows dynamically, unlike needed to pre-allocate memory)*
+- Uses Pointer *(Address to a Memory Location)*
+- **Tree**s and **Graph**s , Linked Lists are good for these data structures
+
+**Facebook Example**
+
+In array form:, for 1 billion users with friends, an "Adjecency Matrix" of (*1 billion* x *1 billion*) array and 1's represent friendships, very Spare... **Graphs** can do this more efficiently
+
+---
+
+### Arrays vs LinkedList
+
+Arrays have **Random Access** Time
+
+Linked Lists **Sequential Access**, iterate to that point
+
+---
+
+### Doubly Linked List:
+
+![DSA 10 1](../static/DSA_10_1.png)
+
+**Head Node**'s "prev" is NULL
+**Tail Node**'s "next" is NULL
+
+
+![DSA 10 2](../static/DSA_10_2.png)
+
+`x != NIL` checks if the list list is empty or not
+`x.key != k` Case to keep looping, as K hasn't been found yet
+
+**L** is the pointer to Linked List *(Head Node)*
+**K** is the element we're trying to find
+
+---
+*In Doubly Linked List*
+
+![DSA 10 3](../static/DSA_10_2.png)
+
+Inserting **25**:
+
+1. Disconnect L.head to first Node,
+2. Point L.head to Node of value **25**
+3. For that next node *(Previous First Node)*, reset that node's `prev = NIL` to `prev = 25`
+
+Delete **x.**:
+
+TODO: 
+
+---
+### Sentinels
+
+Let's say I don't want Dynamic Allocation as I've got a Large Array:
+I want to minimize search time, so I can put a "Sentinel" where I know it's the current end of my array
+
+`[1,2,3,4,5,6,# , .... ]`
+
+Here our sentinel can be `#`
+
+![DSA 10 4](../static/DSA_10_4.png)
+
+**LEFT** With Sentinel *(No needs for NIL assertions)* <br></br>
+**RIGHT** Without Sentinel
+
+In the case of Double Linked List: Sentinel can be a "Dummy node" with the *KEY* which is *NIL*
+
+---
+
+### Implementing Pointers and Objects
+- At a low level, Linked Lists are implemented as Arrays
+![DSA 10 5](../static/DSA_10_5.png)
+
+3 Layers
+Always in the Exam, gives you a N. Layered Array, Misleading, etc...
+- Represent it to as a Regular Linked List, or *Vice-Versa*
+
+TODO: array impls
+
+---
+
+### Allocating & Freeing Objects 
+
+![DSA 10 6](../static/DSA_10_6.png)
+
+
+</details>

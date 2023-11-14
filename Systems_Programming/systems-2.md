@@ -646,148 +646,53 @@ Copying the loadable image into memory, connecting it with any other programs al
 
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">November 8th | ADD Iteration , Architecture Design Process
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Week ?. Program Tracing & Debugging
 </summary>
 
-## **ADD Iteration 1**:
-    - Deliverable 2; 
+### Tracing System Calls from Commands
 
-*First Deliverable:* Design Objectives, Quality Attributes, Constraints, Concerns
+- Specifically traces system calls, the power of **strape**
 
-# **ADD Step 1**:
-- Look at my Inputs, why are we building this Design
-- Primary Function Requirements
-- Prioritize Quality Attributes *(Pick the Highest Priority Values, Utility Tree)*
-    - Pick the ones that are `H / H`
+`strace` on Linux
+`strace -e trace=read ls` Traces the **read()** calls that LS preforms upon command execution
+`strace -e trace=write ls` Traces the **write()** calls that LS preforms upon command execution
 
-# **ADD Step 2**
-- Establishing a goal for the Iteration is
-important as it is used to decide what drivers
-are important for this Iteration.
+`strace -t ...` Tracing with a Timestamp
 
-- **Iteration 1** Establising an Overall System Structure
-- **Iteration 2** Identifying Structures to Support Primary Functionality
-- **Iteration 2** Addressing Quality Attribute Scenarios
+[StackOverFlow | system write(), print to Terminal](https://stackoverflow.com/questions/3866217/how-can-i-make-the-system-call-write-print-to-the-screen)
 
-# **ADD Steps 3-5**
+### Tracing System Process
+- Once Application runs, it will load it into memory, and Execute... You can trace all of this
 
----
+Tracing specific Process ID: `sudo strace -p 3306 -o output.txt`
 
-What Occurs when we go thru this?
+`ps -C <Application Name>` *(Show's current processes in the Terminal)*
+`ps aux` *Show all process, from all users Root, Jason and System*
 
-![SD_8_1](../static/SD_8_1.png)
+**Anwar's Example**
+Step 1. find firefox processes `ps aux | grep "firefox"`
+Step 2. Find Firefox process via `ps -c firefox`
 
-- Don't re-invent the Wheel!
+You can trace any commands, as Commands has underlying Code being executed.
 
-**Deployment Patterns**
-Guide deployment of Reference Architectures
+### **Why Trace Applications?**
+ It is primarily used to monitor the system calls and signals received by a process. This tool is invaluable for understanding how a program interacts with the system's kernel. 
 
-- 2,3,4 or N-Tier Deployment
-- Load Balanced Cluster
-- Failover Cluster
-- Private/Public Cloud
-- Etc...
-
-**Tactics** (Revisited)
-
-![SD_8_2](../static/SD_8_2.png)
-
-![SD_8_3](../static/SD_8_3.png)
-
-**Frameworks & their Concerns**
-
-![SD_8_4](../static/SD_8_4.png)
-
-**Design Concepts, Pros and Cons**
-
-![SD_8_5](../static/SD_8_5.png)
-
-![SD_8_5](../static/SD_8_6.png)
-
-- Justify what I'm covering *(Covering Use Case #1)*
-    - Decision Addressing Functionality of System
-
-![SD_8_7](../static/SD_8_7.png)
+### Tracing Limitations:
+- Less effective for debugging issues within the program's own code, such as logic errors or algorithmic bugs.
+- Limited to system call level; doesn't provide insights into the internal logic or state of the program.
 
 ---
+## Debugger
+Post-mortem debugging, when the file runs, and a run-time error occurs and it "core-dump"
 
-# **ADD Step 6**
-- UML Diagrams, Refference Architecture
-- Sketch Views, and Record Design Decisions
+"core-dump" System generates a file which is a "backtrace"
 
+`ulimit` <= Limit to generating Core Dumps
+`ulimit -c unlimited` <= change Limit of Core-dump file to Unlimited space
 
-**Usually the Software Architect's Job**
-![SD_8_7](../static/SD_8_8.png)
+in `var/lib/apport/coredump` you can view Core Dumps
 
-- Minimal Design Documentation
-    - Choosing why you did something
-    - Initial Interface Specification
-        - From Sequence Diagrams / Swimlane
-
----
-
-## Example (FCAPS)
-
-#### Logical View Example
-
-![SD_8_9](../static/SD_8_9.png)
-**Layered Architecture**
-
-#### Deployment View
-
-![SD_8_10](../static/SD_8_10.png)
-
-#### External Interface
-- External interfaces include interfaces from other systems that are required by the system that you are developing and interfaces that are provided by your system to other systems.
-
-
-![SD_8_11](../static/SD_8_11.png)
-
-#### Internal Interfaces
-
-![SD_8_12](../static/SD_8_12.png)
-
-- Get's Components & Interfaces from it, very powerful for System Design
-
-**Common Issue**: Elements "pop-up" in the sequence diagram that isn't in the Architecture.
-
-![SD_8_13](../static/SD_8_13.png)
-
----
-
-#### Add Step 7.
-
-Recording & Addressing Design Decisions
-
-![SD_8_14](../static/SD_8_14.png)
-- Trying to Use Concurrency for general System
-- Message Queue
-
-![SD_8_15](../static/SD_8_15.png)
-
-![SD_8_15](../static/SD_8_18.png)
-
-**Frameworks** VS **Reference Architecture**
-
-Framework is a Tool, Code, you can build off of it.
-Ref. Arch is a Architectural Structure to maybe follow.
----
-
-#### Use Kanban
-![SD_8_15](../static/SD_8_156.png)
-
-**How Addressed** Are these Q.A Scenarioes, Notice that the High Priority ones are being **ADDRESSED FIRST**
-
-![SD_8_15](../static/SD_8_17.png)
-
-We're building something from Scratch, maybe you'll do an Iteration on a pre-designed architecutre... and do like Iteration 3 off the bat.
-
-- Mitigation of Technical Risks, coming back to Kanban Board
-
-**Prototype**
-- Understand Concept of Product
-- Monolithic System
-
-- Learn something about the Product you're building, Testing & Trials
+How can I trace the core-dump
 
 </details>
