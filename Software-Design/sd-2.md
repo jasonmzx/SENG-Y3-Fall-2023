@@ -374,3 +374,81 @@ We're building something from Scratch, maybe you'll do an Iteration on a pre-des
 - Learn something about the Product you're building, Testing & Trials
 
 </details>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">November 15th | ADD Iteration #3
+</summary>
+
+**FCAPS Example has Active Redundancy | ADD 3 Discussion**:
+- *Address all your Quality Attributes as much as possible*
+- Important we've got a Process in place for the Software Design, so we're achieving Quality Attributes & Constraints
+
+#### Exercise #7 | ADD #1 Review
+
+- Constraints & Quality Attributes, usually given
+- ADD #1, come up with a general Refference Architecture you want to use
+
+-ADD #2, Breaks down the components within the Reference Architecture
+
+![](../static/SD_a1a.png)
+
+*Understand what's External, and what's Internal*
+
+*Hardware is External, Payment Service is outside, POS Terminal is outside* My system is strictly the **Cash Register**
+
+- These External components will eventually have internal modules interfacing outwards!
+
+- ADD #1, Looks at the Large High-level Architecture
+  - Step 4. Decisions
+  - Step 5. Instanciations *(What am I gonna do with my Decision, how will I Make it Happen?)*
+    - Instanciation generally becomes a tactic
+
+- Step 6. What LISCANO looks for !!
+  - Based on the Reference Architecture *(Rich Client in this case)* 
+  - Added & Removed Modules that are required for our Application *(Cash Register)*
+  - Use a common Reference Architecture
+
+![](../static/SD_a2a.png)
+
+- Upon implementations, these High-Abstraction Layers dissapear, like no such thing as a Presentation Layer.
+
+![](../static/SD_a3a.png)
+
+For Elements that aren't "Generic" to the Refference Architecture, add them into a table.
+
+---
+
+#### ADD Iteration #2
+
+- ALWAYS Address one Quality Attribute at a Time!
+
+
+- **Domain Model**:
+  - What are the key classes that need to be defined for an Application? Extracting classes and Actors from Natural Language. *(Car rental site... well we need a Model of a "car" which we can rent off)*
+
+  - **Ignore Domain Model** Until the time for Implementation arrises. 
+
+  - **Domain Analysis** Is still Needed!  Go thru use-cases and extract elements: for EX8
+      - Session, Is it a Domain Component? or Domain Entity?
+      - Product is a Domain Entity
+      - Barcode Scanner (Domain Component) *Interface to Barcode scanner hardware*
+      - Display (Domain Component) *Interface to display of Presentation Layer*
+
+  - Anything that's decided to be a **Domain Component** Will be put into the Diagram *Logical Architecure Diagram*
+
+    - What are Domain Specific Things you need in your system
+    - The Product **Domain Entity** is a part of these Domain components, so you need to go from this Domain Analysis to an Architecture *Sketch* which uses these!  
+      - Dependencies, for example a Controller is the centralized dependency module, it depends on everything to control it.
+
+  **TABLE: Element | Domain Component | Domain Entity**
+
+    - EX8: Added a Local Storage Database, and Session DB
+
+  **Fcaps** Gets Domain Analysis, then defines Domain Components, then adds those into the Layers
+
+  **Grading Quality | By liscano**
+  - Consistency of Components between Diagrams
+    - Consistent Interfaces 
+
+</details>
