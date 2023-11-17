@@ -913,4 +913,177 @@ For example, if the logic value at **point X is 1** and at **point Y is 0**, thi
 
 ---
 
+**Issue with DRAM...**
+
+In a typical DRAM, when you need to access a byte of data, you provide a row and column address. The DRAM fetches the entire row of data *(thousands of bits)*, but only the specific byte (8 bits) you asked for is sent back. To access another byte, even if it's in the same row, you need to repeat the whole process, which is slow.
+
+
+## Fast Page Mode:
+- Large block of data is often called a "page"
+With FPM, this process is optimized. Imagine you're reading a book and need to reference multiple sentences on the same page. Instead of flipping to the page for each sentence, you keep the page open and simply move your eyes to each sentence. FPM does something similar with DRAM data.
+- **Initial Access:** When you first access a row in the DRAM, all the data in that row is read and stored temporarily (like opening a page in the book).
+
+- **Subsequent Accesses:** If you need to access another byte in the same row, FPM allows you to do so without having to 're-open' the row. You just change the column address (like moving your eyes to a different sentence). This is much faster because you skip the step of selecting the row again.
+
+**Example:** Suppose you need to access three bytes of data, all located in the same row but at different columns. In standard mode, you would activate the row and read the first byte, then repeat this process for the next two bytes. With FPM, you activate the row once, read the first byte, and for the next two bytes, you only change the column address, making the process quicker.
+
+**Sidenote: FPM nowadays is deprecated LOL!**
+FPM was a significant improvement in its time because it sped up the data transfer for blocks of data located in the same row. However, modern systems use more advanced methods that are faster and more efficient than FPM. Despite its historical importance, FPM is now considered outdated for most modern applications.
+
+---
+
+## Synchronous DRAM figure:
+
+![dd](../static/MCPA_sync_dram.png)
+
+**Cell Array** is still the exact same as Async DRAM *(Async is the Older style)*
+
+**Buffer Registers** are useful when transferring large blocks of data at very high speed
+
+**Processor:** I want 0xDEADBEEF !, **Async Dram:** K I promise ill give it to u at some point...
+**Processor:** I want 0xDEADBEEF and will be back in 3 cycles !, **Sync Dram:** It will be there in 3 cycles!
+
+**Sync DRAM** wastes less time, as it schedules Memory Getting and writing more efficiently.
+
+- Sense amplifiers still have latching capability
+- Additional benefits from internal buffering and availability of synchronizing clock signal
+- Internal row counter enables built-in refresh instead of relying on external controller Synchronous DRAMs
+
+The distinguishing feature of an SDRAM is the use of a clock signal, the availability of which makes it possible to incorporate control circuitry on the chip that provides many useful features. For example, SDRAMs have built-in refresh circuitry, with a refresh counter to provide the addresses of the rows to be selected for refreshing. 
+
+![dd1](../static/MCPA_sync_dram_1.png)
+
+# SDRAM Burst Read Operation (Length 4)
+
+1. **Row Address Latching**
+   - **Action**: Latch the row address under control of the RAS (Row Address Strobe) signal.
+   - **Explanation**: This step involves selecting the row from where the data will be read. The RAS signal is used to lock in this row address.
+
+2. **Row Activation**
+   - **Action**: The memory takes a few clock cycles (typically 5 or 6, but simplified to 2 in the figure) to activate the selected row.
+   - **Explanation**: During this time, the SDRAM is preparing the row of data to be read. Think of it as opening the correct page in a book.
+
+3. **Column Address Latching**
+   - **Action**: Latch the column address under control of the CAS (Column Address Strobe) signal.
+   - **Explanation**: After the row is activated, the specific column (or the starting column for a burst read) is selected. The CAS signal locks in this column address.
+
+4. **Data Transfer Delay**
+   - **Action**: Wait for a delay of one clock cycle.
+   - **Explanation**: This brief pause allows the SDRAM to get the first set of data bits ready for transfer.
+
+5. **First Data Set Transfer**
+   - **Action**: Transfer the first set of data bits onto the data lines.
+   - **Explanation**: The SDRAM puts the data from the selected row and column on the output pins. This is the first piece of data in your burst sequence.
+
+6. **Automatic Column Increment**
+   - **Action**: Automatically increment the column address to access the next sets of bits in the selected row.
+   - **Explanation**: After reading the first set of data, the SDRAM automatically moves to the next column in the same row.
+
+7. **Sequential Data Transfer**
+   - **Action**: Transfer the next three sets of data bits in the following 3 clock cycles.
+   - **Explanation**: The SDRAM continues to read data from the next columns, transferring each set in each subsequent clock cycle. This completes the burst of four data transfers.
+
+**Note about Bandwidth**
+
+The first word of data is transferred five clock cycles later. Thus, the latency is five clock cycles. If the clock rate is 500 MHz, then the
+latency is 10 ns. The remaining three words are transferred in consecutive clock cycles, at the rate of one word every 2 ns.
+<br><br/>
+The example above illustrates that we need a parameter other than memory latency to describe the memory’s performance during block transfers. A useful performance measure is the number of bits or bytes that can be transferred in one second.
+
+- Bandwidth also depends on number of parallel access that can occur and rate of transfer of data
+
+---
+
+*EXHERT:*
+
+The SDRAM automatically increments the column address to access the next three sets of bits in the selected row, which are placed on the data lines in the next 3 clock cycles. Synchronous DRAMs can deliver data at a very high rate, because all the control signals needed are generated inside the chip. The initial commercial SDRAMs in the 1990s were designed for clock speeds of up to 133 MHz. As technology evolved, much faster SDRAM chips were developed. Today’s SDRAMs operate with clock speeds that can exceed 1 GHz.
+
+---
+
+## Double-Data-Rate SDRAM (DDR, Synchronous Dynamic RAM)
+
+- DDR symbolizes that data are transferred externally on both the rising and falling edges of the clock. For this reason, memories that use this technique are called double-data-rate SDRAMs *(DDR SDRAMs)*.
+
+Several versions of DDR chips have been developed. The earliest version is known as DDR. Later versions, called DDR2, DDR3, and DDR4, have enhanced capabilities. They offer increased storage capacity, lower power, and faster clock speeds. For example, DDR2 and DDR3 can operate at clock frequencies of 400 and 800 MHz, respectively. Therefore, they transfer data using the effective clock speeds of 800 and 1600 MHz, respectively.
+
+**DDR4** operates at 1.2V and up to 3200 MT/s
+**DDR5** operates at 1.1V and up to 7200 MT/s
+---
+
+## Structure of "BIG-BOI" Memories, we're talkings alot of WORDS!
+- Larger memories combine multiple chips *(memory chips may be connected to form a much larger memory)*
+
+![dd2](../static/MCPA_sync_dram_2.png)
+
+**Notes**
+- 2M word-addressable memory needs **21 bits**
+- Each chip has only 19 address bits (2^19 = 512K)
+- Address bits *A20* and *A19* select one of 4 groups *( 2-bit decoder drive chip-select pins )*
+- Only selected chips respond to a request
+
+- Implement with 512K x 8 static memory chips
+- 4 chips for 32 bits, 4 groups of 4 chips for 2M
+- Shared data connections need tri-state circuits
+  - When a chip is not selected (i.e., CS input is 0), its I/O pins are electrically disconnected Synchronous DRAMs
+
+
+*I got no clue what tri-state is, review that*???
+The data output for each chip is of the tri-state type described in Section 7.2.3. 
+
+![dd2](../static/MCPA_sync_dram_3.png)
+Chips are manufactured in different organizations, to provide flexibility in designing memory systems. For example, a 1-Gbit chip may be organized as 256M × 4, or 128M × 8. Packaging considerations have led to the development of assemblies known as memory modules. 
+---
+
+
+## MEMORY Controller
+
+Let's say the processor wants to access a specific cell in the memory. The complete address is **1001101011.**
+
+High-Order Bits (Row Address):
+
+Suppose the first 5 bits  **10011** are high-order bits.
+These bits are sent first to select a row.
+Low-Order Bits (Column Address):
+
+The remaining 5 bits **01011** are low-order bits.
+These bits are sent next to select a column.
+Memory Controller's Role:
+
+It receives the full address **1001101011** from the processor.
+Splits the address into **10011** (row) and **01011** (column).
+Sends row address with RAS signal and column address with CAS signal.
+
+# Summary of Dynamic RAM (DRAM) Addressing and Refresh
+
+## DRAM Addressing
+- **Address Split**: DRAM chip addresses are divided into high-order and low-order bits.
+- **High-Order Bits**: Select a row in the cell array. These are latched first with the RAS (Row Address Strobe) signal.
+- **Low-Order Bits**: Select a column. These are latched after row selection, using the same address pins, with the CAS (Column Address Strobe) signal.
+- **Processor and Memory Controller**: A typical processor issues the complete address at once, requiring a multiplexer. This role is often fulfilled by a memory controller.
+- **Memory Controller Functions**:
+  - Accepts the full address and R/W signal from the processor.
+  - Splits the address for row/column selection.
+  - Generates RAS and CAS signals with appropriate timing.
+- **Module Selection**: In systems with multiple memory modules, the high-order bits of the address are used to select the appropriate module.
+
+## DRAM Refresh
+- **Necessity**: Dynamic RAMs require periodic refreshing.
+- **Refresh in Synchronous and Asynchronous DRAM**:
+  - Synchronous DRAMs have internal control circuitry for refresh cycles.
+  - Asynchronous DRAMs need an external control circuit, typically part of the memory controller.
+- **Refresh Overhead**:
+  - Refresh operations cause a small delay in memory access.
+  - Example: In an SDRAM needing a refresh every 64 ms, the total time for refreshing all rows is about 0.41 ms. This results in a refresh overhead of less than 1%.
+
+## Choice of Technology
+- **Static vs. Dynamic RAM**:
+  - Static RAM (SRAM): Fast, but more complex and costly. Used for small, fast memory needs.
+  - Dynamic RAM (DRAM): High bit density, low cost per bit. Synchronous DRAMs are common for main memory.
+
+Synchronous DRAMs are the predominant choice for implementing the main memory.
+
+---
+
+**READ-ONLY Memory**
+
 </details>
