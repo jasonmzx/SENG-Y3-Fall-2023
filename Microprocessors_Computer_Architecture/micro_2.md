@@ -1084,6 +1084,26 @@ Synchronous DRAMs are the predominant choice for implementing the main memory.
 
 ---
 
-**READ-ONLY Memory**
+**READ-ONLY Memory (ROM)**
+- A special writing process is needed to place the information into a nonvolatile memory. Since its normal operation involves only reading the stored data, a memory of this type is called a *read-only memory (ROM)*.
+
+
+**Programmable READ-ONLY Memory (PROM)**
+![mc7811](../static/MCPA_7_811.png)
+
+- Some ROM designs allow the data to be loaded by the user, thus providing a programmable ROM (PROM). Programmability is achieved by inserting a fuse at point P in *Figure 8.11* The user can insert 1s at the required locations by burning out the fuses at these locations using high-current pulses but this IS PERMANENT!
+
+**Erasable, reprogrammable ROM, called an (EPROM)**
+- It allows the stored data to be erased and new data to be written into it
+- Since EPROMs are capable of retaining stored information for a long time, they can be used in place of ROMs or PROMs while software is being developed.
+- The cell looks very similar to *Figure 8.11* but instead, the point P is a Transistor, where it's normally turned off. *(Open Switch)*
+
+- **Charge Injection**: EPROM (Erasable Programmable Read-Only Memory) cells are activated by injecting charge into them.
+- **Trapped Charge**: This charge becomes trapped inside, allowing the cell to function as a memory unit, similar to ROM (Read-Only Memory) cells.
+- **Erasure Method**: To erase data, the trapped charge in the transistors, which form the memory cells, needs to be dissipated.
+- **Use of Ultraviolet Light**: Exposing the EPROM chip to ultraviolet light erases the entire contents of the chip.
+- **Packaging with Transparent Windows**: EPROM chips are housed in special packages that have transparent windows to facilitate exposure to ultraviolet light for erasure.
+
+TODO EEPROM, flash mem.
 
 </details>
