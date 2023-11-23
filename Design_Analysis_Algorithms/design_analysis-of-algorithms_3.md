@@ -111,6 +111,16 @@ When using the division method, we usually avoid certain values of m. For exampl
 # The Multiplication Method
 ![DSA_111](../static/DSA_11_15.png)
 ![DSA_111](../static/DSA_11_16.png)
+
+When you multiple 2 bytes *(8 bits) * (8 bits)*
+We need to reserve 2 bytes *(16 bit)*, for a Carry Over, else it will be overflow
+
+Here it's `word k` * `s = A * 2^w` *(const S, A is constant & 2^w multipiled, where and w is size of word in bits)* where **A <= 1**
+
+X mod 1 => *Only keep fractional parts*
+
+## **INTUITION & Examples**
+
 ![DSA_111](../static/DSA_11_17.png)
 
 **Important**: An advantage of the multiplication method is that the value of **m** is not critical. We typically choose it to be a power of 2 (`m = 2^p` for some integer `p`), since we can then easily implement the function on most computers.
@@ -119,9 +129,80 @@ When using the division method, we usually avoid certain values of m. For exampl
 
 ---
 
+**Hash Function** Mapping from Keys to Index
+
+
+![DSA_111](../static/DSA_11_19.png)
+
+- Bunch of Character Streams, and the Hash function can be: *" Look at the 3rd letter in String, and Map it in Hash Table*
+
 Universal Hashing ?
 Open Addressing ?
 Perfect Hashing ? 
 Linear Probing ?
 
   </details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 12. | Binary Search Trees</summary>
+
+- Provides Data Structure that supports Dictionary Operations *(SEARCH, DELETE, INSERT)*
+  - Isn't a complete tree *(It can be skewed/unbalanced)*
+- Every parent has at most: *2 Children, Left Child is Smaller, Right Child is Greater*
+  - We can "Bisect" the tree, having the Left side being Smaller, and Right side elements being Larger
+
+![](../static/DSA_12_2.png)
+
+
+**FIND MAX**
+To find the maximum of the Binary Search Tree, Recursively Retrieve the "Right Side" until it has **NO RIGHT CHILD**, *it doesn't need to be a leaf node*
+
+**FIND MIN**
+To find the maximum of the Binary Search Tree, Recursively Retrieve the "Left Side" until it has **NO LEFT CHILD**, *it doesn't need to be a leaf node*
+
+---
+
+**Binary-Search-Tree Operations**
+- Insertion, Deletion, Search, Predecessor, Successor, Minimum, Maximum
+
+**T.root** is a pointer to the ROOT of the BST
+![](../static/DSA_12_1.png)
+
+*We usually get a Binary Search Tree in this Chapter, and want to know how we Do **Operations** on them*
+ 
+## TODO: Study Inorder, Preorder, Postorder Traversals
+
+![](../static/DSA_12_3.png)
+
+
+### In-Order: `INL*R`
+
+#### A)
+
+- Recur, Recur
+- Go all the way left, report it: 2
+- Exit Recur, get Root: 5
+- Go right now: 5
+- Exit Recur, get Root: 6
+... todo
+
+**Complexity**
+![](../static/DSA_12_4.png)
+
+It's case is always *O(n)* as we **need** to visit all nodes!
+
+#### B)
+- 2 (root) doesn't have any left sub-tree (NIL) so get it: 2
+... todo
+
+### Pre-Order `PR*LR`
+TODO: 
+
+### Post-Order `POLR*`
+TODO:
+
+---
+
+
+
+</details>

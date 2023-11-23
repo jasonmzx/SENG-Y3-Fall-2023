@@ -452,3 +452,24 @@ For Elements that aren't "Generic" to the Refference Architecture, add them into
     - Consistent Interfaces 
 
 </details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">November 22nd Lecture</summary>
+
+**Reference Architectures**
+- Also cover Deployment Patterns
+- Banking System uses one of these aswell!
+
+- STUDY THE DESIGN CONCEPT CATALOG
+  - Know Deployment Diagrams
+  - Know Tactics
+
+
+---
+
+### Banking System Docx Exam Questions
+
+
+
+
+</details>

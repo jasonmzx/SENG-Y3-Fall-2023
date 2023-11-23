@@ -65,3 +65,79 @@ If replacement occurs, we always replace within the SET *(Even if other Sets hav
 
 
 </details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Nov 20. In Lecture</summary>
+
+## Virtual Memory
+
+- Dividing Applications into pages
+
+![MC8](../static/MCPA_8_VM.png)
+
+- All Apps. Divided into Pages *(Starting at Page N: 0)*
+- Hard-disk is divided into Pages, and ready to be loaded into the RAM
+
+- Only a select **few** pages will be loaded into the RAM, for example: Main Program get's loaded in, but side-features and sub-routines aren't yet *(Until they need to be called)*
+
+- I want INSTR: 4 from PAGE: 0, Load Entire Page 0 in the RAM, and use the *same* offset.
+
+- **VIRTUAL MEMORY** will be talked about more in the POV of Hardware, Software side will be seen in later course (OS)
+
+- Let's assume that the Page 0, is actually loaded into location 10000 of RAM, so we need to:
+  - Map Pages into actual Physical Ram
+  - MMU will build a Page table, to preform this mapping
+    - Page, and Location in Ram *(Page 0: 0x10000 in RAM)*
+    - Every Application has it's own Page Table
+
+**Page Table Example**
+- Think about an App, 100 MB *(size of normal application)  - Page Size is 1 KB
+- 100 MB / 1 KB, that's **100K PAGES** !!!!
+- Let's say a record in Page Table is 8 byte, so 800k BYTES! It can't fit in Hardware!
+- Saved somewhere in **RAM**
+
+It's hard to find like 800 blocks, for the Page Table in RAM...
+
+**Page Table Base Register** has the starting address of the page table. *Let's say you need Page 0 of the Application 1* where it's Page Table is located at 0x10000 in ram, so it's 0x10000 + 0 + Instruction number, for the first instruction.
+
+- The Control bit here: **R/W, Dirty, Execution Perms**
+
+Offset of any Entry in Page table is the same, the key is the Page Table base Register's offset.
+
+![MC8](../static/MCPA_8_VM1.png)
+
+**Translation Look-Aside Buffer**
+- Stored in MMU Cache! for very fast Page Access
+
+
+
+
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Arithmetic | Lecture 8</summary>
+
+**Content of this chapter**
+- Adders, Substractors, Multipliers, divider Circuits
+- High Speed Adders, using Carry Lookahead
+
+---
+
+
+
+
+</details>
+
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Tutorial Micro. nov 22</summary>
+
+Set & Block are the same behavior
+
+- Word Addressable: Memory is accessed in groups of words
+- Byte Addressable: Memory is accessed in groups of bytes
+
+`#sets = #blocks / N` from the *N Way Set*, then you treat your sets as blocks
+
+</details>

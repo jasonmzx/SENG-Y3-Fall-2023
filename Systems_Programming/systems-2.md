@@ -696,3 +696,62 @@ in `var/lib/apport/coredump` you can view Core Dumps
 How can I trace the core-dump
 
 </details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Week 9. Parsing
+</summary>
+
+Lexical Rules: *Like rules of the language, *
+
+Semantics Rules: *How the compiler "understands" the expressions*
+
+
+
+---
+
+Using **YACC** Yet Another Compiler: Compiler
+
+**Scanner** is generation of the Lexeme & Token Pairs, it's called `Lex` on Linux 
+Output is a Function from Lexer: `yylex()`
+
+LEX Output: `yylex()` from Input *(Raw Token Stream, which is just an Input String)*
+
+YACC calls `Lex` to retrieve `yylex()` Function, then does it's normal operations .
+
+![SYSTEM 9 X](../static/SYS_9_1.png)
+
+- LEX & YACC are available on UNIX ! 
+- BISON is a replacement on GNU
+
+![SYSTEM 9 X](../static/SYS_9_2.png)
+
+![SYSTEM 9 X](../static/SYS_9_3.png)
+
+## Parsing:
+
+
+![SYSTEM 9 X](../static/SYS_9_5.png)
+
+General Grammar Rules, Here we have some symbols, and their possible reductions: Example: **E -> E + T**, **E** can also be reduced to just **T**
+
+![SYSTEM 9 X](../static/SYS_9_4.png)
+
+`- 3 * 4`, it's `- F * F`, as `F` can be **NUM**, and since `-F` can be `F`, and T can be F, therefore `-F * F` can be `T * F` which can simply to just `T`, so like for a Token in brackets, we can just take `$2` the second token, which is in the middle of the brackets
+
+This is done over the entire Expression.
+
+Defining the Grammer, in the code $1 and $3 and the "Tokens" to be added up, E (1) + (2) E (3), we want to add up 1 and 3
+
+![SYSTEM 9 X](../static/SYS_9_7.png)
+
+---
+
+`yacc -d parser.y` Generates my y.tab *(C & Header File)*
+
+`lex parser.l` For the lexical generator
+
+`cc lex.yy.c y.tab.c -o calc` Compiled *(or gcc works)*
+
+---
+
+</details>

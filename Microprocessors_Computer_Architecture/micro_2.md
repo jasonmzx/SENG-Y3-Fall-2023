@@ -1104,6 +1104,45 @@ Synchronous DRAMs are the predominant choice for implementing the main memory.
 - **Use of Ultraviolet Light**: Exposing the EPROM chip to ultraviolet light erases the entire contents of the chip.
 - **Packaging with Transparent Windows**: EPROM chips are housed in special packages that have transparent windows to facilitate exposure to ultraviolet light for erasure.
 
-TODO EEPROM, flash mem.
+
+**Electrically Erasable Reprogrammable ROM, called an (EEPROM)**
+
+- Can be programmed, erased, and reprogrammed electrically.
+- Needs different voltages for erasing, writing, and reading stored data PROM, EPROM, and EEPROM
+
+**Flash Memory**
+- Similar to EEPROM, For higher density, Flash cells are designed to be erased (or written) in larger blocks of cells, not individually.
+- Greater density & lower cost of Flash memory outweighs the inconvenience of block writes
+- Widely used in cell phones, digital cameras, and solid-state drives *(e.g., USB memory keys)*
+
+---
+
+## Direct Memory Access (DMA):
+
+**DMA Controller** is shared by many I/O devices, or part of an I/O device
+- Although a DMA controller transfers data without intervention by the processor, its operation must be under the control of a program executed by the processor, usually an operating system routine.
+
+
+![mc7811](../static/MCPA_8_dma.png)
+
+1. **DMA Controller Registers**: The DMA (Direct Memory Access) controller uses three types of registers:
+   - **Starting Address Register**: Stores the initial address for data transfer.
+   - **Word Count Register**: Holds the number of words to be transferred.
+   - **Status and Control Flags Register**: Contains flags for controlling and monitoring the transfer.
+
+2. **Transfer Direction Control (R/W Bit)**:
+   - **Read Operation (R/W = 1)**: Data is transferred from memory to the I/O device.
+   - **Write Operation (R/W = 0)**: Data moves from the I/O device to memory.
+
+3. **Additional Data Transfer**: In some cases, like with a disk, extra information (e.g., data location on the disk) is provided by the processor to the I/O device.
+
+4. **Transfer Completion and Commands**:
+   - **Done Flag**: Set to 1 when a data block transfer is complete and the controller is ready for a new command.
+   - **Interrupt-enable Flag (IE, Bit 30)**: When set to 1, it enables the controller to issue an interrupt after completing a data block transfer.
+   - **IRQ Bit**: Indicates an interrupt request by the controller.
+
+5. **Example of DMA Usage in a Computer System**:
+   - **Ethernet Connection**: A DMA controller connects a high-speed Ethernet to the computer’s I/O bus.
+   - **Disk Controller with DMA**: Controls two disks and provides two DMA channels, allowing two independent DMA operations as if each disk had its own controller. The necessary registers for memory address and word count are duplicated for each disk.
 
 </details>
