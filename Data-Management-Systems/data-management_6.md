@@ -209,11 +209,9 @@ INSERT INTO DEPENDENT(Essn, Dependent_name, Sex, Bdate, Relationship) VALUES
 
 SET FOREIGN_KEY_CHECKS = 1;
 ```
-
-
 </details>
 
-
+---
 
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Section 6 | Focus on Nesting & Corrolation of Queries
@@ -607,6 +605,307 @@ INFORM_SUPERVISOR(NEW.Supervisor_ssn, NEW.Ssn);
 This example illustrates how triggers function in a real-world scenario, ensuring adherence to business rules (like salary caps relative to supervisors) and automating responses to data changes.
 
 ---
-**Views** : TODO
+### SQL Views: Basics and Creation
+
+1. **What is a SQL View?**
+   - A View in SQL is essentially a virtual table created from a query on other tables (which can be base tables or other views).
+   - It doesn't physically store data but represents a saved SQL query.
+
+2. **Creating a View:**
+   - Use the `CREATE VIEW` statement.
+   - Assign a name to the View and specify the SQL query that defines its content.
+   - For example:
+     - `CREATE VIEW view_name AS SELECT columns FROM table WHERE condition;`
+
+3. **Example Views:**
+   - **View V1:** Joins employee and project tables.
+     ```sql
+     CREATE VIEW WORKS_ON1 AS
+     SELECT Fname, Lname, Pname, Hours FROM EMPLOYEE, PROJECT, WORKS_ON
+     WHERE Ssn = Essn AND Pno = Pnumber;
+     ```
+   - **View V2:** Aggregates data from the department and employee tables.
+     ```sql
+     CREATE VIEW DEPT_INFO(Dept_name, No_of_emps, Total_sal)
+     AS SELECT Dname, COUNT(*), SUM(Salary) FROM DEPARTMENT, EMPLOYEE
+     WHERE Dnumber = Dno GROUP BY Dname;
+     ```
+
+### Why Use Views Instead of Direct Select Statements?
+
+1. **Simplification:**
+   - Views can simplify complex queries. Instead of writing lengthy joins or subqueries, you reference a view.
+
+2. **Reusability:**
+   - Once created, views can be used in multiple places, promoting code reusability.
+
+3. **Consistency & Maintenance:**
+   - Views ensure consistency in data representation across different parts of an application.
+   - Easier to maintain and update a single view than multiple query instances.
+
+4. **Security:**
+   - Views can restrict access to certain data, enhancing security. You can allow users to access data through views without giving them direct access to the underlying base tables.
+
+5. **Performance:**
+   - In some cases, particularly with materialized views, there can be performance benefits as they store the result of the query.
+
+6. **Abstraction:**
+   - Views provide an abstraction layer, allowing you to change underlying table structures without impacting the API or application logic.
+
+![DB731](../static/DB_7_31.png)
+
+In summary, while direct `SELECT` statements in your API might work for straightforward data retrievals, views offer advantages in terms of simplification, reusability, consistency, security, performance, and abstraction, particularly when dealing with complex queries or multiple applications accessing the same database.
+
+---
+
+## Schema Changes in SQL
+
+#### DROP Command 
+**Purpose:** Used to remove schema elements *(tables, domains, types, constraints)* or an entire schema.
+
+```sql
+DROP TABLE table_name CASCADE;
+DROP TABLE table_name RESTRICT;
+```
+
+**CASCADE** deletes the table and any constraints or views referencing it.
+**RESTRICT** only drops the table if it's not referenced by any constraints or views.
+
+```sql
+DROP SCHEMA schema_name CASCADE;
+DROP SCHEMA schema_name RESTRICT;
+```
+
+**CASCADE** removes the schema and all its elements.
+**RESTRICT** only removes the schema if it has no elements.
+
+#### ALTER Command 
+**Purpose:** Used to modify the definition of base tables or other schema elements.
+
+---
+
+![DB731](../static/DB_7_32.png)
+
+
+**TODO:  Hafeez Ch.6 Slides questions**
+
 </details>
 
+---
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Section 7 | DB Programming & Impedence Mismatch
+  </summary>
+  
+**Notable Database Programming Language:** Oracle’s PL/SQL (Programming Language/SQL).
+
+### Approaches to Database Programming:
+
+**Embedded database commands in general-purpose langs**
+
+Embedded SQL integrates database statements into a host programming language, marked by a special prefix like "EXEC SQL" for SQL commands. A precompiler identifies these statements, extracting them for the DBMS to process. They're replaced in the source code with function calls to the DBMS code.
+
+## *Here's a simplified example of embedded SQL in C:*
+
+```c
+#include <stdio.h>
+#include "sqlca.h"
+
+/* Assume necessary DB connection setup */
+
+int main() {
+    /* Declare a variable for SQL interaction */
+    char name[30];
+
+    /* Embed SQL command with EXEC SQL prefix */
+    EXEC SQL SELECT name INTO :name FROM employees WHERE employee_id = 101;
+
+    /* Use the retrieved data */
+    printf("Employee Name: %s\n", name);
+
+    /* Close the DB connection if necessary */
+    return 0;
+}
+```
+In this example, the SQL query is embedded directly into the C code and preceded by *"EXEC SQL"*. The query retrieves the name of an employee with a specific ID and stores it in a C variable.
+
+## *Here's a simplified example of using a library of db functions or classes*:
+
+In this approach, a library provides functions or classes for database operations. Functions for connecting to a database, preparing queries, executing them, and processing results are used. These database interactions are encapsulated within function calls or class methods, forming an Application Programming Interface (API). For object-oriented languages like Java, class libraries such as JDBC (Java Database Connectivity) are used, offering various object types for connections, queries, and results, each with its own set of methods.
+
+Here's a simple example in Java using JDBC:
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class DatabaseExample {
+    public static void main(String[] args) {
+        // Database URL and credentials
+        String url = "jdbc:mysql://localhost:3306/mydatabase";
+        String user = "username";
+        String password = "password";
+
+        try {
+            // Establishing a connection
+            Connection connection = DriverManager.getConnection(url, user, password);
+
+            // Preparing a query
+            String sql = "SELECT name FROM employees WHERE employee_id = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, 101); // Setting the employee ID
+
+            // Executing the query
+            ResultSet resultSet = statement.executeQuery();
+
+            // Processing the result
+            if (resultSet.next()) {
+                String name = resultSet.getString("name");
+                System.out.println("Employee Name: " + name);
+            }
+
+            // Closing resources
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+In this example, JDBC is used to connect to a MySQL database, prepare a query to fetch the name of an employee with a specific ID, execute the query, and print the result. The JDBC classes `Connection`, `PreparedStatement`, and `ResultSet` are utilized for database interaction.
+
+## *Designing a brand-new lang, db programming. lang*
+In this approach, a database programming language is created from the ground up, integrating database functionalities directly into its syntax. This language is then expanded with standard programming constructs like loops and conditional statements, transforming it into a complete programming language. Oracle's PL/SQL and SQL/PSM in the SQL standard are examples of this. These languages allow database queries and updates to be seamlessly combined with regular programming structures.
+
+Here's a concise example using PL/SQL:
+
+```sql
+DECLARE
+    emp_name VARCHAR2(100);
+BEGIN
+    SELECT name INTO emp_name FROM employees WHERE employee_id = 101;
+    DBMS_OUTPUT.PUT_LINE('Employee Name: ' || emp_name);
+END;
+```
+
+In this PL/SQL block, the SQL query is embedded within the PL/SQL code. It fetches the name of an employee and stores it in a variable, which is then printed. PL/SQL allows for more complex programming constructs, but this example demonstrates its basic integration with SQL.
+
+![db101](../static/DB_10_1.png)
+
+---
+
+![db101](../static/DB_10_4.png)
+
+---
+
+## Impedance Mismatch
+
+**The first** problem that may occur is that the *data types of the programming language* differ from the *attribute data types* that are available in the data model. Hence, it is necessary to have a binding for each host programming language that specifies for each attribute type the compatible programming language types.
+
+**The Second** discussed here is the "Impedance mismatch" between the set-oriented nature of database query results (tables of rows and columns) and the imperative, object-oriented nature of most programming languages. To address this, programming constructs are needed to map and iterate over these tabular query results, typically using **cursors or iterators**. This process involves extracting and assigning each row's values to program variables for further processing. The mismatch is less pronounced in specialized database programming languages like PL/SQL or SQL/PSM, or when using object databases with languages like Java, due to their similar data models.
+
+Here's a concrete example using Java and JDBC:
+
+```java
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class DatabaseIterationExample {
+    public static void main(String[] args) {
+        String url = "jdbc:mysql://localhost:3306/mydatabase";
+        String user = "username";
+        String password = "password";
+
+        try {
+            Connection connection = DriverManager.getConnection(url, user, password);
+            String sql = "SELECT id, name, salary FROM employees";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                double salary = resultSet.getDouble("salary");
+
+                System.out.println("ID: " + id + ", Name: " + name + ", Salary: " + salary);
+            }
+
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+In this Java example, JDBC is used to execute a SQL query that retrieves multiple rows from an `employees` table. The program then iterates over the `ResultSet` *(a cursor-like structure)*, extracting each row's data into Java variables **(ID, name, salary)** and printing them. This demonstrates the process of mapping and accessing database query results in a programming language.
+</details>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Section 8 | DB Programming & Impedence Mismatch
+  </summary>
+
+![db101](../static/DB_10_2.png)
+
+## Embedded SQL (We'll focus on the C Language)
+
+![db101](../static/DB_10_3.png)
+
+In a C program, an embedded SQL statement is distinguished from pro-
+gramming language statements by prefixing it with the keywords EXEC SQL so that
+a preprocessor (or precompiler) can separate embedded SQL statements from the
+host language source code. The SQL statements within a program are terminated
+by a matching END-EXEC or by a semicolon (;).
+
+Yes, in embedded SQL programming within a C program, a variable prefixed with a colon (e.g., `:salary`) is indeed a C variable that is "shared" with the SQL statement. This sharing mechanism allows for the transfer of data between the SQL database and the C program.
+
+In the context of embedded SQL, the `INTO` clause of the SQL statement is used to specify which C program variables should receive the values of the specified attributes from the database record. For example, if you have a line in your SQL statement like:
+
+```sql
+EXEC SQL SELECT salary INTO :salary FROM EMPLOYEE WHERE ssn = :ssn;
+```
+
+Here, `:salary` and `:ssn` are variables declared in your C program. When this SQL statement is executed:
+
+- The value of `:ssn` (already set in your C program) is used to filter the records in the `EMPLOYEE` table.
+- The `salary` attribute of the retrieved record is then stored in the `:salary` variable in your C program.
+
+## Using Cursors
+**The cursor** is a variable that refers to a *single tuple (row)* from a query result that retrieves a collection of tuples. It is used to loop over the query result, one record at a time. *The cursor* is declared when the SQL query is declared. Later in the program, an **OPEN CURSOR** command fetches the query result from the database and sets the cursor to a position before the first row in the result of the query. 
+
+Subsequently, **FETCH** commands are issued in the program; each FETCH moves the cursor to the next row in the result of the query, making it the current row and copying its attribute values into the C *(host language)* program variables specified in the FETCH command by an **INTO** Clause
+
+![db101](../static/DB_10_5.png)
+
+In the segment of embedded SQL code you're looking at, the `SELECT dnumber INTO :dnumber` statement is used to retrieve data from the database and store it in a C program variable.
+
+Here's a step-by-step explanation of what's happening:
+
+1. `prompt("Enter the Department Name: ", dname);`
+   - This line is prompting the user to input the department name, and it's stored in the C variable `dname`.
+
+2. `EXEC SQL SELECT Dnumber INTO :dnumber FROM DEPARTMENT WHERE Dname = :dname;`
+   - This SQL statement is executed within the C program (noted by the `EXEC SQL` prefix).
+   - It selects the department number (`Dnumber`) from the `DEPARTMENT` table in the database where the department name (`Dname`) matches the value stored in the `dname` variable.
+   - The retrieved `Dnumber` is then stored into the C variable `dnumber`.
+   - The colon (`:`) before `dnumber` indicates that it is a host variable *(a variable in the C program)* rather than a database column name.
+
+So, the `SELECT ... INTO` statement is used to assign the value from a single row and column *(in this case, the department number corresponding to the given department name)* directly to a variable in the host language (C). This allows the program to work with this data without needing to handle a result set or multiple rows; it's a direct single-value transfer. 
+
+The rest of the program segment likely uses this `dnumber` to perform further operations, such as fetching employee information from that department and processing updates to their salaries.
+
+TODO: ch.7 16-39
+
+</details>
