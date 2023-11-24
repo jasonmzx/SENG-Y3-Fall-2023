@@ -460,7 +460,7 @@ For Elements that aren't "Generic" to the Refference Architecture, add them into
 - Also cover Deployment Patterns
 - Banking System uses one of these aswell!
 
-- STUDY THE DESIGN CONCEPT CATALOG
+**STUDY THE DESIGN CONCEPT CATALOG**
   - Know Deployment Diagrams
   - Know Tactics
 
@@ -468,6 +468,83 @@ For Elements that aren't "Generic" to the Refference Architecture, add them into
 ---
 
 ### Banking System Docx Exam Questions
+
+</details>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">
+  November 24th | ADD Iteration #3
+  </summary>
+
+  ADD #3, finally trying to resolve some Quality Attributes *(Focusing on Quality Attribute)*
+  - Question is: *Does this Affect my Architecture?*
+
+
+  **EX 9** has a different sollution, as the Use Case isn't exactly the same...
+
+  Part of the challenge is:
+  - Having a background *(Technical Background)* 
+
+
+  **Spring Security**
+  - Access Control Management *(controlled access to company resources, and audit user and device access across their IT infrastructure. ‍)*
+  - Single Sign-on Abilites 
+  - Secure Logging *(Aspects in Spring, Design Concept, at any point a secure logger is available to capture Logging)*
+
+  **EX9 | Business Use Case:**
+  - Logging System, here you can use an Ad-Hoc Logging System, or Spring's built-in one, which is encapsulated in the Spring Boot
+
+---
+
+**Important for Exam:**
+- Final Project Deliverables
+- Assignment EX9 coming up
+
+---
+
+What is Architectural Analysis:
+
+*"I believe" Isn't good enough*
+- Still need to go back, and address the decisions you've made
+
+
+
+### Whilst looking at the System as a whole.... consider:
+
+#### **The four C's**
+- **Completeness**
+  - *Internal & External Goals, captured all requirements?*
+  - *Have all elements been modeled in the notation?*
+  - *Have all design decisions been justified?*
+- **Consistency**
+  - *Views are consistent with eachother* 
+  - *Consistent Behaviors, Interfaces, Framework Usage*
+  - *Dynamically adaptable architectures*
+  - **Interface:** Name, Parameter, All Interfaces doing similar things returning the right type
+- **Compatilibity**
+  - External Property of an Architectural Model *(Style, Arch. Standard)
+  - **Example** Event-based design? Yes, game system with *Event Bus* 
+- **Correctness**
+  - Property that the System Model, is realized compared to *System Requirements*
+    - Last part of **ADD 3** does this, *Did I meet Use Case X Fully?* 
+
+
+#### Modelling Data Exchange
+
+...
+
+---
+
+### Analysis Options & Techniques for Software Systems
+
+
+#### Tactics-Based Analysis
+- Take tactics, create questions
+
+
+What Liscano looks for in ATAM
+- Process!!!!1
 
 
 
