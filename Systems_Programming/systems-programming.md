@@ -413,6 +413,12 @@ int main() {
 | wait    | Waits for a child process.                       |
 | exec..  | Replaces the code, data, and stack of a process. |
 
+</details>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Week 5 | System Calls</summary>
+  
 
 </details>
 

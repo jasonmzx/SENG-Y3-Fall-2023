@@ -754,4 +754,18 @@ Defining the Grammer, in the code $1 and $3 and the "Tokens" to be added up, E (
 
 ---
 
+**November 28th Attempt at it, given calc.l and calc.y:**
+
+1.) `yacc -d calc.y` Generates the `y.tab.c` & `y.tab.h` *(C & Header File)*
+
+2.) `flex calc.l` Use Lex/Flex to process the .l file, which will generate a C source file *(Generated `lex.yy.c`)*
+
+3.) `gcc lex.yy.c y.tab.c -o calc` This will generate the executable binary `calc` 
+
+4.) `./calc`
+
+
+**Same Outputs**
+![Same Outputs!](../static/SYS_10_10.png)
+
 </details>
