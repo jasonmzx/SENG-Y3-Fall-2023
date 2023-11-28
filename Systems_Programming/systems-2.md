@@ -698,8 +698,7 @@ How can I trace the core-dump
 </details>
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Week 9. Parsing
-</summary>
+<summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Week 10. Parsing</summary>
 
 Lexical Rules: *Like rules of the language, *
 
@@ -767,5 +766,217 @@ Defining the Grammer, in the code $1 and $3 and the "Tokens" to be added up, E (
 
 **Same Outputs**
 ![Same Outputs!](../static/SYS_10_10.png)
+
+</details>
+
+
+
+<details>
+<summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Week 11. Windows Powershell</summary>
+
+`help *service*` shows Services on Powershell, like Git Service
+
+Just showing all services
+`Get-Service`
+Each services returned, is an Object, It's an instantiated class!
+
+Get all services, Pipe, then `Select-Object`, then the param `name` & `status`
+`Get-Service | Select-Object name, status`
+
+All **Cmdlet**'s are an Instantiation of some sort of class, *Object-Oriented-Approach*
+
+
+## gm | Get Member
+
+Get all Objects of Service, and showcase Global Members *(Class Methods)*
+
+`Get-Service | gm`
+
+*Getting a service with a specific name, then showing all the members, class methods with Get-Member, gm for short* 
+
+```ps1
+# ...
+    # Get the service object
+    $service = Get-Service -Name $serviceName
+
+    # Display general information about the service
+    Write-Host "Most recently started service: $($service.DisplayName) - Status: $($service.Status)"
+
+    # Show the members of the service object
+    $service | Get-Member
+```
+
+Example `Pause`, it's a `Method` and it's definition is `void Pause()` as it doesn't return anything whilst **Pausing**
+Example #1 `Equals`, it's a `Method` and it's definition is `bool Equals(System.Object obj)` Equals will return, where another Object is equal to self, or not.
+
+`Get-Process` get's all running processing
+
+`Get-Process | gm` All processes are Object Instances, that can be used for Process manipulation, like the `void kill()` command, you can't kill a Service however
+
+`Get-Service -name wisvc | gm` get specific functions that can be done with a specific service, with name: **wisvc**
+
+`Get-Service | Select-Object -Property name, status` Listing all instantiated Services with specific Properties, and it can be a column in the output
+**-Property | name | Status**
+
+Select Name, Status, StartType, and Sort by Name
+`Get-Service | Select-Object -Property name, status, starttype | sort - Property Name`
+
+### Event Log stuff:
+
+`Get-Eventlog system` Get all the system logs
+
+`Get-eventlog -Logname system -Newest`
+
+Select the newest 5 system Logs Pipeline, select the Warning Flag
+
+`Get-eventlog -Logname system -Newest 5 | Select-Object {$_.EntryType -eq "Warning"}`
+
+Select the newest 5 system Logs, and get all the Messages out of those objects
+
+`Get-eventlog -LogName system -Newest 5 | Select-Object Message`
+
+
+**Where?**
+
+`get-service | where {$_.status -eq "running"}`
+
+**$_** is pretty much a Lambda Iterator, and it iterates thru all the CLAUSE's output *where, Select-Object, etc...*
+
+All CMDlets in PS1 is like, Verb-Noun , *SELECT* verb, *OBJECT* noun
+
+**wmiObject**
+
+Windows Management Instrument:
+- Deals with Harddrives, Network Cards, and other I/O
+
+`get-wmiObject` *It will bring up another Input, to input a class*
+
+`get-wmiObject win32_service` Show all WIN32 Services
+
+**Get-WmiObject Cmdlet in PowerShell**
+
+**Functionality**: Get-WmiObject is a PowerShell cmdlet used to retrieve management information by querying WMI classes. 
+**Input Parameter**: When you use Get-WmiObject, you need to specify a WMI class as an input. This class determines the type of information you're querying.
+
+**Relation to Win32 API**
+
+**WMI and Win32 API:** While both WMI and Win32 API provide access to system resources, they serve different purposes. Win32 API is a lower-level interface primarily used for application development and direct interactions with the system's components. WMI, on the other hand, is more about system management and monitoring.
+**WMI Classes like win32_service:** These classes are part of the WMI schema and provide an abstraction over the system resources. For instance, win32_service allows you to manage and query Windows services.
+**Not Direct Hosting:** WMI does not "host" the Win32 API. Instead, it uses the underlying infrastructure, including parts of the Win32 API, to access and manage system information.
+---
+
+# **Service vs. Process**
+
+### Services in Windows
+1. **Definition**: Services are specialized programs that perform functions to support other programs, particularly at the system level. They often run in the background and are not directly interacted with by the user.
+
+2. **Characteristics**:
+   - **Autonomy**: Services can start automatically at boot time or be started and stopped manually.
+   - **Background Operation**: They usually run in the background and do not have a user interface.
+   - **Longevity**: Services are designed to run for long periods, often as long as the OS is running.
+   - **User Session Independence**: They do not depend on a user being logged in and can run under a system account.
+   - **Management**: Managed via the Services console (`services.msc`) or command line tools.
+
+3. **Use Cases**:
+   - Core system functionalities like networking, event logging, and file serving.
+   - Applications that need to run in the background, independent of user sessions, such as a database server.
+
+4. **Windows Specifics**:
+   - Services are often essential for the operation of the OS or certain applications and can be configured through the Windows Service Control Manager.
+
+### Processes in Windows
+1. **Definition**: A process is an instance of a program that is being executed. It consists of the program code and its current activity.
+
+2. **Characteristics**:
+   - **User Interaction**: Processes often have a user interface and are initiated by user actions.
+   - **Session Dependent**: They usually run within a user's session and terminate when the user logs out.
+   - **Short-Lived**: Processes may have a shorter life span, typically as long as the task they are performing.
+   - **Resource Allocation**: Each process has its own set of resources (memory, process identifiers) allocated by the OS.
+
+3. **Use Cases**:
+   - General applications like word processors, web browsers, and games.
+   - Short-term tasks like running a script or a batch job.
+
+4. **Windows Specifics**:
+   - Processes in Windows are managed by the Task Manager, where users can view and control running processes.
+   - Each process in Windows is isolated, with its own virtual memory and resources.
+
+### Key Differences
+- **Initiation and Lifespan**: Services are often auto-started and long-lived, while processes are user-initiated and may have a shorter lifespan.
+- **User Interface**: Processes usually have a GUI, whereas services do not.
+- **Session Dependency**: Services can operate independently of user sessions, while processes are generally tied to them.
+- **Management Tools**: Services are managed via the Services console, while processes are managed through the Task Manager.
+
+### Conclusion
+In Windows OS, understanding the distinction between services and processes is fundamental for systems programming. Services are integral for the system's operations and function independently of user sessions, providing background support. Processes, conversely, are more user-centric, often having a GUI and a shorter lifespan. This knowledge aids in effective system-level programming and resource management.
+
+---
+
+`Get-Process | Out-Gridview` Outputs the Get-Process to a Grid Viewing Window.
+
+Can also use `Export-Csv` or `ConvertTo-Csv` with **.csv**
+Or for HTML, `ConvertTo-HTML` for **.html** outputs
+
+Before doing something, you can use `-Whatif`, **what will happen if I kill a process?**
+
+`Remove-Item file.html -WhatIf` <-- What would happen if I executed this command?
+
+## **PowerShell Script Execution Policy**
+
+`Get-ExecutionPolicy` Mine said *Unrestricted*
+
+**Restricted:** Current user, has *NO* priveldge to run a script, unless it has a very specific **Script Signature**.
+
+**RemoteSigned:** Downloaded from Internet, and signed *Remote Signed*, and can potentially be ran by the a Trusted Publisher.
+
+**Unrestricted:** There is no Restrictions! Go Wild!
+
+Change Script Exec. Policy
+
+`Set ExecutionPolicy "policy"` --> `"unrestricted"` , `"restricted"`, etc...
+
+---
+
+Powershell Lang stuff:
+
+`Read-Host "Enter your name"` it's like an **input** in python, or CIN
+`Write-Host "Warning" -ForegroundColor red` Writes to user's terminal "Warning" in red color
+- `Write-Debug` , `Write-Error`, etc...
+
+---
+
+### Windows Powershell ISE, Powershell IDE
+
+```ps1
+# Get all running services
+$runningServices = Get-Service | Where-Object { $_.Status -eq 'Running' }
+
+# Iterate over each service
+foreach ($service in $runningServices) {
+    # Display the service name
+    Write-Host "Service: $($service.Name) is currently running."
+
+    # Ask user for action
+    $userInput = Read-Host "Do you want to stop this service? (yes/no)"
+
+    # Check user input
+    if ($userInput -eq "yes") {
+        # Attempt to stop the service
+        try {
+            Stop-Service -Name $service.Name
+            Write-Host "Service $($service.Name) stopped successfully."
+        } catch {
+            Write-Host "Error stopping service $($service.Name): $_"
+        }
+    } else {
+        Write-Host "Service $($service.Name) will continue running."
+    }
+}
+
+Write-Host "All services have been processed."
+```
+
+**Use Select**, to compare if Service's Status is equal to "running" *(LIST of T/F)*
+**Use Where**, to select all Services, WHERE a condition is true.
 
 </details>
