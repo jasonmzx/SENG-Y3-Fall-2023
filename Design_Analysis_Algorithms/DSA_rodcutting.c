@@ -1,25 +1,5 @@
 #include <stdio.h>
 
-struct lengthSell { 
-    int length_i; //In Inches (i)
-    int price_i; //Price for specific len (Pi) in dollars 
-};
-
-//* ----- Building the table in Fig. 15.1 -----
-
-void buildPriceList(struct lengthSell priceList[]) {
-    priceList[0].length_i = 1; priceList[0].price_i = 1; 
-    priceList[1].length_i = 2; priceList[1].price_i = 5; 
-    priceList[2].length_i = 3; priceList[2].price_i = 8;
-    priceList[3].length_i = 4; priceList[3].price_i = 9; 
-    priceList[4].length_i = 5; priceList[4].price_i = 10; 
-    priceList[5].length_i = 6; priceList[5].price_i = 17; 
-    priceList[6].length_i = 7; priceList[6].price_i = 17;
-    priceList[7].length_i = 8; priceList[7].price_i = 20;
-    priceList[8].length_i = 9; priceList[8].price_i = 24; 
-    priceList[9].length_i = 10; priceList[9].price_i = 30;
-}
-
 //* ----- Memoized Entry, storing the Optimal Prices to sell at, for length  -----
 
 struct bestCut {
@@ -98,18 +78,17 @@ void printMemoizationTable(struct bestCut memo[], int length) {
 #define PRICE_TABLE_LENGTH 10
 
 int main() {
+                                        //    X, 1, 2, 3, 4, 5,  6,  7,  8,  9,  10
+    int priceList[PRICE_TABLE_LENGTH + 1] = {-1, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
 
-    int priceListVt[PRICE_TABLE_LENGTH + 1] = {-1, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
-
-
-    int rodLength = 4;
+    int rodLength = 6;
 
     //* Allocate and Initialize Memoized Table, holding "Optimal" solutions for all lengths
     struct bestCut memoizedTable[rodLength + 1];
     initializeMemoizationTable(memoizedTable, rodLength);
 
     //* Actual Algorithm call
-    int result = rodCutting(rodLength, priceListVt, memoizedTable, PRICE_TABLE_LENGTH);
+    int result = rodCutting(rodLength, priceList, memoizedTable, PRICE_TABLE_LENGTH);
 
     printf("Maximum obtainable price is: $%d\n", result);
     printf("Cuts used to achieve this price:\n");
