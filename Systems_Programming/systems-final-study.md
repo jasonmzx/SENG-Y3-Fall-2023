@@ -936,9 +936,6 @@ This explanation is an oversimplification but gives a sense of the complexity an
 
 </details>
 
----
-
-
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Week 7 | Create a Linking Loader :-O </summary>
 
@@ -985,7 +982,6 @@ The text you provided outlines the steps involved in the process of linking and 
 - **External Symbol Resolution:**
   - References to external symbols in the code are resolved by replacing them with the actual addresses from ESTAB.
 
-# I. Machine Independent Features
 
 1. **Automatic Library Search:**
    - The loader automatically searches for external symbols in standard libraries if they are not found in the provided object modules.
@@ -1031,9 +1027,85 @@ By the end of Pass 2, all instructions that reference external symbols will have
 
 This entire process enables the linker/loader to manage multiple object modules, resolving internal and external symbol references, and to correctly place the executable code in memory, ready for the CPU to execute. The advantages of such a dynamic system include the ability to update individual modules without recompiling the entire program and the efficient use of memory by avoiding duplication of shared libraries.
 
-# III. Loader Design Options
+# II. Machine Independent Features
 
-TODO:
+Machine independence in the context of linking loaders and the automatic library search process refers to the ability of these tools and processes to function across different hardware and operating systems without modification. Here's how the concepts you've asked about contribute to machine independence:
+
+1. **Automatic Library Search:**
+   - This process does not rely on a specific machine architecture. Instead, it abstracts the process of searching for and resolving external symbols during the linking phase. The loader searches for unresolved symbols in specified libraries regardless of the underlying machine, making the linking process adaptable to different systems.
+
+2. **Loader Options:**
+   - Providing the ability to specify loader options allows the same loader to be configured for different environments and use cases. These options give the loader instructions that can be interpreted and executed regardless of the machine's specifics, contributing to the portability of the tool.
+
+3. **Linkage Editors and Dynamic Linking:**
+   - Both linkage editors and dynamic linking tools are designed to handle the resolution of references and linking of modules in a way that is not dependent on a particular machine. They manage addressing and symbol resolution in a standardized manner, which means the same concepts and tools can be applied across different systems.
+
+4. **Position-Independent Code (PIC):**
+   - In dynamic linking, the use of PIC means that the code does not assume it will be loaded at a specific address, allowing it to run correctly regardless of where it is placed in memory. This is crucial for machine independence, as different systems may have different memory layouts and addressing schemes.
+
+5. **Standard Libraries:**
+   - Standard libraries (like `libmath.a` in the example) are often implemented in a machine-independent manner. They provide a consistent interface for programs, while their internals may be optimized for different architectures. This allows a program to use these libraries without worrying about the specifics of the underlying machine.
+
+6. **Loader Design:**
+   - A well-designed loader will abstract away the details of the machine hardware from the linking process. For example, it will manage different formats of object files and resolve symbols in a way that is consistent across various machines.
+
+7. **Portability of Code:**
+   - By using these machine-independent features, software developers can write code that is portable. This means the same source code can be compiled and linked on different machines, and the resulting program will run correctly in each environment.
+
+In essence, the goal of machine independence in the context of linking loaders is to ensure that the process of turning individual modules into a running program is as universal as possible, reducing the need for machine-specific adjustments and allowing the same tools and processes to be used regardless of the underlying hardware or operating system.
+
+---
+
+# Example:
+
+Let's consider a hypothetical scenario where a programmer is compiling and linking a program that performs mathematical operations. The program is divided into several modules and makes use of various mathematical functions such as `add`, `subtract`, `multiply`, and `divide`. These functions are common and may already be provided by standard math libraries.
+
+### Scenario Setup:
+
+- The main program `mainprog.c` uses two custom functions `customadd` and `customsub`.
+- The object modules `mainprog.o`, `customadd.o`, and `customsub.o` have been compiled from their source.
+- There's a standard math library `libmath.a`, which contains `add`, `subtract`, `multiply`, `divide` functions.
+
+### Automatic Library Search Process:
+
+#### Pass 1:
+
+- The linking loader enters all symbols from the `mainprog.o`'s Refer records into ESTAB.
+- When it encounters Define records in `customadd.o` and `customsub.o`, it assigns addresses to these symbols.
+- After Pass 1, suppose `multiply` and `divide` from `libmath.a` remain undefined in ESTAB, indicating unresolved external references.
+- The loader then automatically searches `libmath.a` for `multiply` and `divide`, and includes them in the linking process as if they were part of the primary input.
+
+#### Pass 2:
+
+- If `multiply` and `divide` have external references, the loader repeats the search process in the libraries.
+- Suppose `divide` uses a helper function `invert` which is also in `libmath.a`, it will be included similarly.
+
+### Loader Options Application:
+
+- Assume the programmer decides to use the more efficient `multiply` and `divide` provided in `libmath.a` instead of their custom ones.
+- Without modifying the source code, the programmer specifies loader options to replace the use of `customadd` and `customsub` with `add` and `subtract` from the library.
+
+### Loader Options Commands:
+
+```bash
+Include add (libmath.a)
+Include subtract (libmath.a)
+Delete customadd, customsub
+Change customadd, add
+Change customsub, subtract
+```
+
+### Example Execution:
+
+- When the loader processes these options:
+  - It adds `add` and `subtract` to ESTAB and ensures they are linked with `mainprog.o`.
+  - It removes `customadd` and `customsub` from consideration.
+  - It changes any references to `customadd` to `add` and `customsub` to `subtract`.
+
+### Result:
+
+- The final executable will call the standard `add` and `subtract` functions from `libmath.a` whenever `customadd` and `customsub` are called in the code.
+- This change is transparent to the main program, which does not require recompilation or source code modification.
 
 </details>
 
@@ -1175,5 +1247,80 @@ sudo ldconfig
 ```
 
 These markdown-formatted code snippets and shell commands reflect the steps for compiling, creating libraries, linking, and executing C programs with both static and dynamic linking methods.
+
+</details>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Week 7 | More on Linkage Editor VS. Dynamic Linking </summary>
+
+### Generally, linkers are of two types : 
+
+1. Linkage Editor
+2. Dynamic Linker 
+
+---
+
+The process of preparing a program for execution involves several steps, one of which is linking. Linking can be broadly classified into two categories: static linking and dynamic linking. A Linkage Editor is involved in static linking, while dynamic linking is a runtime process.
+
+### Linkage Editor
+
+A Linkage Editor, also known as a static linker, is a tool that combines various object modules (produced by a compiler) into a single executable file before the program is loaded into memory. Here's what a Linkage Editor does in detail:
+
+1. **Combines Object Modules:**
+   - It takes object modules and combines them into a single, contiguous block of code and data.
+
+2. **Symbol Resolution:**
+   - It resolves external symbols, which means it finds the addresses of all functions and variables that are defined in different modules.
+
+3. **Relocation:**
+   - It performs relocation of all control sections relative to the start of the linked program. It adjusts the code and data addresses so that they reflect their actual locations in the final executable.
+
+4. **Output:**
+   - It outputs a relocatable module, often called a load module or an executable image, that can be stored on disk and executed later.
+
+5. **One-Pass Loading:**
+   - When a program is run, a simple relocating loader can be used to load the executable into memory for execution. Because all of the linking has been done ahead of time, this loader does not need to perform complex tasks and often operates in a single pass without an external symbol table.
+
+The main advantage of static linking is that all necessary code is contained within the executable. This means that once loaded, the program can run without further external dependencies, ensuring that it has all the libraries it needs packaged within it.
+
+### Dynamic Linking
+
+Dynamic linking, on the other hand, is a process where the linking of libraries and modules is deferred until runtime, or even until a particular function is first called. Here's what happens during dynamic linking:
+
+1. **Runtime Resolution:**
+   - Instead of being resolved at compile time, addresses of functions and variables are determined when the program is running.
+
+2. **Load On-Demand:**
+   - Only the necessary parts of libraries (like DLL files in Windows) are loaded into memory when they are required, which can save memory and reduce the program's startup time.
+
+3. **Shared Libraries:**
+   - Multiple programs can share the same library code in memory, which saves space because the library doesn't need to be included in the executable for each program that uses it.
+
+4. **Flexibility:**
+   - Libraries can be updated independently of the executable. As long as the interface remains the same, the program can take advantage of the updated library without needing to be recompiled.
+
+5. **Late Binding:**
+   - The exact code that will be executed to implement a function can be decided at the last moment. This is particularly useful in object-oriented systems where polymorphism means that the specific implementation of an object's method may not be determined until runtime.
+
+### Key Differences
+
+- **Timing:** A Linkage Editor operates before a program is loaded for execution, creating a self-contained executable. Dynamic linking occurs at execution time, bringing in external code as needed.
+
+- **Flexibility:** Dynamic linking allows for more flexibility since updates to libraries do not require the main program to be re-linked or re-distributed. Static linking with a Linkage Editor creates an executable that does not depend on external libraries at runtime, but it lacks the flexibility of dynamic linking.
+
+- **Memory Use:** Dynamic linking can save memory space because the same library code can be shared across multiple programs. Static linking, however, results in each executable containing its own copy of the library code.
+
+- **Portability:** An executable created with a Linkage Editor contains all of its dependencies, which can make it more portable across systems. Dynamic linking assumes that the required libraries will be present on the system where the program runs.
+
+- **Performance:** Static linking usually results in faster program startup times since all the code is already contained within the executable. Dynamic linking may introduce a slight overhead during runtime because of the need to locate and load libraries.
+
+Both static and dynamic linking have their places in software development. The choice between them depends on various factors, including the need for portability, memory constraints, flexibility with library updates, and performance considerations.
+</details>
+
+# Chapter 8
+
+<details>
+<summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Week 8 | Tracing & Debugging #1 </summary>
 
 </details>
