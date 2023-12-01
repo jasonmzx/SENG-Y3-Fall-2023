@@ -81,7 +81,7 @@ int main() {
                                         //    X, 1, 2, 3, 4, 5,  6,  7,  8,  9,  10
     int priceList[PRICE_TABLE_LENGTH + 1] = {-1, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
 
-    int rodLength = 6;
+    int rodLength = 10;
 
     //* Allocate and Initialize Memoized Table, holding "Optimal" solutions for all lengths
     struct bestCut memoizedTable[rodLength + 1];

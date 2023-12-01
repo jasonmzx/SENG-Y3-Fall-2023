@@ -542,11 +542,30 @@ What is Architectural Analysis:
 #### Tactics-Based Analysis
 - Take tactics, create questions
 
-
-What Liscano looks for in ATAM
-- Process!!!!1
+</details>
 
 
+<details>
+<summary style="font-size: 30px; font-weight: 500; cursor: pointer;">November 29th Lecture</summary>
 
+- **Addressing Functionality** In ADD 2, 
+
+Looking for 2 things in **ATAM**:
+
+- **Utility Tree**
+  - Given Use Cases I have, I create a combo of *QA & Scenarios* **(5 Marks)**
+  - Combines use Case Database Store, and the Q.A is like.. Modifiability
+- **Trade-off Analysis,** Analyze Architectural Approaches, Table **(5 Marks)**
+- **Gaming Example** Table
+- *ATAM* Is based on, 1 Quality Attribute, usually you should use the well "Fleshed out" Q.A used in **ADD. #3**
+  - As long as the **Q.A** is fleshed out, you can use that specific Quality Attribute 
+- **ATAM** doesn't really follow tactics however, Analysis is done more based off Attributes as a whole
+
+### 4 C's hint
+
+---
+### *Extra Talk, not for ATAM*
+
+- **Tactic Based Questions** : questions from the *attribute tactics*, for the FCAPS example
 
 </details>

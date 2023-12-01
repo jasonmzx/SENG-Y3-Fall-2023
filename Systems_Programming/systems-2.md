@@ -1,7 +1,8 @@
 
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">System Calls Part #2 | Signals & Process Terminations </summary>
+<summary style="font-size: 30px; font-weight: 500; cursor: pointer;">System Calls Part #2 | Signals & Process Terminations 
+</summary>
 
 # **Exec Variants**
 
@@ -980,3 +981,4 @@ Write-Host "All services have been processed."
 **Use Where**, to select all Services, WHERE a condition is true.
 
 </details>
+
