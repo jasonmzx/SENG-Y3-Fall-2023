@@ -56,7 +56,7 @@ while(1){
 	    break;
 	}
 
-    puts("server reply");
+    puts("server reply"); //basically printf 
     puts(server_reply);
 }
 
