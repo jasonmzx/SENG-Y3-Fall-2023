@@ -1,3 +1,5 @@
+# Chapter 6
+
 <details>
 <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Week 6 | System Calls (Continued.) </summary>
 
@@ -713,4 +715,465 @@ Here’s a breakdown of the flow:
 6. **Connection Handler**: The `connection_handler()` function runs in a separate thread for each client. It receives messages from its assigned client and sends responses back.
 
 Each client has its own unique `new_socket` file descriptor, and each of these sockets is managed by a separate thread. The `socket_desc` is only used for listening for new connections, not for communicating with connected clients. The actual communication with each client happens over their unique `new_socket` file descriptors.
+</details>
+
+---
+
+# Chapter 7
+<details>
+    <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Week 7 | Linkers & Loaders - General Info. </summary>
+</summary>
+
+Convenient Environment for Program Developpement:
+
+![Sys 71](../static/SYS_7_1.png)
+
+**Memory Management**:
+- Crucial component in O.S
+- Manages Physical Memory, to support the large infra-structure built on top of the hardware.
+
+### Examples of System Programs:
+- File manipulation
+- Status information
+- File modification
+* Program language support
+* Program loading and execution
+- Communications
+- Application programs
+
+---
+
+## Workflow for Typical Compilation and Execution
+
+![Sys 72](../static/SYS_7_3.png)
+
+---
+
+1. **Preprocessing**: Before actual compilation starts, the preprocessor takes a C source code file and processes all the preprocessor directives, such as `#include`, `#define`, and `#ifdef`. This step essentially prepares the code by including all the header files and expanding any macros.
+
+2. **Compilation**: The compiler takes the preprocessed C source code and converts it into assembly code specific to the target processor architecture. This step transforms the C code into a lower-level form that is closer to machine code but is still human-readable.
+
+3. **Assembly**: The assembler takes the assembly code produced by the compiler and translates it into machine code, producing an object file. Object files contain binary code but are not yet executable because they may reference symbols (functions, variables) that are defined in other source files or libraries.
+
+4. **Linking**: The linker takes one or more object files produced by the assembler and combines them into a single executable file. During this process, it resolves symbol references between object files and includes code from libraries that the program uses. If there are unresolved symbols after this step, linking will fail, and the executable won't be produced.
+
+5. **Loading**: When you run the executable, the loader is responsible for loading it into memory, performing any necessary memory address translations, and starting its execution. The loader handles the process of reading the executable file from the disk into memory and setting up the program's runtime context, including memory space and environment variables.
+
+Here’s a more accurate description of the steps:
+
+1. **Preprocessor**: Handles directives such as `#include`, `#define`, and conditional compilation.
+2. **Compiler**: Transforms preprocessed C code into assembly code.
+3. **Assembler**: Converts assembly code into machine code, generating object files.
+4. **Linker**: Combines object files and resolves symbols to produce a final executable.
+5. **Loader**: Loads the executable file into memory and starts its execution.
+
+Each step is crucial, and they must occur in this specific order for the compilation process to succeed and produce a runnable program.
+
+---
+![Sys 72](../static/SYS_7_2.png)
+
+#### Extra Notes
+
+*Linking*
+Combining a set of programs, including library routines, to create a loadable image. Links seperate files, together into a final image of that program. 
+*(Let's say I have 2 C files, and then some Library Usage, It will link my source files together, and also linked the compiled libraries also)*
+- **Linker is inside of gcc command**
+- Resolving symbols defined with the set
+- Listing symbols needing to be resolved by Loader.
+
+*Loading*
+Copying the loadable image into memory, connecting it with any other programs already loaded, and updating addresses as needed.
+- **Loader is part of exec system call**
+- (In Unix) interpreting file to initialize the process address space
+- (in all systems) kernel image is special (own format)
+---
+
+#### **Static Libraries:** 
+They are linked to the program at compile time. When you compile a program that uses a static library, the code from the library is copied into the executable. This means that the executable contains the library code within it.
+
+- This is better for Distributing Software, as an EXE might compile, but rely on a DLL that might not be there *(EXAMPLE, lots of Windows & Xbox games rely on DX3D12 DLLS DirectX graphics library by Microsoft)*. Static Libraries are "Baked-In" to the EXE, thus don't need to be called seperate from program.
+
+
+#### **Dynamic Libraries:** 
+They are linked during runtime or load time, NOT at compile time. The code is not included in the executable; instead, the program uses the library code that is stored separately in `.dll` files. *(On Linux, it's `.so` files)*
+
+- Multiple different Executable's use the same **DLL**s so it doesn't need to be replicate static libraries all the time. *(Example: Window DLLs)*
+
+- You can update a **DLL** without having to recompile the orginal program, unlike The static libraries which get baked into the program.
+
+---
+
+# Some Personal Study, G++ 
+
+picX1
+
+### Another Useful Figure I found
+
+![](https://miro.medium.com/v2/resize:fit:476/1*E_gsbq_A5vIUYxLMc7IUtg.png)
+---
+
+The process of preparing a program for execution involves several key steps, each of which prepares the program in different ways:
+
+**Translation**: This is the step where the source code is compiled into an object file, which contains machine code that is not yet ready to execute because it may have unresolved references or addresses.
+
+**Allocation**: The operating system selects a space in memory for the program to run. This space must be sufficient for the program's code, data, and any dynamic allocations it will make during execution.
+
+**Relocation**: Object files contain code and data with addresses based on an assumed starting location. Relocation adjusts these addresses to reflect where the loader will place the program in memory.
+
+**Linking**: This step involves combining multiple object files into a single executable or library. External references in the object files are resolved here, meaning that calls to functions that are not defined within the same object file are linked to the proper addresses.
+
+**Loading**: Once the program has been linked, the loader places it into memory. This involves reading the executable from storage, placing its segments into memory, and performing any final relocation adjustments so that all addresses point to the correct locations.
+
+The loader, which performs the loading step, can take several forms:
+
+- **Absolute Loaders**: Simplest type of loader that assumes the program will be loaded at a known, specific address in memory.
+    - **DISADVANTAGE TO ABSOLUTE LOADERS**
+    - The programmer needs to specify the actual address at which it will be loaded into memory.
+    - Difficult to run several programs concurrently, sharing memory between them.
+    - Difficult to use subroutine libraries
+- **Bootstrap Loaders**: Specialized absolute loaders found in ROM or firmware that load the initial program (usually an operating system) upon hardware initialization.
+- **Relocating Loaders**: Adjust the object program so that it can be loaded at an address different from the specified one.
+- **Linking Loaders**: Perform the linking step at load time, which can be advantageous for loading modules that reference each other.
+- **Dynamic Loaders**: Load modules into memory only as they are needed during execution, rather than loading the entire program at start time.
+    - **DISADVANTAGE**
+    - The need for the programmer to specify the actual address at which it will be loaded into memory
+    - Difficult to use subroutine libraries efficiently
+- **Dynamic Linking**: Similar to dynamic loading, but also allows sharing of code between programs by loading library routines into memory only once for multiple programs.
+
+---
+
+</details>
+
+<details>
+    <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Week 7 | ELF & deep-dive on Linker Functions </summary>
+</summary>
+
+![elf](../static/SYS_7_4.png)
+
+The ELF *(Executable and Linkable Format)* file is a common standard file format for executable files, object code, shared libraries, and core dumps. Let's delve into the specific components you've mentioned:
+
+### ELF Header
+The ELF header is at the beginning of the ELF file and acts as a roadmap for the system, describing how to interpret the file. It contains information about the file's identity (magic number), class (32 or 64-bit), data encoding, version, OS ABI, and type of the ELF file (e.g., executable, relocatable, shared object, etc.). It also contains pointers such as the program header table offset and the section header table offset.
+
+For example, in the hex dump of the ELF header, `7f 45 4c 46` represents the magic number, and the subsequent bytes provide the architecture and version information.
+
+### Program Header Table
+The program header table tells the system how to create a process image in memory. It contains an array of program headers for each segment in the file. Each program header describes a segment or other information the system needs to prepare the program for execution. Segments can include:
+
+- Code (text) segment
+- Data segment
+- BSS segment (uninitialized data)
+- Dynamic segment (dynamic linking information)
+- Interp segment (path name of a program interpreter)
+
+### Linker Functions
+The linker is responsible for combining object files into a single executable or library and performing several crucial tasks:
+
+### **Fixing Addresses (Relocation):**
+Each object file has addresses starting at zero, assuming it will be loaded at the beginning of memory. The linker will adjust these addresses to reflect where the code will actually reside in memory. This process is called relocation.
+
+![](../static/SYS_7_6.png)
+
+**Example:**
+- Object file A has a text segment of length 100 bytes.
+- Object file B has a text segment of length 200 bytes.
+- If A is to be loaded first, its text segment addresses remain unchanged.
+- B's text segment addresses need to be increased by 100 bytes so that they follow A's segment in memory.
+
+### **Symbol Resolution:**
+Linkers also resolve symbols, which means they connect the dots between symbol references in different object files.
+
+![](../static/SYS_7_7.png)
+
+
+**Example:**
+- Module A calls a function `foo()` that is defined in module B.
+- The linker finds the definition of `foo()` in B and replaces the placeholder in A with the actual address.
+
+### ELF Sections
+Sections contain data used by the linker and for other non-runtime purposes, such as debug information.
+
+Common sections include:
+- `.text`: The executable code.
+- `.data`: Initialized data.
+- `.bss`: Uninitialized data that is zeroed out at the start.
+- `.rodata`: Read-only data, like constant strings.
+- `.symtab`: A symbol table for linking and debugging.
+- `.strtab`: A string table for the names in the `.symtab`.
+- `.rel.text`, `.rel.data`: Relocation information for the `.text` and `.data` sections, respectively.
+
+### Detailed Example of Linking
+Assume we have two object files, A.o and B.o:
+
+- A.o defines a global variable `int x` and a function `foo()` that uses `x`.
+- B.o defines a function `bar()` that calls `foo()`.
+
+During linking:
+- The linker checks **A.o** and **B.o** for global symbols (`x`, `foo`, `bar`).
+- It finds that `foo()` is undefined in **B.o** and is defined in **A.o**.
+- It adjusts the address references in **B.o** so that calls to `foo()` point to the correct location in the combined executable.
+- If `x` is used in `bar()`, the linker updates the reference to `x` to point to its location in the executable.
+
+The resulting executable will have a single `.text` section where `foo()` and `bar()` reside contiguously, and a `.data` section where `x` resides. All references to `foo()` and `x` are updated to reflect their actual runtime addresses.
+
+
+*How the Linker is Resolving Symbols:*
+![sys78](../static/SYS_7_8.png)
+
+This explanation is an oversimplification but gives a sense of the complexity and precision involved in the linker's operations. It's a critical tool that bridges the gap between the compilation of individual object files and the creation of a functioning executable.
+
+*Relocation of code & data*
+![sys79](../static/SYS_7_9.png)
+
+**Relocatable Object Files (main.o and swap.o):**
+    These are intermediate files generated by the compiler. The .text section contains the code (instructions), and the .data and .bss sections contain initialized and uninitialized data, respectively. The .data section of main.o contains the initialized array buf[2]. In swap.o, the .data section contains `int *bufp0=&buf[0]`, which initializes bufp0 with the address of the first element of buf[], and the .bss section contains int *bufp1, which will be allocated space but not initialized.
+
+**Executable Object File:**
+    This file is created by the linker and includes the final executable code. The headers define the structure of the file. The .text section includes the executable code from both main() and swap(). The .data section includes the initialized data, like `int buf[2] = {1, 2}.` The .bss section will allocate space for uninitialized data like *bufp1.
+
+**Key Point:**
+    The note at the bottom highlights that even though the pointer *bufp1 is private to the swap() function, it requires allocation in the .bss section of the executable object file.
+
+</details>
+
+---
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Week 7 | Create a Linking Loader :-O </summary>
+
+# How to implement your own Linking Loader?
+
+![](../static/SYS_7_11.png)
+
+# I. Data Structures
+
+### Passes
+*A linking loader makes two passes over its input*
+- In pass 1: collect information about each of the object modules being linked i.e. assign addresses to external references
+- In pass 2: construct the output, carrying out address relocation and symbol resolution using the information collected in pass 1.
+
+The text you provided outlines the steps involved in the process of linking and loading programs in the context of systems programming, particularly focusing on the concept of a Linking Loader and its use of data structures such as External Symbol Tables (ESTAB), PROGADDR, and CSADDR. Let's delve deeper into these concepts and examine how they work with an illustrative example.
+
+### Data Structures Used in Linking and Loading
+
+1. **External Symbol Tables (ESTAB):**
+   - This table maintains the names and addresses of external symbols that are defined across different control sections being loaded.
+   - It includes information about where each symbol is defined, which is crucial for resolving external references.
+
+2. **PROGADDR:**
+   - This represents the starting address in memory where the linked program will be loaded. This address is typically provided by the operating system.
+
+3. **CSADDR:**
+   - This is the current starting address of the control section being processed by the loader. It's used to adjust relative addresses within the control section.
+
+### Algorithm: Pass 1
+
+- **Construct ESTAB:**
+  - All object modules are scanned, and their external symbols and lengths are recorded in the ESTAB.
+- **Address Assignment:**
+  - Each module is assigned a load address based on the information in the ESTAB.
+- **Global Symbol Table Update:**
+  - The linker reads each module's symbol table and updates a global symbol table, calculating the absolute address of each symbol.
+- **ESTAB Finalization:**
+  - By the end of Pass 1, ESTAB contains a complete set of external symbols and their assigned addresses.
+
+### Algorithm: Pass 2
+
+- **Address Relocation:**
+  - The loader adjusts addresses within the object code by adding the load address (CSADDR) to relative addresses.
+- **External Symbol Resolution:**
+  - References to external symbols in the code are resolved by replacing them with the actual addresses from ESTAB.
+
+# I. Machine Independent Features
+
+1. **Automatic Library Search:**
+   - The loader automatically searches for external symbols in standard libraries if they are not found in the provided object modules.
+
+2. **Loader Options:**
+   - The loader may support various options, like specifying additional search paths for libraries or overriding default behaviors.
+
+### Example
+
+Imagine you are loading two control sections, `CTRL1` and `CTRL2`, with the following external symbols defined:
+
+- `CTRL1`:
+  - `START: 0x1000`
+  - `SYMBOL_A: 0x1003`
+
+- `CTRL2`:
+  - `START: 0x2000`
+  - `SYMBOL_B: 0x2004`
+
+#### Pass 1 Example:
+
+- ESTAB is constructed, and it might look like this:
+
+  ```
+  Symbol     Address    Control Section
+  START      0x1000     CTRL1
+  SYMBOL_A   0x1003     CTRL1
+  START      0x2000     CTRL2
+  SYMBOL_B   0x2004     CTRL2
+  ```
+
+- The load addresses are assigned based on the length of each module. Let's say `CTRL1` is `0x0500` bytes long, and `CTRL2` starts right after `CTRL1`.
+
+#### Pass 2 Example:
+
+- During the loading phase, if an instruction in `CTRL1` needs to call `SYMBOL_B` in `CTRL2`, the loader will:
+  - Find the reference to `SYMBOL_B`.
+  - Look up `SYMBOL_B` in ESTAB, finding its absolute address `0x2004`.
+  - Add the CSADDR of `CTRL1` to the relative address (if any) within `CTRL1` to get the correct address in the loaded program's address space.
+  - Replace the reference in the instruction with the absolute address `0x2004`.
+
+By the end of Pass 2, all instructions that reference external symbols will have been updated to reflect their actual loaded addresses, and the program will be ready to execute.
+
+This entire process enables the linker/loader to manage multiple object modules, resolving internal and external symbol references, and to correctly place the executable code in memory, ready for the CPU to execute. The advantages of such a dynamic system include the ability to update individual modules without recompiling the entire program and the efficient use of memory by avoiding duplication of shared libraries.
+
+# III. Loader Design Options
+
+TODO:
+
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Week 7 | Practical Static & Dynamic Linking </summary>
+Dynamic linking is a mechanism in systems programming that allows a program to call a subroutine or use a library that is not statically linked into the executable file. This linking occurs at runtime, rather than at compile time. Here's an in-depth look at the process and benefits of dynamic linking, along with a concrete example of how it works in the context of the C programming language.
+
+### Dynamic Linking Process
+
+1. **Compilation Phase:**
+   - Source code files (like `ctest1.c` and `ctest2.c`) are compiled into object files (`ctest1.o` and `ctest2.o`). These object files contain machine code but have not been linked yet.
+
+2. **Linkage Types:**
+   - **Linkage editors** perform linking before load time, creating a complete executable by resolving all symbolic references.
+   - **Linking loaders** perform the linking at load time, combining object files into a running process in memory.
+   - **Dynamic linking** occurs after load time, during execution. Here, a subroutine is linked the first time it's called.
+
+3. **Execution Phase:**
+   - In dynamic linking, when the program is executed and a subroutine (like `ctest1` or `ctest2`) is called, the dynamic linker loads the necessary library into memory and links the subroutine calls in the running program to the appropriate entry points in the library.
+
+### Dynamic Linking Application
+
+In object-oriented systems, dynamic linking is used for references to software objects, enabling the implementation of an object to be determined at runtime. This is particularly useful for late-binding where the exact code to be executed is not known at compile time.
+
+### Dynamic Linking Advantages
+
+- **Efficiency:** Only the necessary routines are loaded, saving time and memory.
+- **Flexibility:** The program doesn't need to be recompiled if the library is updated; it simply uses the new version the next time it runs.
+- **Sharing:** Multiple programs can share a single copy of a library (e.g., a Dynamic Link Library in Windows or a shared object `.so` file in Unix-like systems).
+
+### Static vs. Dynamic Linking Example
+
+Let's consider a scenario where we have two C files `ctest1.c` and `ctest2.c`, each containing a function that sets an integer's value.
+
+**Static Linking Steps:**
+1. Compile individual C files into object files.
+2. Create a static library (e.g., `libctest.a`) from the object files.
+3. Link this static library with the main program (`prog.c`) to create an executable.
+4. Run the program.
+
+**Dynamic Linking Steps:**
+1. Create position-independent code (PIC) for `ctest1.c` and `ctest2.c` to facilitate relocation.
+2. Create a shared library (e.g., `libbasic.so`).
+3. Compile the main program (`prog.c`) and link it with the shared library.
+4. Install the shared library into a standard library path (like `/usr/lib`) and update the linker cache using `sudo ldconfig`.
+5. Run the dynamically linked program.
+
+**Example Execution:**
+- With static linking, running `./staticlinkingexample` would use the code from `libctest.a`.
+- With dynamic linking, running `./dynamic` would use the shared library `libbasic.so`.
+
+In dynamic linking, if `libbasic.so` is updated with new versions of `ctest1` or `ctest2`, the next execution of `./dynamic` will use the updated routines without recompiling `prog.c`. This exemplifies the flexibility of dynamic linking.
+
+### Conclusion
+
+Dynamic linking is a powerful feature that enables programs to be more modular, efficient, and easy to update. It defers the resolution of functions and library calls to the runtime, which allows for the use of the latest code and shared libraries among multiple programs, optimizing resource use and simplifying maintenance.
+
+---
+
+Certainly! Below are the formatted markdown representations of the C source files and commands from your provided text blob.
+
+### ctest1.c
+
+```c
+// ctest1.c
+void ctest1(int *i)
+{
+    *i=5;
+}
+```
+
+### ctest2.c
+
+```c
+// ctest2.c
+void ctest2(int *i)
+{
+    *i=100;
+}
+```
+
+### prog.c
+
+```c
+// prog.c
+#include <stdio.h>
+
+void ctest1(int *);
+void ctest2(int *);
+
+int main()
+{
+    int x;
+    ctest1(&x);
+    printf("Valx=%d\n", x);
+    return 0;
+}
+```
+
+### Commands for Static Linking
+
+```bash
+# Compiling ctest1.c and ctest2.c with all warnings
+gcc -Wall -c ctest1.c ctest2.c
+
+# Creating a static library libctest.a
+ar -cvq libctest.a ctest1.o ctest2.o
+
+# Listing files in the static library
+ar -t libctest.a
+
+# Linking the static library with the main program
+gcc -o staticlinkingexample prog.c libctest.a
+
+# Executing the statically linked program
+./staticlinkingexample
+```
+
+### Commands for Dynamic Linking
+
+```bash
+# Creating position independent code for ctest1.c and ctest2.c
+gcc -Wall -fPIC -c ctest1.c ctest2.c
+
+# Creating a shared library libbasic.so
+gcc -shared -o libbasic.so ctest1.o ctest2.o
+
+# Compiling prog.c and linking with the shared library
+gcc -o dynamic prog.c -L. -lbasic
+
+# Moving the shared library to a standard library path
+sudo mv libbasic.so /usr/lib
+
+# Updating the linker cache
+sudo ldconfig
+
+# Executing the dynamically linked program
+./dynamic
+```
+
+These markdown-formatted code snippets and shell commands reflect the steps for compiling, creating libraries, linking, and executing C programs with both static and dynamic linking methods.
+
 </details>
