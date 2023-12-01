@@ -282,6 +282,32 @@ This is the multiplexer situated at the bottom of the diagram. It has three inpu
 
 **2** - Return address: This is typically used in subroutine calls in assembly or machine code. When a subroutine is called, the address of the next instruction *(i.e., the one to be executed after the subroutine finishes)* is saved so that the program can return to it. This is the "return address."
 
+# More Elaborations:
+
+Based on the text you've provided, let's address your questions regarding the RM register and the RY register along with MuxY.
+
+**RM Register:**
+- The RM register acts as an intermediary holding spot for data that is to be written into memory during a Store operation. In a Store instruction, the value that needs to be stored in memory is first moved into the RM register.
+- The value that is stored into RM typically comes from one of the general-purpose registers (for example, RB as per your text), which holds the data that the instruction intends to store in memory.
+- When the processor reaches the memory access stage (stage 4 in the five-stage datapath), the data in RM is written to the memory location whose address is specified by the RZ register.
+- Therefore, RM does not directly propagate the value of RB; instead, it holds this value temporarily until the processor is ready to perform the memory write operation.
+
+**RZ Register:**
+- The RZ register is used to hold the computed memory address during Load and Store operations.
+- During the execution of a Store instruction, the effective address where the data is to be stored is computed by the ALU (perhaps by adding an immediate value to a base register address) and then placed in RZ.
+- This address is then used by the memory subsystem to determine where to store the data contained in the RM register.
+
+**RY Register and MuxY:**
+- The RY register serves as a holding area for data that is going to be written back to the register file or used in further operations, like the result of an ALU operation or data loaded from memory.
+- MuxY is responsible for selecting the appropriate data to be sent to RY. The `Y_select` control line determines which of the inputs to MuxY is selected.
+
+Here are potential scenarios for MuxY's operation based on different `Y_select` values:
+- **`Y_select` set to 0**: MuxY might select the output from the ALU. This is typical when the operation involves computation, and the result needs to be written back to a destination register.
+- **`Y_select` set to 1**: MuxY could select the data coming from memory (such as the output of RM during a Load instruction), which will then be written to the RY register.
+- **`Y_select` set to 2 or another value**: MuxY might select a third input, which could be a return address from a subroutine call or an immediate value depending on the instruction being executed.
+
+The specific control logic and the role of the `Y_select` line will depend on the type of instruction being executed and the design of the processor's control unit. The text outlines a typical RISC processor's behavior, where the control unit dynamically determines the data flow through the datapath based on the instruction type, using control signals to configure the multiplexers and registers accordingly.
+
 ---
 
 #### Data Path Examples
