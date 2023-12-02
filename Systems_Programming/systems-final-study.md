@@ -805,7 +805,7 @@ They are linked during runtime or load time, NOT at compile time. The code is no
 
 # Some Personal Study, G++ 
 
-picX1
+![sysxxxxx](../static/SYS_XXXXX.png)
 
 ### Another Useful Figure I found
 
@@ -1318,9 +1318,179 @@ Dynamic linking, on the other hand, is a process where the linking of libraries 
 Both static and dynamic linking have their places in software development. The choice between them depends on various factors, including the need for portability, memory constraints, flexibility with library updates, and performance considerations.
 </details>
 
+---
+
 # Chapter 8
 
 <details>
 <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Week 8 | Tracing & Debugging #1 </summary>
 
+![sys81](../static/SYS_8_1.png)
+
+User's Programs have their own "Space" in Memory, this includes the Libraries aswell, and there is a seperate **Operation System Kernel** Mem. Space, that is paritioned away from user space.
+
+## Program Tracing:
+
+`strace` is an immensely powerful command-line tool used on UNIX and UNIX-like operating systems, such as Linux. It's used to trace system calls and signals. System calls are the primary mechanism by which a program interacts with the operating system, and tracing them can provide deep insights into the behavior of a program.
+
+### Understanding `strace`
+
+1. **Basic Usage**: `strace` runs the specified command until it exits. For example, `strace ls` would run `ls` while tracing the system calls it makes.
+
+2. **Tracing System Calls and Signals**: It intercepts system calls made by a process and signals received by a process. This information is crucial for debugging and understanding how a program interacts with the kernel.
+
+3. **Output**: The output of `strace` includes the name of each system call, its arguments, and its return value. This output is typically printed to standard error or to a file if specified.
+
+### Practical Examples of `strace`
+
+1. **Basic Command Execution Tracing**:
+   - `strace ls`
+   - This command traces all the system calls made by the `ls` command. It's a simple way to see what system calls are used by `ls`.
+
+2. **Tracing Specific System Calls**:
+   - `strace -e trace=open,read ls /home`
+   - This command only traces `open` and `read` system calls made by `ls`. It's useful when you're only interested in certain types of system calls.
+
+3. **Saving Trace Output to a File**:
+   - `strace -o output.txt ls`
+   - This saves the trace output of `ls` to `output.txt`. Useful for analyzing the output later or for longer traces that are hard to follow on the screen.
+
+4. **Attaching to a Running Process**:
+   - `sudo strace -p [PID] -o firefox_trace.txt`
+   - This attaches `strace` to a running process with a specific PID (Process ID), for example, a Firefox instance. It's useful for debugging live processes.
+
+5. **Printing Timestamps**:
+   - `strace -t ls /home`
+   - This prints the timestamp for each line of the trace output. It's valuable for understanding the timing of system calls.
+
+6. **Printing Relative Time for System Calls**:
+   - `strace -r ls`
+   - This prints the execution time for each system call, which helps in performance analysis.
+
+7. **Generating Statistical Reports**:
+   - `strace -c ls /home`
+   - Generates a statistical report about the system calls made, including how many times each was called. It's great for an overview of system call usage.
+
+### Understanding the `top` Command
+
+The `top` command is used to display Linux processes. It provides a real-time dynamic view of a running system. It shows processor and memory usage, including:
+
+- **PID**: Process ID
+- **USERNAME**: The username that owns the process
+- **CPU and Memory Usage**: How much CPU and Memory the process is consuming
+- **COMMAND**: The command that started this process
+
+For example, the `top` output shows that a process owned by 'root' with PID 144 (`ypserv`) is consuming 3.67% CPU, which is the highest in the list.
+
+### Breaking Down a `top` Command View
+
+Consider this line from a `top` output:
+
+```
+PID USERNAME THR PRI NICE SIZE RES STATE TIME CPU COMMAND
+144 root 1 53 0 3384K 1728K sleep 33.3H 3.67% ypserv
+...
+...
+... 
+```
+
+- **PID 144**: The process ID of the process.
+- **root**: The user running the process.
+- **1 THR (Thread)**: Number of threads.
+- **PRI 53**: Priority of the task.
+- **NICE 0**: The nice value of the task, affecting its priority.
+- **3384K SIZE**: Virtual memory size of the process.
+- **1728K RES**: Resident set size, the non-swapped physical memory the task has used.
+- **SLEEP**: Current state of the process.
+- **33.3H TIME**: The total CPU time the task has used since it started.
+- **3.67% CPU**: Percentage of the CPU used by this process.
+- **ypserv**: Command name/Executable name.
+
+---
+
+# Debugging:
+
+Debugging is an essential process in software development and maintenance, aimed at identifying, isolating, and fixing problems or "bugs" in software. The necessity for debugging arises from various types of issues that can occur during the lifecycle of a program.
+
+### Why Debug?
+
+1. **Misbehavior**: When a program doesn't function as expected, debugging helps in understanding why and where the problem lies.
+
+2. **Memory Leaks**: These occur when a program fails to release memory that is no longer needed, leading to wastage and potential system crashes.
+
+3. **Invalid/Illegal Memory Access**: This includes dereferencing null or uninitialized pointers, accessing memory outside the bounds of allocated space, etc.
+
+4. **Invalid Instructions**: These are operations that the CPU cannot execute, often due to programming errors.
+
+5. **Synchronization Issues**: In multi-threaded applications, problems can arise from improper handling of shared resources, leading to deadlocks or inconsistent states.
+
+### Classes of Errors
+
+1. **Runtime Errors**: These are detected by the hardware or library functions, such as dereferencing a null pointer or division by zero. These often cause the program to abort.
+
+2. **Logical Errors**: The program runs but yields incorrect results or behaves unexpectedly, like entering an infinite loop or producing erroneous output.
+
+### Debuggers
+
+Debuggers are specialized tools that assist in debugging. They come in two main forms:
+
+1. **Post-Mortem Debugging**: Analyzing the state of a program after it has crashed. In UNIX systems, this often involves examining a *core dump*.
+
+2. **Dynamic/Tracing Debugger**: Running a program under the debugger's control, allowing step-by-step execution and inspection.
+
+### Practical Examples of Debugging
+
+1. **Investigating a Segmentation Fault**:
+   - A program crashes with a segmentation fault. Using gdb, you load the core dump to find where it occurred.
+   - The backtrace (`bt` command in gdb) shows the function call stack at the point of crash.
+   - You identify that the crash happened due to a null pointer dereference.
+
+2. **Resolving a Deadlock in a Multi-threaded Application**:
+   - Your application hangs intermittently. Using a debugger, you attach to the running process.
+   - You check the threads' states and find that two threads are waiting for each other, creating a deadlock.
+   - You trace back the sequence of lock acquisitions to find and resolve the deadlock cause.
+
+3. **Fixing a Memory Leak**:
+   - Using a tool like **Valgrind**, you run your application to check for memory leaks.
+   - Valgrind reports memory that was allocated but never freed.
+   - You identify the leak's location in your code and modify it to ensure proper memory management.
+
+4. **Solving Logical Errors**:
+   - The application gives incorrect output. You use a debugger to step through the code.
+   - By inspecting variable values at various points, you find a logic error in your algorithm.
+   - You correct the algorithm and verify the output.
+
+5. **Handling Infinite Loops**:
+   - Your application enters an infinite loop. You pause the execution with a debugger.
+   - By examining the loop conditions and variable states, you identify the reason for the loop not terminating.
+   - You modify the loop condition or the variables influencing it to resolve the issue.
+
+### Debugging Information
+
+Debuggers can provide a wealth of information, such as:
+
+- The exact *Line Num. and file* where an error occurred.
+- *Stack backtrace* showing the path of execution leading to the error.
+- Values of parameters, local, and global variables formatted according to their types.
+- Ability to inspect complex data structures, following pointers and examining structure components.
+
+### Tips for Efficient Debugging
+
+- Start by analyzing any available error messages or logs.
+- Use breakpoints strategically to pause execution at critical points.
+- Inspect variable values at different execution stages to understand the state changes.
+- Simplify and isolate the problematic code segment, if possible.
+- Use conditional breakpoints or logging to gather information without stopping execution in loops or frequently called functions.
+- Keep track of changes made during debugging to avoid introducing new issues.
+
 </details>
+
+<details>
+<summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Week 8 | TODO: Hands-on GDB Debugging</summary>
+
+</details>
+
+---
+
+# Chapter 9
+
