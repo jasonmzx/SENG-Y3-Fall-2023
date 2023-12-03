@@ -343,16 +343,20 @@ In the example given *(Query 16)*, E and D are aliases for the EMPLOYEE and DEPE
 
 **Example that is NOT Ambiguis**
 ```sql
-SELECT E.Name
+SELECT E.Name, D.Name
 FROM Employees AS E, Departments AS D
 WHERE E.DepartmentID = D.ID;
 ```
 
-**Example that needs qualification**
+**Example that might need clarification**
 ```sql
-SELECT E.Name, D.Name
-FROM Employees AS E, Departments AS D
-WHERE E.DepartmentID = D.ID;
+SELECT Fname, Lname
+FROM EMPLOYEE
+WHERE NOT EXISTS (
+    SELECT *
+    FROM DEPENDENT
+    WHERE Ssn = Essn
+);
 ```
 
 **Nested Query Example:**
@@ -388,6 +392,19 @@ WHERE NOT EXISTS (
     FROM DEPENDENT
     WHERE Ssn = Essn
 );
+```
+
+More Robust Query, also this one looks at The Salary of employee being over 50k
+```
+USE company_db;
+
+SELECT E.Fname, E.Lname
+FROM EMPLOYEE E
+WHERE NOT EXISTS (
+    SELECT *
+    FROM DEPENDENT D
+    WHERE E.Ssn = D.Essn
+) AND E.Salary >= 50000;
 ```
 
 1. It looks at each row in the EMPLOYEE table.
@@ -480,7 +497,30 @@ This query also selects the first name, last name, and address of all employees 
 
 
 It is also possible to nest join specifications, called a **Multiway Join**
-  </details>
+  
+---
+
+# Company Example Outer Joins!
+
+### LEFT JOIN
+
+```sql
+SELECT e.*, d.Dependent_name  FROM EMPLOYEE e LEFT JOIN DEPENDENT d ON e.Ssn = d.Essn  
+```
+
+Yields:
+
+![](../static/DB_6_c1.png)
+
+### RIGHT JOIN
+
+```sql
+SELECT e.*, d.Dependent_name  FROM EMPLOYEE e RIGHT JOIN DEPENDENT d ON e.Ssn = d.Essn  
+```
+Yields:
+
+![](../static/DB_6_c2.png)
+</details>
 
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Section 6 | GROUP BY, Assertions & Triggers, Views
