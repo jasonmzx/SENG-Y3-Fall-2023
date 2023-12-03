@@ -47,6 +47,8 @@ In practice, these concepts are often combined. **For example**, a large online 
 
   ---
 
+  # Chapter 10.
+
   <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 10. | Disk Storage, Buffering & Hardware Techniques
   </summary>
@@ -209,8 +211,6 @@ In summary, interleaved buffering is like a single performer juggling multiple t
 
 </details>
 
----
-
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 10. | Placing of File Records (On "Disk")
 </summary>
@@ -298,9 +298,418 @@ The blocking factor **bfr** represents the average number of records per block f
 </details>
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Operations on Files, Heap & Sorted Records (Unordered & Ordered)
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 10 | Operations on Files, Heap & Sorted Records (Unordered & Ordered)
   </summary>
 
+The Following Operations *(except for Open and Close)* are called **record-at-a-time** operations because each operation applies to a single record!
 
+#### Operations on Files:
+1. **Open**: Prepares the file for access, allocates buffers, retrieves file header, and sets the pointer to the file's beginning.
+2. **Reset**: Resets the file pointer to the start of the file.
+3. **Find/Locate**: Searches for and locates the first record matching a search condition, making it the current record.
+4. **Read/Get**: Copies the current record to a program variable; may advance to the next record.
+5. **FindNext**: Finds the next record satisfying the search condition, updating the current record.
+6. **Delete**: Removes the current record and updates the file.
+7. **Modify**: Changes field values of the current record and updates the file.
+8. **Insert**: Adds a new record in the appropriate place in the file.
+9. **Close**: Finalizes file access, releases buffers, and performs cleanup.
+
+#### Sequential Nature of Records:
+- In sequential record handling, records are processed in the physical order they appear in the file. 
+- For example, if searching for records where `department = "Software"`, the first matching record becomes the "current record".
+- Subsequent operations (like `FindNext`, `Modify`, or `Delete`) then act on this current record.
+- The process continues sequentially, with each found record becoming the new current record for the next operation.
+
+![dbl10_4](../static/DB_L10_8.png)
+
+---
+
+## Unordered Records (Heap File)
+
+In this simplest and most basic type of organization, records are placed in the file in the order in which they are inserted, so new records are inserted at the end of the file. Such an organization is called a **heap** or **pile file**.
+
+- Inserting a new record is very efficient. 
+- The last disk **block** of the file is copied into a buffer, the new record is added.
+- Then the **block** is then rewritten back to disk
+
+#### Searching:
+- For a file of **b** blocks, this requires *searching (b/2)* blocks, on Average. If no records or several records satisfy the search condition, the program must read and search all **b** blocks in the file.
+- Requires **Linear Search** (usually b/2 to b complexity)
+
+#### Deletion:
+*The deletion of records in a heap file can be done in two main ways:*
+  1. **Direct Deletion**: Involves finding the block where the record is located, copying it to a buffer, deleting the record from the buffer, and rewriting the block back to the disk. This method, however, leaves unused space in the disk block. Deleting many records like this can lead to significant wasted storage space.
+  2. **Deletion with Marker**: An alternative method uses a deletion marker (an extra byte or bit) with each record. To delete a record, the marker is set to a specified value, differentiating it from valid (non-deleted) records. During searches, only records without this deletion marker are considered valid. This method still requires periodic reorganization of the file to reclaim space from deleted records.
+
+##### Reorganization:
+- Periodic reorganization is essential to reclaim space from deleted records. During reorganization, file blocks are accessed sequentially, and records are packed by removing the deleted ones, refilling the blocks to capacity.
+
+##### Spanned vs Unspanned Organization:
+- A heap file can use either spanned or unspanned organization, applicable to both fixed-length and variable-length records. 
+- For variable-length records, modification might require deleting the old record and inserting a new one, especially if the modified record cannot fit in the original space.
+
+##### Sorted File Copy:
+- To read records in a sorted order based on a field, a sorted copy of the file is created. Sorting a large disk file is costly, and special external sorting techniques are used.
+
+##### Direct Access in Unordered Fixed-Length Records:
+- For unordered fixed-length records using unspanned blocks and contiguous allocation, direct access by position is straightforward. 
+- Records are accessed directly by their relative positions in the file. This method doesn't assist in locating records based on search conditions but is useful for constructing access paths, like indexes.
+
+**TLDR**: In summary, a heap file organization, while simple and efficient for insertions, poses challenges in terms of deletion and reorganization. It is suitable for scenarios where efficient insertion is prioritized, and search or deletion operations are infrequent or less critical.
+
+---
+
+## Ordered Records (Sorted Files)
+
+- Orders the records of file based on: **values** of a field *(Ordering Field)
+   - Leads to an *Ordered* File
+- If the Ordering Field is also a **Key** then we know it's a unique ordered file!
+
+**Visual Example**
+![dbl10_4](../static/DB_L10_9.png)
+Shows an ordered file with Name as the ordering key field *(assuming that employees have distinct names)*.
+
+
+## Ordered Records (Sorted Files)
+
+Ordered records, also known as sorted files, are organized based on the values of a specific field, often referred to as the **Ordering Field**. If this ordering field is also a key, it guarantees the uniqueness of each record, resulting in a uniquely ordered file. 
+
+**Visual Example**
+![dbl10_4](../static/DB_L10_9.png)
+This example demonstrates an ordered file where the 'Name' field serves as the ordering key, assuming distinct names for each employee.
+
+### Advantages of Ordered Records:
+1. **Efficient Ordered Reading**: Reading records in the order of the ordering key values is highly efficient as it requires no additional sorting. 
+2. **Efficient Searching**: 
+   - For specific value searches (`key = value`) or range conditions (`value1 < key < value2`), ordered files offer faster access, especially when using binary search techniques. This is a significant improvement over linear searches.
+   - Binary search on disk files typically accesses `log2(b)` blocks (where `b` is the number of blocks), whether the record is found or not. This is more efficient compared to the average linear search accessing `b/2` blocks. *(For Unordered)*
+3. **Contiguous Record Access**: Finding the next record in order of the ordering key usually doesn't require additional block accesses, as it's likely in the same block as the current record (unless it's the last record in the block).
+
+### Search and Deletion in Ordered Records:
+1. **Search Efficiency**: 
+   - Conditions involving `>, <, ≥, ≤` on the ordering field are efficient because the physical ordering of records ensures that all records satisfying the condition are contiguous in the file.
+   - Example: For a search condition like `Name > ‘G’` (alphabetically), all relevant records are located continuously from the start of the file up to the first record with 'Name' starting with 'G'.
+2. **Deletion**: 
+   - Deletion in ordered files can use deletion markers and periodic reorganization, similar to heap files. 
+   - However, keeping the order intact makes insertion and deletion more complex and time-consuming. 
+
+### Insertion and Modification:
+- **Insertion**: To insert a record, its correct position based on the ordering field value must be identified, requiring potentially significant movement of existing records to create space. This can be particularly time-consuming for large files.
+- **Modification**: 
+  - If a non-ordering field is modified, the record can be rewritten in the same location for fixed-length records. 
+  - Modifying the ordering field requires deleting the old record and inserting a modified one in the correct position.
+
+### Managing Overflow:
+- An overflow or transaction file can be used to make insertion more efficient. New records are temporarily stored in this unordered file and periodically merged with the main file during reorganization. 
+- This approach simplifies insertion but complicates the search process, as both the main and overflow files might need to be searched.
+
+### Reading and Reorganizing:
+- Reading records in order, including overflow, requires merging overflow records into their correct positions during file reorganization. 
+- Reorganization involves sorting overflow records and merging them with the master file, simultaneously removing records marked for deletion.
+
+In conclusion, ordered records offer significant advantages in terms of efficient ordered reading, searching, and contiguous record access. However, these benefits come with the trade-offs of more complex insertion, deletion, and reorganization processes. These characteristics make ordered files particularly suitable for applications where read and search operations are prioritized over frequent insertions or modifications.
+
+![dbl10_4](../static/DB_L10_10.png)
+
+### Refferenced: Binary Search Algorithm:
+
+![dbl10_4](../static/DB_L10_11.png)
+
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 10 | Hashing Techniques
+  </summary>
+
+**Hashing:** provides very fast access to records under certain search conditions.
+- The search condition must be an **equality condition** on a single field, called the *hash field (hash key)*
+- For Hash Slots **M**, and elements **N** if we've got Uniform information, in which all slots roughly **N/M** entries, then it's a good hashing fn.
+- Hashing functions map a large hash field space *(the range of possible hash values)* to a smaller address space *(available addresses for records)*. This can lead to **collisions**, where distinct values hash to the same address.
+
+# Internal Hashing
+- Implemented as a Hash Table containing **M** slots. *(0, M-1)*
+- Common Hashing function is **H(k) = K mod M**
+   - Which returns the remainder of an integer hash field value K after division by M; this value is then used for the record address.
+![dbl10_4](../static/DB_L10_12.png)
+
+**Non-Integer** field values are transformed into Integers!
+- ASCII characters, are just their Integer Representation, etc...
+
+---
+
+# Hashing Algorithm
+
+### What makes a good Hashing Function.
+
+- **Uniform Distribution**: A good hashing function should evenly distribute records across the address space to minimize collisions, enabling single-access record retrieval.
+- **Optimal Space Utilization**: Achieving a balance between minimizing collisions and fully utilizing the available space (buckets) without leaving many unused locations.
+- **Ideal Fill Ratio**: Studies suggest maintaining a hash file that is 70-90% full to reduce collisions and avoid wasting space.
+- **Size Selection for Address Space (M)**: Choose the number of locations (M) such that the ratio of records (r) to M falls between 0.7 and 0.9.
+- **Choosing M as a Prime Number**: For mod hashing functions, using a prime number for M can improve the distribution of hash addresses.
+- **Adapting M to the Hash Function**: Depending on the hash function, M might need to be a power of 2.
+
+---
+
+### Collision Resolution Methods:
+
+1. **Open Addressing**: When a collision occurs, the method searches for the next empty position from the occupied hash address. This process continues until an unused position is found.
+   - **Deletion** algorithms for open addressing are rather tricky. Data structures textbooks discuss internal hashing algorithms in more detail
+
+2. **Chaining**: This method handles collisions by using overflow locations, often created by extending the array with additional positions. Each record location includes a pointer field. When a collision occurs, the new record is placed in an unused overflow location, and the pointer at the occupied hash address points to this new location. This creates a linked list of overflow records for each hash address. *(Linked-List chaining in a Slot)*
+
+3. **Multiple Hashing**: If the first hash function leads to a collision, a second hash function is applied. If this also results in a collision, the process either uses open addressing or applies a third hash function, followed by open addressing if needed. The series of hash functions are consistently used for both storage and retrieval. *(Pass thru N. Hash.FNS for Example)*
+
+---
+
+- Algorithm **(a)** can be used to calculate the hash address.
+- Algorithm **(b)** Collision resolution by open addressing.
+
+![dbl10_13](../static/DB_L10_13.png)
+
+*Collision Resolution via. Chaining*
+![dbl10_15](../static/DB_L10_15.png)
+
+---
+
+# External Hashing
+
+*Hashing for disk files is called **external hashing***
+
+- **Buckets**: Comprise the address space, holding multiple records. A bucket is either one disk block or a cluster of contiguous blocks.
+
+**Handling Collisions:**
+- **Less Severe in Buckets**: Multiple records can hash to the same bucket without issues until it reaches capacity. *(As bucket is like a folder, of storage)*
+- **Overflow Handling**: Uses chaining variant. Each bucket has a pointer to a linked list of overflow records. Each pointer in the list includes a block address and a relative record position.
+
+![dbl10_15](../static/DB_L10_16.png)
+- *A) Matching bucket numbers to disk block addresses.*
+- *B) The pointers in the linked list should be record pointers, which include both a block address and a relative record position within that block. Record Pointers are also used to handle OVERFLOW of buckets!*
+
+
+**Order-Preserving Functions:**
+- **Example 1**: Use leftmost digits of an invoice number as the bucket address, maintaining records sorted by invoice number in each bucket.
+- **Example 2**: Direct use of an integer hash key as an index in a relative file, effective if hash keys occupy a specific interval *(e.g., consecutive employee numbers).*
+
+**Static vs. Dynamic Hashing:**
+- **Static Hashing**: Fixed number of buckets (M), limitations in handling dynamic files.
+- **Dynamic Hashing**: Allows varying bucket numbers, facilitating localized reorganization.
+
+**Record Operations:**
+- **Search**: Similar cost to *Unordered* file when searching by non-hash fields.
+- **Deletion**: Remove the record from its bucket. If in overflow, remove from the linked list and track empty overflow positions.
+
+**Challenges:**
+- **Space Utilization**: Risk of unused space or overflow depending on records count.
+- **Reorganization Needs**: Changing the number of buckets and redistributing records can be time-consuming.
+- **Dynamic File Organization**: Addresses these challenges by allowing flexible bucket numbers. *(Static Hashing Issue)*
+
+---
+
+## Dynamic Hashing Algorithms (Analysis)
+
+### **Extendible Hashing:**
+- **Functionality**: Splits a full bucket into two, redistributing records based on updated hash values, and adjusts the directory accordingly.
+- **Directory**: Dynamic, stored on disk, grows or shrinks as needed. Points to disk blocks containing records.
+- **Handling Overflows**: No need for a separate overflow area. Overflows lead to bucket splitting and directory updates.
+- **Example Case**: A bucket starting with hash value '01' overflows, leading to the creation of two new buckets for records starting with '010' and '011'.
+
+**Pros:**
+- Efficiently handles dynamic file sizes.
+- Direct access to buckets through the directory minimizes search time.
+- Reduces overflow issues without needing additional overflow areas.
+
+**Cons:**
+- Directory size can grow significantly, especially with large datasets.
+- Reorganization of directory and buckets can be complex during splits.
+
+### **Dynamic Hashing (Larson's Model):**
+- **Structure**: Tree-structured directory with internal nodes (having two pointers based on hash address bits) and leaf nodes (pointing to actual buckets).
+- **Bucket Addressing**: Uses high-order bits, adjusting based on the total number of keys for a bucket.
+
+**Pros:**
+- Adapts well to changing file sizes.
+- Efficient in distributing records across buckets.
+- Directory structure aids in fast record retrieval.
+
+**Cons:**
+- More complex directory structure compared to extendible hashing.
+- Bucket splitting and tree restructuring can be computationally intensive.
+
+### **Linear Hashing:**
+- **Operation**: Allows file to expand and shrink dynamically without a directory. Splits buckets linearly as file expands.
+- **Hash Functions**: Utilizes a sequence of hash functions for redistribution during expansion.
+
+**Pros:**
+- Eliminates the need for a directory, simplifying structure.
+- Good control over file load factor.
+- Balances load across buckets effectively.
+
+**Cons:**
+- Bucket splitting is sequential, which can be less efficient.
+- Handling of overflows and reorganizations can be more challenging without a directory.
+
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 10 | RAID Technology
+  </summary>
+
+# Major Advantages of RAID Over Traditional Disk Storage
+
+### **Data striping**: 
+- Distributes data transparently over multiple disks to make them appear as a single large, fast disk.
+-  Accomplishes load balancing & "Redundancy" among disks.
+   -  by storing redundant information on disks using parity or some other error-correction code, reliability can be improved.
+
+In **bit-level striping**, a byte is split and individual bits are stored on independent disks. *Figure 16.13(a)*
+- **Disk 0:** bits *0-3* , **Disk: 1** bits *4-7*
+
+<br></br>
+
+**Block-level striping** stripes blocks across disks. It treats the array of disks as if it is one disk. Blocks are logically numbered from 0 in sequence. Disks in an **m-disk array** are numbered `0 to m – 1`. With striping, block **j** goes to disk `(j mod m)`.
+- *Figure 16.13(b) illustrates block striping with four disks (m = 4).*
+
+![dbl10_15](../static/DB_L10_20.png)
+
+## Reliability with RAID
+
+### Mirroring / Shadowing
+
+In Raid 1. for example, we see that there are 2 copies of each "block", so if 1 drive fails, the other has the exact same data.
+![dbl10_15](../static/DB_L10_r1.png)
+- Data is written redundantly to two identical physical disks that are treated as one logical disk.
+- When data is read, it can be retrieved from the disk with shorter queuing, seek, and rotational delays.
+- **Disk mirroring also doubles** the rate at which read requests are handled, since a read can go to either disk. However, The transfer rate of each *READ* remains the same as that for a single disk.
+
+### Parity Information
+
+The parity method in **RAID** is a fundamental technique used to provide fault tolerance and enhance data reliability in disk storage systems. It involves the use of additional bits, known as parity bits, to store redundant information that can be used to reconstruct data in the event of a disk failure.
+
+##### **How Parity Works:**
+**Parity Bit Calculation**:
+
+- In a simple form, parity bits are calculated by performing an XOR (exclusive OR) operation on corresponding bits from a set of data.
+For example, in a RAID system with three data disks, a parity bit for a particular position is generated by XORing the bits from the same position in each of the three data disks.
+
+**Storage of Parity Bits:**
+
+- Parity bits are stored on a separate disk dedicated to redundancy. *(Dedicated Parity Disk, Like RAID 4)*
+- ![dbl10_15](../static/DB_L10_r4.png)
+- In some RAID configurations, parity information is distributed across all disks for better load balancing. *(RAID 5, is Distributed Parity)*
+- ![dbl10_15](../static/DB_L10_r5.png)
+
+**Reconstruction of Lost Data:**
+
+If a disk fails, the data it contained can be reconstructed using the parity bits along with the remaining data disks.
+This is done by performing the same XOR operation on the available data and the parity information.
+
+### Practical Insights from RAID Technology Usage
+
+1. **RAID Level 1 (Mirroring) for Critical Data:**
+   - Easiest to rebuild in case of disk failure.
+   - Ideal for storing critical data like transaction logs due to its simplicity and reliability.
+
+2. **RAID Levels 3 and 5 for Large Volume Storage:**
+   - RAID 3 offers higher transfer rates, suitable for large files needing sequential access.
+   - RAID 5 is more popular for general large volume storage, balancing performance, capacity, and fault tolerance.
+
+3. **Common RAID Configurations:**
+   - **RAID 0 (Striping):** For improved performance but no redundancy.
+   - **RAID 1 (Mirroring):** For redundancy but higher cost per GB of storage.
+   - **RAID 5 (Striping with Parity):** A common choice for balancing performance, storage efficiency, and data protection.
+   - **RAID 6** (Double Parity) !!!
+   - ![dbl10_6](../static/DB_L10_r6.png)
+
+4. **Combining RAID Levels:**
+   - **RAID 0 + 1:** Offers the benefits of both striping and mirroring, requiring a minimum of four disks.
+   - ![dbl10_15](../static/DB_L10_r10.png)
+   - ![dbl10_15](../static/DB_L10_r50.png)
+
+5. **Design Considerations:**
+   - Choosing the RAID level based on application needs.
+   - Deciding the number of disks for optimal performance and redundancy.
+   - Selecting appropriate parity schemes and disk groupings for block-level striping.
+
+6. **Performance Implications:**
+   - Performance varies based on the size of I/O requests.
+   - Small reads/writes (one striping unit) and large reads/writes (one stripe unit from each disk) should be considered for optimal RAID configuration.
+
+In summary, the choice of RAID level and configuration depends heavily on the specific needs of the application, balancing factors such as performance, redundancy, storage capacity, and cost. RAID 1 is simplest for rebuilds and critical data, while RAID 3 and 5 cater to large volume storage with differing performance characteristics. Combining RAID levels can offer the advantages of different configurations for more complex needs.
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 10 | Modern Storage Architectures
+  </summary>
+
+# Storage Area Network (SAN)
+ A Storage Area Network (SAN) is a high-speed network specifically designed for making storage devices accessible to multiple servers. It is a dedicated network that provides access to consolidated, block-level data storage. SANs are primarily used to enhance storage devices, such as disk arrays and tape libraries, accessible to servers so that the devices appear to the operating system as locally attached devices.
+
+**Key Characteristics and Benefits:**
+- *High-Speed Network:* Utilizes Fiber Channel technology, known for its high data transfer rates and reliability.
+
+- *Flexible Connectivity:* Offers many-to-many connections between servers and storage devices. This is facilitated through Fiber Channel hubs and switches.
+
+- *Distance Capabilities:* Allows for physical separation (up to 10 km) between servers and storage systems using fiber optic cables, which is beneficial for disaster recovery setups.
+
+- *Scalability:* Enables organizations to scale their storage infrastructure by adding more storage devices and servers as needed.
+
+- *Isolation and Non-Disruptive Expansion*: New peripherals and servers can be added without disrupting the existing setup, thanks to better isolation capabilities.
+
+- *Data Replication:* Supports high-speed data replication across multiple storage systems, employing both synchronous (for local replication) and asynchronous (for disaster recovery) methods.
+
+Unlike traditional server-attached storage, SANs decouple storage resources from specific servers, allowing for more efficient utilization and management of these resources across an organization.
+
+**Challenges:**
+*Integration with Multiple Vendors:* Combining storage options from different vendors can be complex due to varying standards and compatibility issues.
+
+*Evolving Standards:* The rapid evolution of storage management software and hardware standards poses a challenge in keeping up with the latest technologies.
+
+---
+
+# Network-Attached Storage ( NAS )
+
+These devices are, in fact, servers that do not provide any of the common server services, but simply allow the addition of storage for file sharing. *(Single Responsibility of Sharing Data)*
+- Include Built-ins like
+   * Secure Auth
+   * Automatic Email Alerts & Triggers
+   * High Degree of Scalability & Reliability *(Software Level)*
+   * Support **RAID** Setups!!
+   * Runs on LAN *(Local Area Network)*
+
+
+- A single hardware device, often called the **NAS box** or **NAS head**, acts as the interface between the NAS system and network clients.
+   - Clients connect thru NAS Head, Not in an individual Storage device
+
+--- 
+
+## Other Modern Storage Tech. & Protocols
+
+1. **iSCSI (Internet SCSI):**
+   - **Functionality:** Transfers SCSI commands over IP networks, enabling data management over LANs, WANs, or the Internet.
+   - **Advantages:** Utilizes existing network infrastructure, avoiding the need for specialized Fibre Channel cabling. Ideal for small to medium businesses familiar with IP and Ethernet.
+   - **Example:** A database management system sends a data request. The operating system generates SCSI commands, which are encapsulated and sent over Ethernet. The receiving storage device then executes these commands.
+   - **Impact:** Slow adoption in large enterprises due to previous investments in Fibre Channel-based SANs.
+
+2. **Fibre Channel over IP (FCIP):**
+   - **Function:** Translates Fibre Channel commands into IP packets for long-distance transmission between SANs.
+   - **Use Case:** Primarily used in conjunction with existing Fibre Channel setups, not as a standalone solution like iSCSI.
+
+3. **Fibre Channel over Ethernet (FCoE):**
+   - **Description:** Combines elements of SCSI and Fibre Channel but excludes TCP/IP components, running over Ethernet instead.
+   - **Advantages:** Offers high performance, especially with 10GbE, by using reliable Ethernet technology to avoid packet loss.
+   - **Example:** CISCO's “Data Center Ethernet” product uses FCoE to enhance data transfer rates in storage networks.
+
+4. **Automated Storage Tiering (AST):**
+   - **Functionality:** Moves data between different storage types (SATA, SAS, SSDs) based on usage frequency.
+   - **Benefits:** Improves database performance by keeping frequently used data on faster storage mediums.
+   - **Example:** EMC's FAST technology monitors data activity and automatically moves data between tiers based on predefined policies.
+
+5. **Object-Based Storage:**
+   - **Concept:** Manages data as objects instead of traditional file-based blocks.
+   - **Features:** Objects contain metadata for easier management and carry unique identifiers for location tracking.
+   - **Advantages:** Eliminates the need for lower-level storage operations like capacity management or RAID configuration.
+   - **Origins:** Inspired by research projects like CMU's network attached storage scaling and UC Berkeley's Oceanstore system.
+
+Each of these technologies addresses specific needs in the evolving landscape of enterprise storage, offering solutions ranging from simplified network-based storage protocols to advanced automated data management systems. Their adoption depends on the specific requirements and existing infrastructure of an organization.
 
 </details>
