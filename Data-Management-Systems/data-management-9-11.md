@@ -1,47 +1,9 @@
 
+# Chapter 9.
+
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 11. | Distributed Databases | NoSQL, Big Data
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 9 | Object Oriented Database Stuff
   </summary>
-  
-
-Distributed computing systems and distributed database (DDB) concepts form the cornerstone of modern big data and database management technologies. Let's dive deep into these concepts, providing technical details and examples.
-
-### Distributed Computing System
-
-1. **Definition & Structure**: A distributed computing system is an assembly of interconnected nodes (or processing sites) through a computer network. These nodes work together to perform tasks.
-
-2. **Task Partitioning**: It involves breaking down a large task into smaller subtasks, which are then distributed among different nodes. This approach enhances efficiency and speed, as tasks are processed in parallel.
-
-3. **Technological Roots**: Distributed Database (DDB) technology is the convergence of database technology and distributed systems technology. This fusion is essential in handling big data challenges.
-
-4. **Example**: Consider a scenario where a large dataset needs to be processed for insights. The dataset is partitioned and distributed across multiple servers (nodes). Each server processes its portion of data, and the results are combined to form the final output.
-
-### Big Data Technologies
-
-1. **Origins**: Arising from distributed systems and database systems, big data technologies integrate data mining and machine learning algorithms. These technologies handle and analyze vast amounts of data to extract valuable knowledge.
-
-2. **Practical Example**: In a big data scenario, such as analyzing social media trends, data is collected from various sources, distributed across multiple nodes for processing, and machine learning algorithms are applied to identify patterns or trends.
-
-### Distributed Database (DDB) Concepts
-
-1. **Distributed Database**: It is a collection of logically interrelated databases distributed over a network.
-
-   - **Key Characteristics**:
-     - Databases are connected over a network.
-     - There's a logical interrelation among the connected databases.
-     - Nodes may not be homogeneous, implying different systems or software could be in use at different nodes.
-
-2. **Distributed Database Management System (DDBMS)**: This software manages the distributed database and makes the distribution transparent to the user.
-
-   - **General Example**: Oracle and IBM offer DDBMS solutions. In these systems, the user queries the database as if it were a single entity, but the DDBMS manages the complexities of distributed data storage and retrieval.
-
-    - **Technical Example**: In a banking system using a DDBMS, customer data might be distributed across different servers located in various regions. When a user accesses their account information, the DDBMS retrieves data from these distributed nodes and presents it seamlessly.
-
-![db111](../static/DB_11_1.png)
-
-### Combining Concepts for Efficiency
-
-In practice, these concepts are often combined. **For example**, a large online retailer might use a distributed computing system to manage its inventory across various warehouses (nodes). Each warehouse database might hold inventory data relevant to its location, and the central system might use a DDBMS to manage this distributed data. Queries about stock levels or product locations are processed by the DDBMS, which retrieves and consolidates information from these distributed nodes.
 
 </details>
 
@@ -713,3 +675,144 @@ These devices are, in fact, servers that do not provide any of the common server
 Each of these technologies addresses specific needs in the evolving landscape of enterprise storage, offering solutions ranging from simplified network-based storage protocols to advanced automated data management systems. Their adoption depends on the specific requirements and existing infrastructure of an organization.
 
 </details>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 10 | Q1
+  </summary>
+
+![dbl10_L5](../static/DB_L10_q1_0.png)
+
+![dbl10_L5](../static/DB_L10_q1_1.png)
+
+![dbl10_L5](../static/DB_L10_q1_2.png)
+
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 10 | Q2
+  </summary>
+
+![dbl10_L5](../static/DB_L10_q2_0.png)
+
+![dbl10_L5](../static/DB_L10_q2_1.png)
+
+![dbl10_L5](../static/DB_L10_q2_2.png)
+</details>
+
+---
+
+# Chapter 11
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 11. | Distributed Databases (Conceptual)
+  </summary>
+  
+
+Distributed computing systems and distributed database (DDB) concepts form the cornerstone of modern big data and database management technologies. Let's dive deep into these concepts, providing technical details and examples.
+
+### Distributed Computing System
+
+1. **Definition & Structure**: A distributed computing system is an assembly of interconnected nodes (or processing sites) through a computer network. These nodes work together to perform tasks.
+
+2. **Task Partitioning**: It involves breaking down a large task into smaller subtasks, which are then distributed among different nodes. This approach enhances efficiency and speed, as tasks are processed in parallel.
+
+3. **Technological Roots**: Distributed Database (DDB) technology is the MIX of database technology and distributed systems technology. 
+   - This fusion is essential in handling big data challenges.
+
+4. **Example**: Consider a scenario where a large dataset needs to be processed for insights. The dataset is partitioned and distributed across multiple servers (nodes). Each server processes its portion of data, and the results are combined to form the final output.
+
+### Big Data Technologies
+
+1. **Origins**: Arising from distributed systems and database systems, big data technologies integrate data mining and machine learning algorithms. These technologies handle and analyze vast amounts of data to extract valuable knowledge.
+
+2. **Practical Example**: In a big data scenario, such as analyzing social media trends, data is collected from various sources, distributed across multiple nodes for processing, and machine learning algorithms are applied to identify patterns or trends.
+
+### Distributed Database (DDB) Concepts
+
+1. **Distributed Database**: It is a collection of logically interrelated databases distributed over a network.
+
+   - **Key Characteristics**:
+     - Databases are connected over a network.
+     - There's a logical interrelation among the connected databases.
+     - Nodes may not be homogeneous, implying different systems or software could be in use at different nodes.
+
+2. **Distributed Database Management System (DDBMS)**: This software manages the distributed database and makes the distribution transparent to the user.
+
+   - **General Example**: Oracle and IBM offer DDBMS solutions. In these systems, the user queries the database as if it were a single entity, but the DDBMS manages the complexities of distributed data storage and retrieval.
+
+    - **Technical Example**: In a banking system using a DDBMS, customer data might be distributed across different servers located in various regions. When a user accesses their account information, the DDBMS retrieves data from these distributed nodes and presents it seamlessly.
+
+![db111](../static/DB_11_1.png)
+
+### Combining Concepts for Efficiency
+
+In practice, these concepts are often combined. **For example**, a large online retailer might use a distributed computing system to manage its inventory across various warehouses (nodes). Each warehouse database might hold inventory data relevant to its location, and the central system might use a DDBMS to manage this distributed data. Queries about stock levels or product locations are processed by the DDBMS, which retrieves and consolidates information from these distributed nodes.
+
+![dbl11](../static/DB_L11_0.png)
+
+The concept of transparency in distributed database systems is crucial as it masks the complexity of the underlying network and database from the user, simplifying interaction and usage. Let's delve into the types of transparency and then focus in detail on horizontal and vertical fragmentation.
+
+### Types of Transparency in Distributed Databases
+
+1. **Data Organization Transparency (Distribution or Network Transparency)**: This type involves hiding the details of the data's storage location from the user. It includes:
+   - **Location Transparency**: Users can issue commands without needing to know the location of the data.
+   - **Naming Transparency**: Data objects can be accessed by name, regardless of their physical location.
+
+2. **Replication Transparency**: This makes the user unaware of the replication of data across different sites, which is often done for better performance and reliability.
+
+3. **Fragmentation Transparency**: Users remain oblivious to the existence of data fragmentation. This category can be further broken down into:
+   - **Horizontal Fragmentation (Sharding)**
+      - Example, Subsets for US, Canada, Mexico...
+   - **Vertical Fragmentation**
+      - Example, Splitting Rows, 1 Shard is Name Field, 1 Shard is Address *(Vertical Columns stored seperate, much stupider)*
+
+4. **Design Transparency**: Users are not burdened with understanding the design intricacies of the distributed database.
+
+5. **Execution Transparency**: This hides where a command or transaction is actually being executed within the distributed system.
+
+## The main advantages of DDB are:
+**Availability**
+- Probability that the system is continuously available during a time interval
+**Reliability**
+- Probability that the system is running (not down) at a certain time point
+* Both (availability and reliability) are directly related to faults, errors, and failures
+
+![dbl11](../static/DB_L11_1.png)
+![dbl11](../static/DB_L11_2.png)
+</details>
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 11. | Data Fragmentation, Replication, & Allocation
+  </summary>
+
+Slides 10-18
+
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 11. | NOSQL Databases and Big Data Storage Systems
+  </summary>
+
+Slides 19-35
+
+---
+
+# Big Data Technologies:
+
+Slides 36-38
+
+</details>
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 11. | Data Mining Concepts
+  </summary>
+
+
+Slides 41 - 58
+
+Slides 76 & 77 are commerical data mining tools
+
+</details>
+
