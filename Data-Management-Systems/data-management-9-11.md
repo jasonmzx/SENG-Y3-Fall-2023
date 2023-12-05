@@ -700,6 +700,18 @@ Each of these technologies addresses specific needs in the evolving landscape of
 ![dbl10_L5](../static/DB_L10_q2_2.png)
 </details>
 
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 10 | Q2.2
+  </summary>
+
+![dbl10_L5](../static/DB_L10_q2_0.png)
+
+![dbl10_L5](../static/DB_L10_q2_1.png)
+
+![dbl10_L5](../static/DB_L10_q2_2.png)
+</details>
+
+
 ---
 
 # Chapter 11
@@ -787,7 +799,9 @@ The concept of transparency in distributed database systems is crucial as it mas
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 11. | Data Fragmentation, Replication, & Allocation
   </summary>
 
-Slides 10-18
+**Logical Units** Must be chosen for Sharding!
+
+A special case of partial replication is occurring heavily in applications where mobile workers—such as sales forces, financial planners, and claims adjustors—carry partially replicated databases with them on laptops and PDAs and synchronize them periodically with the server database. A description of the replication of fragments is sometimes called a replication schema.
 
 </details>
 

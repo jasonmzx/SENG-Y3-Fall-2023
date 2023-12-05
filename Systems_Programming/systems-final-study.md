@@ -1488,9 +1488,379 @@ Debuggers can provide a wealth of information, such as:
 <details>
 <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Week 8 | TODO: Hands-on GDB Debugging</summary>
 
+TODO:
+
 </details>
 
 ---
 
 # Chapter 9
 
+<details>
+<summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Week 9 | Linux Scheduler & CRON </summary>
+
+# Scheduling Basics:
+*Tasks are divided into three groups, real-time processes, IO-bound, and CPU-bound.*
+
+* **Real Time** - Extremely high scheduling
+requirements, need a guarantee on how often
+they will run, usually the highest priority process in a system.
+
+* **IO Bound** - Processes that spend most of their time waiting for data going to or coming from the disk.
+
+* **CPU bound** - Processes that consume large amounts of CPU.
+
+* **Time slice** -  The amount of time that a process can run on the CPU. *CPU Slices Execution Time (cycles) for each process*
+
+* **Preemption** - When the execution of the
+currently running process is interrupted in order to run a different, higher-priority process.
+
+---
+## Queues and Processes Priorities
+
+- 140 separate queues, one for each priority level.
+- Actually, that number can be changed at a
+given site.
+* Two sets, `active` and `expired`.
+* Priorities 0-99 for real-time processes.
+* Priorities 100-139 for normal processes.
+* Change process priority via `nice()` sys. call.
+
+[man7.org/nice](https://man7.org/linux/man-pages/man2/nice.2.html)
+
+# Schedule Function
+`schedule()` is the function in the Linux kernel that does the actual scheduling.
+
+*Has multiple ways of being run*
+
+* Runs when a new process needs to be selected for scheduling
+* Is called when the currently running process is blocked, waiting for a resource
+* Each processor can call the schedule function on its own.
+* Many device drivers will call schedule.
+
+Real-time scheduling and crontab are essential concepts in systems programming, particularly when dealing with Linux-based systems.
+
+### Real-Time Scheduling in Linux
+
+#### Overview
+- **Linux and Real-Time Scheduling**: Linux provides soft real-time scheduling, meaning it offers better real-time performance than standard scheduling but cannot guarantee the strict timing requirements of hard real-time systems. *(Processes that really need real-time)*
+
+#### Key Concepts
+- **Priority Levels**: In Linux, real-time processes have higher priority than conventional processes. Real-time processes have priorities in the range of 0 to 99, with 99 being the highest priority.
+- **Task Struct**: The `rt_priority` field in the `task_struct` structure represents the real-time priority of a process. The effective scheduling priority is calculated as `99 - rt_priority`.
+- **sched_setscheduler**: Processes can be converted to real-time priority using the `sched_setscheduler` system call.
+
+#### Real-Time Policies
+1. **SCHED_FIFO (First-In, First-Out)**:
+   - Static priority scheduling.
+   - A process runs until it blocks or yields voluntarily.
+   - Preemption occurs only for higher-priority processes.
+   - Round-robin scheduling within the same priority level.
+
+2. **SCHED_RR (Round-Robin)**:
+   - Similar to SCHED_FIFO, but with a time quantum 
+   *(typically 800 ms).*
+
+#### Multiprocessor Scheduling
+- **Separate Run Queues**: Each processor has its own run queue and selects processes from this queue.
+- **Processor Idling**: It's possible for one processor to be idle while others are busy.
+- **Queue Rebalancing**: The system periodically rebalances the queues to distribute load among processors.
+
+#### Scheduling System Calls
+- **Adjusting Priority**: `nice()`.
+- **Scheduler Operations**: `sched_getscheduler()`, `sched_setscheduler()`, `sched_getparam()`, `sched_setparam()`, `sched_yield()`.
+- **Priority Management**: `sched_get_priority_min()`, `sched_get_priority_max()`.
+- **Processor Affinity**: `sched_getaffinity()`, `sched_setaffinity()`.
+- **Time Quantum for Round-Robin**: `sched_rr_get_interval()`.
+
+### Crontab Basics
+
+#### Overview
+- **Purpose**: Crontab is used to schedule and automate tasks on Linux systems.
+- **Importance**: It's a crucial tool for system administrators and for automating repetitive tasks.
+
+#### Key Concepts
+- **Cron Jobs**: Tasks scheduled using crontab are often referred to as cron jobs.
+- **Syntax**: Each cron job is defined by a line in the crontab file, specifying when the task should run and the command to be executed.
+- **Time Format**: The timing for a cron job is specified using a specific format: minute, hour, day of the month, month, day of the week.
+- **Examples**:
+  - `0 5 * * * /path/to/script.sh` runs a script daily at 5:00 AM.
+  - `30 4 * * 1 /path/to/backup.sh` runs a backup script at 4:30 AM every Monday.
+
+#### Managing Crontab
+- **Viewing Crontab**: `crontab -l`.
+- **Editing Crontab**: `crontab -e`.
+- **Removing Crontab**: `crontab -r`.
+
+#### Considerations
+- **Environment Variables**: Cron jobs run in a minimal environment, so it's important to specify the full path to executables or scripts.
+- **Output Handling**: By default, cron sends the output of jobs to the user's mail. Redirecting output to files or other destinations is common practice.
+
+---
+
+### Crontab Creation and Script Scheduling
+
+#### Creating a Crontab Schedule
+1. **Open Crontab File**: Use `crontab -e` to edit the crontab file for the current user. This command opens the crontab file in the default text editor.
+
+2. **Add New Job**: Write the scheduling time and the command you wish to run. For example, to run a backup script at 3 AM every day, you would add:
+
+```
+0 3 * * * /path/to/backup_script.sh
+```
+
+*This crontab entry breaks down as follows:*
+- `0 3`: The minute (0) and hour (3) the job will run.
+- `* * *`: The day of the month, month, and day of the week the job will run (asterisks mean "every" for each respective field).
+
+3. **Invoke Shell**: It's often a good practice to explicitly invoke the shell to run your script, such as `bash` or `sh`. For instance:
+
+```
+0 3 * * * bash /path/to/backup_script.sh
+```
+
+#### Script Creation for Scheduled Tasks
+- **Backup Script**: A script called `backup_script.sh` might compress the `/Documents` folder into a zip file. The script could look something like this:
+
+```bash
+#!/bin/bash
+zip -r /path/to/backup/backup_$(date +%F).zip /path/to/Documents
+```
+
+This uses the `zip` command to recursively compress the `/Documents` directory, naming the zip file with the current date.
+
+- **List Directory Contents**: Another script could generate a list of all items in a directory. It could be structured as follows:
+
+```bash
+#!/bin/bash
+ls /path/to/Documents > /path/to/document_list.txt
+```
+
+This script uses the `ls` command to list directory contents, redirecting the output to a text file.
+
+#### Using Redirection Operators
+- **Appending vs. Overwriting**: In Linux, `>>` appends the output of a command to a file, while `>` overwrites the file.
+- **Appending Example**: If you want to add the output to an existing log file without removing previous content, you would use `>>`. For example:
+
+```
+0 3 * * * bash /path/to/backup_script.sh >> /path/to/backup_log.txt
+```
+
+This appends the output of the backup script to a log file every day at 3 AM.
+
+- **Overwriting Example**: If you only care about the latest output, you would use `>`. For example, to overwrite the list of documents each day:
+
+```
+5 3 * * * bash /path/to/list_script.sh > /path/to/daily_document_list.txt
+```
+
+This creates or overwrites a text file with the current list of documents right after the backup at *3:05 AM.*
+
+#### File Creation
+- **Automatic File Generation**: Both `>` and `>>` will create the target file if it does not exist. This is useful for scripts that output to logs or result files.
+
+#### Advanced Scheduling for Archiving
+- **Archiving with Date**: If part of the goal is to archive the backup and text file into a date-stamped sub-folder, you would need a script to handle this. An example command in the crontab might be:
+
+```
+10 3 * * * bash /path/to/archive_script.sh
+```
+
+And the `archive_script.sh` could include:
+
+```bash
+#!/bin/bash
+DATE=$(date +%F)
+mkdir -p /path/to/archive/$DATE
+cp /path/to/backup/backup_$DATE.zip /path/to/document_list.txt /path/to/archive/$DATE/
+```
+
+This script creates a new directory with the current date, then copies the backup and list files into it.
+
+Remember to make your scripts executable by running `chmod +x /path/to/script.sh` and to test them before scheduling in crontab. Also, it's good practice to specify full paths in your scripts, as the cron environment does not have the same `PATH` environment variable as your user account.
+
+</details>
+
+
+<details>
+<summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Week 9 | Compiler & Makefile 
+</summary>
+
+* Translates high-level language *(C,C++,Java) into low-level instructions.
+* High Level *Source* Code --> Low Level *Object* Code
+
+![sys98](../static/SYS_9_8.png)
+
+**Lexical analysis** 
+- Divides the String of Inputs into:
+    - Singular Elements
+    - Tokens *(Including Data-types, Keywords, Control Structures if else, loops, routine, etc..)*
+
+**Syntactic analysis & Semantics Parsing**
+- Checks for errors in grammar rules:
+- *Semantics* Is like context, to extract "meaning" of string.
+
+#### Compiler Optimizations
+
+Compiler optimization is the process where a compiler examines the code to improve its performance and efficiency. The goal is to reduce the runtime and memory usage without changing the program's output. *Here’s a concise elaboration on the key points:*
+
+### Optimization Techniques
+- **Code Reduction**: Simplify the code by removing unnecessary operations.
+- **Operation Elimination**: Detect and eliminate redundant calculations or operations that produce the same results multiple times.
+- **Program Reorganization**: Rearrange the order of instructions to exploit CPU pipeline and cache more efficiently.
+- **Resource Utilization**: Make better use of the computer's resources *(CPU, memory)* to improve performance.
+
+### Example of Optimization
+Consider a loop in a program that repeatedly performs a calculation. If the calculation does not depend on the loop *(i.e., it does not use variables that the loop modifies)*, the compiler can optimize by moving the calculation outside the loop, so it's executed just once, instead of with each iteration.
+
+### Compiler Variation
+Different compilers have varying optimization capabilities and strategies. For example:
+- **GCC (GNU Compiler Collection)** might optimize code differently than **Clang** or **Microsoft's Visual C++**.
+- **Optimization Levels**: Compilers usually offer different optimization levels, like `-O1`, `-O2`, `-O3` in GCC, where higher levels enable more aggressive optimizations that may take more compile time.
+
+**Testing** <br/>
+It's crucial to thoroughly test optimized code to ensure it still behaves as expected. 
+
+---
+### Compiling a C Program with GCC
+
+- **Basic Compilation**: `gcc program_name.c`
+  - Compiles a C program into an executable named `a.out` by default.
+
+- **Common GCC Options**:
+  - `-Wall`: Enables all compiler's warning messages to help identify potential issues.
+  - `-o output_file_name`: Specifies the name of the output file instead of the default `a.out`.
+  - `-g`: Includes additional debug information in the executable, which is helpful for debugging.
+
+### Compiling C++ Programs with G++
+
+- **Basic Compilation**: `g++ source_file.cpp`
+  - Compiles a C++ program into an executable named `a.out` by default.
+
+- **Common G++ Options**:
+  - `-o executable_name`: Sets the name of the output executable file.
+  - `-c`: Compiles to an object file (.o) but does not link. Useful for multi-file projects.
+  - `-l name`: Links a library named `name` with the executable.
+  - `-L path`: Instructs the compiler to look for libraries in the specified directory `path`.
+  - `-I path`: Specifies a directory `path` where the compiler should look for include files.
+
+### Compiling Multiple Source Files
+
+- **Separate Compilation**: Compile each source file into an object file.
+  - `g++ -c file1.cpp`: Creates `file1.o`.
+  - `g++ -c file2.cpp`: Creates `file2.o`.
+
+- **Linking Object Files**: Combine object files into a single executable.
+  - `g++ -o result file1.o file2.o`: Links `file1.o` and `file2.o` into an executable `result`.
+
+- **Cleaning Up**: Remove intermediate object files after linking.
+  - `rm -rf *.o`: Deletes all `.o` files in the current directory.
+
+### Notes on Linking Libraries
+
+- When linking object files and libraries, the order matters. Libraries should be placed after the object files in the command.
+- The `-l` option is used to link against a library. For instance, `-lm` would link against the math library (`libm`). However, if you're linking `libm` directly through the file `libm.a`, the `-lm` option is not required.
+
+![sys98](../static/SYS_9_11.png)
+
+## Frontend
+* Dependent on the source language
+* Lexical analysis
+* Parsing
+* Semantic analysis (e.g., type checking)
+
+## Optimizer
+* Independent part of the compiler
+* Different optimizations possible
+* IR to IR translation
+* Can be a very computationally intensive part
+
+## Backend
+* Dependent on the target processor
+* Code selection
+* Code scheduling
+* Register allocation
+* Peephole optimization
+---
+
+# Make
+
+`make [options] name_of_file`
+
+![sys98](../static/SYS_9_9.png)
+
+#### Purpose of a Makefile
+A Makefile automates the compilation process, making it easier to manage and maintain. It defines a set of tasks to be executed.
+
+#### Basic Structure of a Makefile
+- **Targets**: These are the names of the files to be generated or the actions to be performed.
+- **Prerequisites**: These are the files that are used as input to create the target.
+- **Commands**: These are the actions that make will execute.
+
+#### Example Makefile Explained
+In the provided makefile example, there are three targets with their prerequisites and the corresponding command to generate each target.
+
+1. **sum (Executable)**: Depends on `main.o` and `sum.o` object files.
+   - `gcc -o sum main.o sum.o`: The command to link the object files and produce an executable named `sum`.
+
+2. **main.o (Object File)**: Depends on `main.c` and `sum.h` source and header files.
+   - `gcc -c main.c`: The command to compile `main.c` into the object file `main.o`.
+
+3. **sum.o (Object File)**: Depends on `sum.c` and `sum.h` source and header files.
+   - `gcc -c sum.c`: The command to compile `sum.c` into the object file `sum.o`.
+
+![sys98](../static/SYS_9_10.png)
+</details>
+
+<details>
+<summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Week 9 | Intro. to LEX & YACC
+</summary>
+
+### What is YACC?
+- YACC *(Yet Another Compiler Compiler)* is a program
+designed to compile a lookahead-left-to-right **(LALR)**
+grammar and to produce the source code of the *syntactic analyzer* of the language produced by this grammar.
+- **YACC INPUT:** Grammar Rules and Actions to recognize rules.
+- **YACC OUTPUT:** Output is a C program and optionally a header file of tokens.
+
+### What is LEX?
+- LEX is a scanner generator, it generates Lexical Analyzers *(converts the stream of characters into tokens)*
+- The Lex tool itself is a compiler. The Lex compiler takes the input and transforms that input into input patterns.
+- **LEX INPUT:**  is the description of patterns and actions.
+- **LEX OUTPUT:** C program that contains a function `yylex()` which, when called, matches patterns and performs actions per input.
+
+![sys912](../static/SYS_9_12.png)
+
+---
+
+Recursive Descent Parsing is a method used in compiling to analyze the syntax of programming languages and build a parse tree. Here's an elaboration incorporating the use of tools like lex and yacc:
+
+## Recursive Descent Parsing
+
+![sys912](../static/SYS_9_13.png)
+
+Recursive Descent Parsing is a method used in compiling to analyze the syntax of programming languages and build a parse tree. Here's an elaboration incorporating the use of tools like **lex** and **yacc**.
+
+### Combining Lex and Yacc
+- **Integration**: Lex and yacc are often used together; lex produces tokens from the input text, and yacc uses those tokens to produce a parse tree.
+- **Workflow**: The typical workflow is:
+  - Lex reads the input and tokenizes it.
+  - Yacc receives the tokens and applies grammar rules to produce a parse tree.
+  - If yacc is set up for an LL(1) grammar, it can function predictively, making it similar in behavior to a recursive descent parser without backtracking.
+
+### Educational Insights
+- **Grammar Design**: Recursive descent parsers are straightforward to implement for simple grammars but can become complex for grammars with many nonterminal symbols and recursive rules.
+- **Tool Use**: Using tools like lex and yacc can significantly reduce the manual coding required for lexical analysis and parsing, especially for complex languages.
+
+In summary, recursive descent parsing is a fundamental technique in compiler design, suitable for educational purposes due to its clear structure. It illustrates the principles of parsing, though in practice, tools like lex and yacc are often used to automate and handle the complexity of this task.
+</details>
+
+---
+
+# Chapter 10
+
+<details>
+<summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Week 10 | 
+</summary>
+
+</details>
