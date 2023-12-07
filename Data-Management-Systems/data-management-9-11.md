@@ -701,14 +701,11 @@ Each of these technologies addresses specific needs in the evolving landscape of
 </details>
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 10 | Q2.2
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Final Review | Q2
   </summary>
 
-![dbl10_L5](../static/DB_L10_q2_0.png)
-
-![dbl10_L5](../static/DB_L10_q2_1.png)
-
-![dbl10_L5](../static/DB_L10_q2_2.png)
+![dbl10_L5](../static/DB_10_q2.png)
+![dbl10_L5](../static/DB_10_q22.png)
 </details>
 
 
@@ -792,6 +789,7 @@ The concept of transparency in distributed database systems is crucial as it mas
 
 ![dbl11](../static/DB_L11_1.png)
 ![dbl11](../static/DB_L11_2.png)
+
 </details>
 
 
@@ -803,19 +801,159 @@ The concept of transparency in distributed database systems is crucial as it mas
 
 A special case of partial replication is occurring heavily in applications where mobile workers—such as sales forces, financial planners, and claims adjustors—carry partially replicated databases with them on laptops and PDAs and synchronize them periodically with the server database. A description of the replication of fragments is sometimes called a replication schema.
 
+Certainly! Here's a concise summary of data replication and allocation in distributed databases, along with examples:
+
+1. **Fully Replicated Distributed Database**
+   - **Description**: The entire database is replicated at every site in the distributed system.
+   - **Advantages**: Significantly improves data availability and fault tolerance. Queries can be processed locally without network overhead.
+   - **Disadvantages**: Update operations are slower due to the need to maintain consistency across all replicas.
+   - **Example**: A global company maintains a complete copy of its employee database at each regional office to ensure high availability and local query processing.
+
+2. **Nonredundant Allocation (No Replication)**
+   - **Description**: Each fragment of the database is stored at exactly one site.
+   - **Advantages**: Simplifies update operations as there's only one copy of each data fragment.
+   - **Disadvantages**: Lower fault tolerance and potential for higher query latency if data is not located near the requestor.
+   - **Example**: A university stores student records in one database on the main campus and staff records in a separate database at the administration site.
+
+3. **Partial Replication**
+   - **Description**: Some fragments of the database are replicated across different sites, while others are not. This is defined by a replication schema.
+   - **Advantages**: Balances between availability and update efficiency. Frequently accessed data can be replicated for faster access.
+   - **Disadvantages**: More complex to manage compared to full replication or nonredundant allocation.
+   - **Example**: An e-commerce platform replicates inventory and user data across regional data centers but keeps financial records only in the central data center.
+
+4. **Data Allocation (Data Distribution)**
+   - **Description**: Involves assigning each database fragment to a particular site in the distributed system.
+   - **Choices**: Based on performance and availability goals, data can be allocated to optimize for local access, load balancing, or other criteria.
+   - **Example**: A logistics company distributes shipment data across regional hubs based on geographic location to optimize access speed and reduce network load.
+
+In practice, the choice of replication and allocation strategy depends on the specific needs of the application, including factors like the frequency of data updates, the need for data availability, network infrastructure, and the geographic distribution of users.
+
+![dbl11](../static/DB_11_2.png)
+
+# Example (Horizontal Fragmentation)
+
+![dbl11](../static/DB_11_3.png)
+![dbl11](../static/DB_11_4.png)
 </details>
 
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 11. | NOSQL Databases and Big Data Storage Systems
   </summary>
 
-Slides 19-35
+nOsql IS used social media, user profiles, marketting, sales, BIG DATA!
+**Some NOSQL dbs:** BigTable from Google, DynamoDB (amazon), Cassandra (FB), MongoDB, Neo4J, et.c..
+
+# NoSQL Replication Models:
+
+1. **Scalability (Horizontal and Vertical)**
+   - **Horizontal Scaling**: Adding more machines or nodes to the system to handle increased load. It's akin to expanding a warehouse by adding more buildings.
+     - **Example**: Cassandra, a NoSQL database, is used by Netflix for its horizontal scalability, allowing them to add more nodes to handle their enormous and growing data needs without downtime.
+   - **Vertical Scaling**: Involves adding more resources (like CPU, RAM) to an existing machine. Similar to expanding the capacity of a single building.
+     - **Example**: MongoDB, while often horizontally scaled, can also be scaled vertically for certain workloads, like increasing memory for better in-memory processing.
+
+2. **Availability, Replication, and Eventual Consistency**
+   - **Description**: Replication enhances availability by storing copies of data on multiple nodes. Eventual consistency means all replicas will become consistent over time, though not necessarily immediately.
+     - **Example**: Amazon's DynamoDB, a key-value store, uses eventual consistency to ensure high availability and performance, particularly for shopping cart functionality in Amazon's retail operations.
+
+3. **Replication Models**
+   - **Master-Slave Replication**
+     - **Description**: All writes are made to the master node and then propagated to slave nodes.
+     - **Example**: Redis, often used for caching and messaging, employs master-slave replication for data redundancy and read scalability.
+   - **Master-Master Replication**
+     - **Description**: Allows writes at multiple nodes but can lead to conflicts requiring resolution mechanisms.
+     - **Example**: Couchbase supports master-master replication, enabling use cases where distributed write access is essential, like global user profiles for an international social media platform.
+
+4. **Sharding (Horizontal Partitioning)**
+   - **Description**: Distributes data across different nodes or machines, with each node holding a subset of the data.
+   - **Example**: MongoDB uses sharding to distribute large datasets and workload evenly across multiple servers, enabling platforms like eBay to manage large, diverse inventories efficiently.
+
+5. **High-Performance Data Access**
+   - **Techniques**: Using hashing or range partitioning on object keys to quickly access data.
+   - **Example**: Google's Bigtable, a column-family NoSQL database, uses row keys (hashed or ordered) for efficient data retrieval, serving as the backbone for products like Google Search and Google Maps.
+
+In the industry, these NoSQL characteristics are crucial for designing systems that can handle large-scale, distributed, and high-velocity data. Companies like Netflix, Amazon, eBay, and Google leverage these features to manage their massive, globally distributed datasets, ensuring high availability, scalability, and performance.
 
 ---
 
-# Big Data Technologies:
+# NOSQL Characteristics:
 
-Slides 36-38
+* **NO SCHEMA**: Instead it's "semi-structured", "self-describing" There are various languages for describing semi-structured data, such
+as JSON *(JavaScript Object Notation)* and XML *(Extensible Markup Language)*
+* **Less Powerful than SQL Queries**: you access a "key" to get a "value", there is SQL-like querying, but it's not the same! *(SQL still has better querying of data)*, processing of data is relyant on API.
+* **NOSQL** provides storage of multiple dupes of data, but with Versioning: *Example: I go to doctor first time, my height is 5'11, then next time it's 6'3, so they will keep both records, with respective timestamps*
+
+---
+
+### 1. Document-Based NoSQL Systems
+
+- **Description**: These systems store data in JSON-like documents. Each document is accessible via a unique identifier and can contain a variety of different data elements. This flexibility allows for easy data manipulation and complex data structures.
+- **Examples**: MongoDB is a prime example. In MongoDB, data is stored in BSON format, and operations like insert, remove, and find are used to manipulate documents.
+- **Usage Example**: In a MongoDB database, a document in a `company` collection might store employee data in a denormalized format, where all relevant data is embedded within a single document.
+
+### 2. Key-Value Stores
+
+- **Description**: This type of NoSQL database is based on a simple key-value mechanism. They are designed for quick data retrieval where the key leads directly to the value, which can be a record, object, or document.
+- **Examples**: DynamoDB by Amazon is a well-known key-value store. It uses tables, items, and attributes to manage data without a predefined schema.
+- **Usage Example**: In DynamoDB, an item in a `user` table might consist of attributes like `userID` (key) and `userInfo` (value), storing user-related information.
+
+### 3. Column-Based or Wide Column Stores
+
+- **Description**: These databases store data in columns rather than rows, which is efficient for querying and aggregating large volumes of data.
+- **Examples**: Google's BigTable and Apache HBase. They use systems like GFS or HDFS for data storage.
+- **Usage Example**: In HBase, a table like `EMPLOYEE` could have column families like `Name` and `Details`, where each column family stores relevant data like `Fname`, `Lname` for `Name` family.
+
+### 4. Graph-Based NoSQL Systems
+
+- **Description**: These systems represent data as nodes and edges, making them suitable for interconnected data and complex relationships.
+- **Usage Example**: A graph database might represent a social network where individuals are nodes and relationships are edges.
+
+![DB115](../static/DB_11_5.png)
+
+### 5. Hybrid NoSQL Systems
+
+- **Description**: Hybrid systems combine features from two or more of the above categories, offering a versatile data storage solution.
+- **Usage Example**: A hybrid system might use document storage for flexible data representation while also employing graph structures for complex relationships.
+
+### 6. Object and XML Databases
+
+- **Description**: Similar to ORDBMS, they store data in the form of objects or XML.
+- **Usage Example**: An XML database might store and query data in XML format, useful for data with hierarchical structures.
+
+### CAP Theorem
+
+- **Concept**: In distributed systems, the *CAP theorem* states that it is impossible to achieve Consistency, Availability, and Partition Tolerance simultaneously. 
+- **Implications**: NoSQL systems often choose between these properties based on their specific needs. For example, a system might prioritize availability and partition tolerance *(common in NoSQL systems)*, accepting eventual consistency rather than strict consistency.
+
+In summary, NoSQL databases offer a variety of data models suited for different use cases. The choice of database often depends on the specific requirements of the application, especially in terms of the CAP theorem's constraints.
+
+---
+
+# Big Data Technologies
+
+**Big Data** is a term that refers to extremely large datasets that are complex and difficult to manage and process using traditional data management tools. The key characteristics of Big Data can be summarized with the **"5 Vs":**
+
+1. **Volume**: This refers to the immense amount of data generated every second. We're talking about data ranging from terabytes to exabytes. The sheer volume of data requires specialized storage and processing capabilities.
+
+2. **Velocity**: This is about the speed at which new data is generated and the pace at which data moves. It involves both the rapid ingestion of data and the need for swift processing to derive insights.
+
+3. **Variety**: Big Data comes in various forms - structured (like databases), unstructured (like text, images, and videos), and semi-structured (like XML files). This diversity requires flexible processing and storage techniques.
+
+4. **Veracity**: This concerns the reliability and accuracy of data. With a vast amount of data, ensuring high quality and credibility is challenging. Veracity involves assessing the trustworthiness of the data sources and the data itself.
+
+5. **Value**: This is about turning big data into meaningful insights. The main goal is to extract useful information that can aid in decision-making and innovation.
+
+### Key Technologies in Big Data:
+
+- **MapReduce/Hadoop**: These are foundational technologies in the world of Big Data. Hadoop provides a framework for distributed storage and processing of large data sets across clusters of computers. MapReduce is a programming model within Hadoop for processing and generating large datasets with a parallel, distributed algorithm.
+
+### Intuition and Additional Insights:
+
+- **Scalability**: Big Data technologies must be scalable to handle the continuous growth of data volume.
+- **Real-time Processing**: In some cases, real-time data processing is essential, especially in scenarios like fraud detection or live traffic monitoring.
+- **Data Lakes**: These are storage repositories that hold a vast amount of raw data in its native format until it's needed, reflecting the trend towards more flexible data storage and analysis methods.
+- **Cloud Integration**: Big Data technologies are increasingly integrated with cloud computing, offering more scalable and cost-effective solutions for data storage and analysis.
+
+*Big Data is more than just large datasets; it's about harnessing the potential within this vast amount of data to uncover insights and opportunities that were previously unattainable.*
 
 </details>
 
@@ -823,10 +961,10 @@ Slides 36-38
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Lecture 11. | Data Mining Concepts
   </summary>
 
-
-Slides 41 - 58
-
-Slides 76 & 77 are commerical data mining tools
+![db11a1](../static/DB_11_a1.png)
+![db11a1](../static/DB_11_a2.png)
+![db11a1](../static/DB_11_a3.png)
+![db11a1](../static/DB_11_a4.png)
 
 </details>
 

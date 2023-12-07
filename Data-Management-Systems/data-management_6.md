@@ -894,7 +894,7 @@ In this Java example, JDBC is used to execute a SQL query that retrieves multipl
 
 
 <details>
-  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Section 8 | DB Programming & Impedence Mismatch
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;"> Section 7 | Embedded SQL in C & Java
   </summary>
 
 ![db101](../static/DB_10_2.png)
@@ -945,7 +945,5 @@ Here's a step-by-step explanation of what's happening:
 So, the `SELECT ... INTO` statement is used to assign the value from a single row and column *(in this case, the department number corresponding to the given department name)* directly to a variable in the host language (C). This allows the program to work with this data without needing to handle a result set or multiple rows; it's a direct single-value transfer. 
 
 The rest of the program segment likely uses this `dnumber` to perform further operations, such as fetching employee information from that department and processing updates to their salaries.
-
-TODO: ch.7 16-39
 
 </details>
