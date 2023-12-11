@@ -1,14 +1,36 @@
 
+# CH. 5
+
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Chapter 5. Probabilistic Analysis and Randomized Algorithms</summary>
 
-**Parking Problem**:
+**Parking Problem / Hiring Problem**:
 
 37% Rule, 1 / Euler's Number = ~0.3697, which is the "Optimal Stopping" point for an Algorithm where you don't know the next entry, but you're trying to Optimize your chances of picking the "Best" *(Highest Ranking)* Thing. In the case of the Hiring Problem, it's the highest ranking candidate for employement.
 
 ![DSA C61](../static/DSA_5_1.png)
 
-**BIAS**
+### Probabilistic Analysis
+
+- **Key Principle**: Utilize knowledge and assumptions about the **distributions of the inputs**.
+- **Application in Probabilistic Algorithms** (e.g., the Hiring Problem):
+  - **Nature of Outcomes**: 
+    - In such algorithms, **BEST CASE** and **WORST CASE** scenarios are equally probable.
+    - Probability for both the best case (perfect decreasing order) and worst case (perfect increasing order) is `1/n!`.
+  - **Average-Case Analysis**:
+    - Focuses on computing an average outcome by considering the average over the **distribution** of all possible inputs.
+    - More realistic than just considering the best or worst cases in isolation.
+
+**Reasonable Input Distribution**
+- **Uniform Random Permutation**:
+  - Assumption: Applicants arrive in a random order.
+  - This assumption implies that the list of applicants' ranks is equally likely to be any one of the `n!` permutations of numbers from 1 to `n`.
+  - In other words, each of the `n!` possible permutations appears with equal probability.
+  - This forms a **uniform distribution** over all permutations.
+
+---
+
+### BIAS
 For the Hiring Problem, <br><br/>
 If we consider the sequence in which candidates arrive for the interview, a **"BIASED"** sequence would be one in which the likelihood of encountering a better candidate is not equal at each step of the interview process. In other words, if some candidates have a higher chance of showing up earlier or later in the interview process, then the sequence would be biased.
 
@@ -16,16 +38,70 @@ However, the hiring problem assumes a uniform random permutation of applicants, 
 
 The hiring algorithm itself doesn't involve a biased random process; it's a deterministic procedure that assumes a fair comparison of candidates based on their qualifications. The discussion of **BIASED-RANDOM** is more about understanding the nature of probabilistic processes and how they can be manipulated to achieve desired outcomes, which is a common theme in the study of randomized algorithms and probabilistic analysis.
 
+---
+
+# Randomized Algorithms
+
+For Randomized Algorithms, Behavior is determined not only by its input but also by values
+produced by a **random-number generator**.
+* Call to `RANDOM(a,b)` returns an integer between **a** and **b**, inclusive, with each such integer being equally likely.
+* Example: `Random(0,1)` has 50% chance of returning **0**, and 50% chance of returning **1**.
+
+![DSA 54](../static/DSA_5_4.png) <br>
+Procedure *PERMUTE-BY-SORTING* produces a uniform random permutation of the input, assuming that all priorities are distinct.
+
+![DSA 54](../static/DSA_5_5.png) <br>
+Procedure *RANDOMIZE-IN-PLACE* computes a uniform random permutation.
+
+> [!NOTE]  
+> Here, we're randomizing the keys of **A**, but the values remain in-tact *Akin to Shuffling*.
+> Whereas in the *Second Image*, we're directly shuffling array indices arround.
+
+### Randomized Hiring Problem:
+
+Given Ranks as Inputs:
+- `A1 = (1,2,3,4,5,6,7,8,9,10)` *(Worst case, 10 hires)*
+- `A2 = (10,9,8,7,6,5,4,3,2,1)` *(Best case, 1 hire)*
+- `A3 = (5,2,1,8,4,7,10,9,3,6)` *(AVG-ish case, 3 hires)*
+
+![DSA 56](../static/DSA_5_6.png)
+
+**Randomized Algorithm itself** <br>
+
+![DSA 56](../static/DSA_5_7.png)
+
+---
+
 ## **Question(s)**
    ![DSA 51](../static/DSA_5_2.png)
 </details>
 
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Chapter 5. Indicator Random Variables</summary>
+
+Coin flipping example: For a sample space `S = {H,T}` with `Pr{H} = Pr{T} = 0.5` Probability of Heads & Tails are both 0.5 *Equally as likely*
+* Let us define an **indicator random variable** `Xh` ; associated with Coin coming up heads (Event **H**)
+* This variable will count N. heads obtained in the flip. If `Xh` is 1, it came up heads. If `Xh` is 0, it came up tails.
+![DSA 51](../static/DSA_5_3.png)
+
+In short, indicator random variables simplify the process of tracking occurrences across multiple trials, making it easier to calculate probabilities and expected values in scenarios like repeated coin flips.
+
+--- 
+
+## Practical Example: The Birthday Paradox
+![DSA 51](../static/DSA_5_8.png) <br>
+![DSA 51](../static/DSA_5_9.png) <br>
+</details>
+
+---
+
+# CH. 6 & 7 *(Best Comparison Based Sorts)*
 
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Chapter 6. HeapSort</summary>
 
 # Build Max Heap
-
+*Complexity:* O(N)
 
 ![DSA C61](../static/DSA_c61.png)
 
@@ -33,6 +109,8 @@ The hiring algorithm itself doesn't involve a biased random process; it's a dete
 
 Here we're dividing `A.length/2` As we don't need to check the Leaf Nodes, only the nodes with children, 
 As in 1 iteration, for a node **i** in the tree, we can access **Left** and **Right** child in O(1).
+
+**Loop Invariant:** A.length never changes, and we continuously DECREMENT the iterator
 
 Left: `2 * i` | Right: `2 * i + 1`
 ---
@@ -60,8 +138,8 @@ Left: `2 * i` | Right: `2 * i + 1`
 ![DSA C67](../static/DSA_c67.png)
 
 **Note:**
-- Pop Max does the `MaxHeapify()`, so calling PopMax is sufficient, whereas the sudo-code does it directly in the Algo
-
+- Pop Max does the `MaxHeapify()`, so calling PopMax is sufficient, whereas the sudo-code does it directly in the Algo.
+- `BuildMaxHeap()` **O(N)** is being called **lg(n)** times. so **N * lg(n)**
 
 ---
 
@@ -80,7 +158,7 @@ In a B-Tree (Max/Min Heap Tree) with **n** elements:
 *Nodes above last layer N#*: n/2
 *Leaf Nodes N#*: n/2
 
-*T(n) = T(2n/3) + C*
+`T(n) = T(2n/3) + C`
 
 n^log base (3/2) 1 ~= n^1
 
@@ -88,7 +166,6 @@ n^log base (3/2) 1 ~= n^1
 
 It takes time *O(n lg n)*, since the call to *BUILD-MAX-HEAP* takes time **O(n)**
 and each of the **n-1** calls to *MAX-HEAPIFY* takes time **O(lg n)**.
-
 
 ![DSA HS](../static/DSA_hs_rt2.png)
 
@@ -114,13 +191,7 @@ Max Heap has more applications tho...
 ##### Increase Key
   - Increase value *(priority)* of a Node, so you need to `MaxHeapify` again aswell
 
-
-
----
-
-
 </details>
-
 
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Chapter 7. QuickSort</summary>
@@ -163,6 +234,8 @@ Max Heap has more applications tho...
   ![DSA HS](../static/DSA_6_tb.png)
 
 </details>
+
+---
 
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">8. Sorting in Linear Time *| Counting, Radix, Bucket Sorts*</summary>

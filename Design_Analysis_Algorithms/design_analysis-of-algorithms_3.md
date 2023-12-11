@@ -146,13 +146,16 @@ Linear Probing ?
 <details>
   <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 12. | Binary Search Trees</summary>
 
-- Provides Data Structure that supports Dictionary Operations *(SEARCH, DELETE, INSERT)*
-  - Isn't a complete tree *(It can be skewed/unbalanced)*
-- Every parent has at most: *2 Children, Left Child is Smaller, Right Child is Greater*
+- Provides Data Structure that supports Dictionary Operations <br/> 
+  - *(SEARCH, DELETE, INSERT)*
+  - **PREDECESSOR, SUCESSOR**
+  - *Minimum, Maximum*
+
+* Isn't necessarily a complete tree *(It can be skewed/unbalanced)*
+* Every parent has at most: *2 Children, Left Child is Smaller, Right Child is Greater*
   - We can "Bisect" the tree, having the Left side being Smaller, and Right side elements being Larger
 
 ![](../static/DSA_12_2.png)
-
 
 **FIND MAX**
 To find the maximum of the Binary Search Tree, Recursively Retrieve the "Right Side" until it has **NO RIGHT CHILD**, *it doesn't need to be a leaf node*
@@ -169,22 +172,17 @@ To find the maximum of the Binary Search Tree, Recursively Retrieve the "Left Si
 ![](../static/DSA_12_1.png)
 
 *We usually get a Binary Search Tree in this Chapter, and want to know how we Do **Operations** on them*
- 
-## TODO: Study Inorder, Preorder, Postorder Traversals
 
+</details>
+
+
+
+<details>
+  <summary style="font-size: 30px; font-weight: 500; cursor: pointer;">Lecture 12. | Inorder, Preorder & Postorder Tree Walks</summary>
+
+# In-Order: `INL*R`
 ![](../static/DSA_12_3.png)
-
-
-### In-Order: `INL*R`
-
 #### A)
-
-- Recur, Recur
-- Go all the way left, report it: 2
-- Exit Recur, get Root: 5
-- Go right now: 5
-- Exit Recur, get Root: 6
-... todo
 
 **Complexity**
 ![](../static/DSA_12_4.png)
@@ -195,14 +193,11 @@ It's case is always *O(n)* as we **need** to visit all nodes!
 - 2 (root) doesn't have any left sub-tree (NIL) so get it: 2
 ... todo
 
-### Pre-Order `PR*LR`
+# Pre-Order `PR*LR`
 TODO: 
 
-### Post-Order `POLR*`
+# Post-Order `POLR*`
 TODO:
-
----
-
 
 
 </details>
